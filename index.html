@@ -202,12 +202,8 @@
     </div>
 
     <section aria-labelledby="recent-answers">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 id="recent-answers" style="margin:0;">Recent Answers</h3>
-        <span id="answerCount" style="font-size:0.95rem; color:#2c3e50;"></span>
-      </div>
+      <h3 id="recent-answers">Recent Answers</h3>
 
-      
       <!-- All question-items listed here -->
       <div id="fatwaList">
         <article class="question-item"><a href="answers/is_zinah_halal.html"><strong>Q1:</strong> Is Zinah (fornication) Halal?</a></article>
@@ -292,77 +288,79 @@
   </script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const fatwaList = document.getElementById('fatwaList');
-      const paginationContainer = document.querySelector('.pagination');
-      const fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      const itemsPerPage = 5; // Adjust items per page here
-      let currentPage = 1;
-      let filteredFatwas = fatwas;
+  document.addEventListener("DOMContentLoaded", function () {
+    const fatwaList = document.getElementById('fatwaList');
+    const paginationContainer = document.querySelector('.pagination');
+    const fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
+    const itemsPerPage = 5;
+    let currentPage = 1;
+    let filteredFatwas = fatwas;
 
-      function showPage(page) {
-        currentPage = page;
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
+    function showPage(page) {
+      currentPage = page;
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      filteredFatwas.forEach(item => item.style.display = 'none');
+      filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+      renderPagination();
+    }
 
-        // Hide all first
-        fatwas.forEach(item => item.style.display = 'none');
-        // Show filtered items for this page
-        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+    function renderPagination() {
+      paginationContainer.innerHTML = '';
+      const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+      if (totalPages <= 1) return;
 
-        renderPagination();
+      function createBtn(label, page) {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = label;
+        a.style.padding = '0.5rem 0.75rem';
+        a.style.margin = '0 0.25rem';
+        a.style.textDecoration = 'none';
+        a.style.borderRadius = '6px';
+        a.style.backgroundColor = page === currentPage ? '#cccccc' : '#eeeeee';
+        a.style.fontWeight = page === currentPage ? 'bold' : 'normal';
+        a.addEventListener('click', e => { e.preventDefault(); showPage(page); });
+        return a;
       }
 
-      function renderPagination() {
-        paginationContainer.innerHTML = '';
-        const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-        if (totalPages <= 1) return; // no need to paginate if 1 or 0 pages
+      // Previous button
+      if (currentPage > 1) paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
 
-        for (let i = 1; i <= totalPages; i++) {
-          const pageLink = document.createElement('a');
-          pageLink.href = "#";
-          pageLink.textContent = i;
-          pageLink.style.padding = '0.5rem 1rem';
-          pageLink.style.backgroundColor = i === currentPage ? '#ccc' : '#eee';
-          pageLink.style.borderRadius = '6px';
-          pageLink.style.textDecoration = 'none';
-          pageLink.style.margin = '0 0.25rem';
-          pageLink.style.fontWeight = i === currentPage ? 'bold' : 'normal';
+      const delta = 2; // pages near current
+      const range = [];
 
-          pageLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            showPage(i);
-            // Scroll to top of list on page change
-            fatwaList.scrollIntoView({ behavior: 'smooth' });
-          });
-
-          paginationContainer.appendChild(pageLink);
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+          range.push(i);
+        } else if (range[range.length - 1] !== '...') {
+          range.push('...');
         }
       }
 
-      function filterFatwas(query) {
-        query = query.trim().toLowerCase();
-        if (!query) {
-          filteredFatwas = fatwas;
+      range.forEach(val => {
+        if (val === '...') {
+          const span = document.createElement('span');
+          span.textContent = '…';
+          span.style.padding = '0.5rem 0.75rem';
+          paginationContainer.appendChild(span);
         } else {
-          filteredFatwas = fatwas.filter(item => {
-            return item.textContent.toLowerCase().includes(query);
-          });
+          paginationContainer.appendChild(createBtn(val, val));
         }
-        showPage(1); // Reset to page 1 after filtering
-      }
-
-      // Initial display
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Fatwas: ${fatwas.length}`;
-
-      // Connect search input
-      const searchInput = document.getElementById('fatwaSearch');
-      searchInput.addEventListener('input', function () {
-        filterFatwas(this.value);
-        document.getElementById('answerCount').textContent = `Total Fatwas: ${filteredFatwas.length}`;
       });
+
+      if (currentPage < totalPages) paginationContainer.appendChild(createBtn('Next >', currentPage + 1));
+    }
+
+    showPage(1);
+
+    const searchInput = document.getElementById('fatwaSearch');
+    searchInput.addEventListener('input', function () {
+      const q = this.value.trim().toLowerCase();
+      filteredFatwas = q ? fatwas.filter(item => item.textContent.toLowerCase().includes(q)) : fatwas;
+      showPage(1);
     });
+  });
   </script>
 
   <footer style="background-color: var(--accent-bg); text-align: center; padding: 1rem; margin-top: 2rem; font-size: 0.95rem; color: var(--text-color);">
