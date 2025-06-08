@@ -199,7 +199,10 @@
     </div>
 
     <section aria-labelledby="recent-answers">
-      <h3 id="recent-answers">أحدث الأسئلة المجابة</h3>
+     <h3 id="recent-answers">
+  📝 الإجابات الجديدة: <span id="answerCount">0</span>
+</h3>
+
 
       <!-- All question-items listed here -->
       <div id="fatwaList">
@@ -309,12 +312,16 @@
         const end = start + itemsPerPage;
 
         // Hide all first
-        fatwas.forEach(item => item.style.display = 'none');
-        // Show filtered items for this page
-        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+  fatwas.forEach(item => item.style.display = 'none');
+  // Show filtered items for this page
+  filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
 
-        renderPagination();
-      }
+  // NEW LINE to update the number!
+  document.getElementById('answerCount').textContent = filteredFatwas.length;
+
+  renderPagination();
+}
+
 
       function renderPagination() {
         paginationContainer.innerHTML = '';

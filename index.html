@@ -201,8 +201,10 @@
         style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
     </div>
 
-    <section aria-labelledby="recent-answers">
-      <h3 id="recent-answers">Recent Answers</h3>
+    <h3 id="recent-answers">
+  📝 Recent Answers: <span id="answerCount">0</span>
+</h3>
+
 
       <!-- All question-items listed here -->
       <div id="fatwaList">
@@ -302,13 +304,16 @@
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
 
-        // Hide all first
-        fatwas.forEach(item => item.style.display = 'none');
-        // Show filtered items for this page
-        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+         // Hide all first
+  fatwas.forEach(item => item.style.display = 'none');
+  // Show filtered items for this page
+  filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
 
-        renderPagination();
-      }
+  // NEW LINE to update the number!
+  document.getElementById('answerCount').textContent = filteredFatwas.length;
+
+  renderPagination();
+}
 
       function renderPagination() {
         paginationContainer.innerHTML = '';
