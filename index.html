@@ -287,6 +287,7 @@
     });
   </script>
 
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const fatwaList = document.getElementById('fatwaList');
@@ -312,27 +313,58 @@
       function renderPagination() {
         paginationContainer.innerHTML = '';
         const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-        if (totalPages <= 1) return; // no need to paginate if 1 or 0 pages
+        if (totalPages <= 1) return; // no pagination needed
 
-        for (let i = 1; i <= totalPages; i++) {
-          const pageLink = document.createElement('a');
-          pageLink.href = "#";
-          pageLink.textContent = i;
-          pageLink.style.padding = '0.5rem 1rem';
-          pageLink.style.backgroundColor = i === currentPage ? '#ccc' : '#eee';
-          pageLink.style.borderRadius = '6px';
-          pageLink.style.textDecoration = 'none';
-          pageLink.style.margin = '0 0.25rem';
-          pageLink.style.fontWeight = i === currentPage ? 'bold' : 'normal';
-
-          pageLink.addEventListener('click', function (e) {
+        // Helper to create page buttons
+        function createBtn(label, page) {
+          const a = document.createElement('a');
+          a.href = '#';
+          a.textContent = label;
+          a.style.padding = '0.5rem 0.75rem';
+          a.style.margin = '0 0.25rem';
+          a.style.textDecoration = 'none';
+          a.style.borderRadius = '6px';
+          a.style.backgroundColor = page === currentPage ? '#cccccc' : '#eeeeee';
+          a.style.fontWeight = page === currentPage ? 'bold' : 'normal';
+          a.addEventListener('click', e => {
             e.preventDefault();
-            showPage(i);
-            // Scroll to top of list on page change
+            showPage(page);
+            // Scroll to top on page change (optional)
             fatwaList.scrollIntoView({ behavior: 'smooth' });
           });
+          return a;
+        }
 
-          paginationContainer.appendChild(pageLink);
+        // Previous button
+        if (currentPage > 1) {
+          paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
+        }
+
+        const delta = 2; // how many pages to show around current
+        const range = [];
+
+        for (let i = 1; i <= totalPages; i++) {
+          if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+            range.push(i);
+          } else if (range[range.length - 1] !== '...') {
+            range.push('...');
+          }
+        }
+
+        range.forEach(val => {
+          if (val === '...') {
+            const span = document.createElement('span');
+            span.textContent = '…';
+            span.style.padding = '0.5rem 0.75rem';
+            paginationContainer.appendChild(span);
+          } else {
+            paginationContainer.appendChild(createBtn(val, val));
+          }
+        });
+
+        // Next button
+        if (currentPage < totalPages) {
+          paginationContainer.appendChild(createBtn('Next >', currentPage + 1));
         }
       }
 
@@ -360,7 +392,7 @@
   </script>
 
   <footer style="background-color: var(--accent-bg); text-align: center; padding: 1rem; margin-top: 2rem; font-size: 0.95rem; color: var(--text-color);">
-    Share this website with others so the benefit may spread — and you may earn ongoing reward,<em> In sha Allah <br></em>
+    Share this website with others so the benefit may spread and you may earn ongoing reward,<em> In sha Allah <br></em>
   </footer>
 
 </body>
