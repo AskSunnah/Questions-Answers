@@ -144,7 +144,7 @@
       cursor: pointer;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       header h1 {
         font-size: 1.8rem;
       }
@@ -157,6 +157,56 @@
       .question-item {
         font-size: 0.95rem;
       }
+
+      header {
+        padding: 2rem 1rem;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      main {
+        padding: 1rem;
+        margin: 1rem;
+      }
+
+      .question-item {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+      }
+
+      a.btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.95rem;
+      }
+
+      .modal-content {
+        margin-top: 20%;
+        padding: 1.5rem;
+      }
+
+      input#fatwaSearch {
+        font-size: 0.95rem;
+      }
+
+      .pagination a {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+      }
+
+      footer h4 {
+        font-size: 1.1rem;
+      }
+
+      footer a {
+        font-size: 0.85rem;
+      }
+
     }
   </style>
 
@@ -178,7 +228,7 @@
 <body>
 
   <header>
-    <h1>AskSunnah.com!</h1>
+    <h1>AskSunnah.com</h1>
     <p>Get authentic answers from Dr. Sheikh Falah Kurkully — grounded in Qur’an and Sunnah (Beta-Version)</p>
   </header>
 
@@ -202,14 +252,13 @@
         style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
     </div>
 
-
     <section aria-labelledby="recent-answers">
       <div>
         <h3 id="recent-answers" style="margin:0;">Recent Answers</h3>
         <span id="answerCount" style="font-size:0.95rem; color:#2c3e50; display: block; margin-top: 0.5rem"></span>
       </div>
 
-
+      
       <!-- All question-items listed here -->
       <div id="fatwaList">
         <article class="question-item"><a href="answers/is_zinah_halal.html"><strong>Q1:</strong> Is Zinah (fornication) Halal?</a></article>
@@ -226,7 +275,7 @@
         <article class="question-item"><a href="answers/Listening_to_clean_songs.html"><strong>Q12:</strong> Ruling on Listening to clean songs that include music?</a></article>
         <article class="question-item"><a href="answers/Can_i_accept_free_hajj.html"><strong>Q13:</strong> Can I accept free hajj?</a></article>
         <article class="question-item"><a href="answers/the_secret_habit.html"><strong>Q14:</strong> Is masturbation haram?</a></article>
-        
+        <article class="question-item"><a href="answers/garment_below_ankle.html"><strong>Q15:</strong> Ruling on garment below the ankle</a></article>
         <!-- Add more question-items here if needed -->
       </div>
 
@@ -309,16 +358,13 @@
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
 
-         // Hide all first
-  fatwas.forEach(item => item.style.display = 'none');
-  // Show filtered items for this page
-  filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+        // Hide all first
+        fatwas.forEach(item => item.style.display = 'none');
+        // Show filtered items for this page
+        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
 
-  // NEW LINE to update the number!
-  document.getElementById('answerCount').textContent = filteredFatwas.length;
-
-  renderPagination();
-}
+        renderPagination();
+      }
 
       function renderPagination() {
         paginationContainer.innerHTML = '';
@@ -345,7 +391,6 @@
           return a;
         }
 
-
         // Previous button
         if (currentPage > 1) {
           paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
@@ -361,7 +406,6 @@
             range.push('...');
           }
         }
-
 
         range.forEach(val => {
           if (val === '...') {
@@ -394,17 +438,18 @@
 
       // Initial display
       showPage(1);
+      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
 
       // Connect search input
       const searchInput = document.getElementById('fatwaSearch');
       searchInput.addEventListener('input', function () {
         filterFatwas(this.value);
+        document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
       });
     });
   </script>
 
-
-  <footer style="background: linear-gradient(to top, #1f6f3e, #2e8b57 90%, transparent);
+  <footer style="background: linear-gradient(to top, #1f6f3e, #2e8b57 98%, transparent);
     color: white;
     padding: 2rem 1rem;
     text-align: center;
@@ -412,7 +457,7 @@
     margin-top: 3rem;
   ">
 
-    <h4 style="margin-bottom: 1rem;">Connect With Us</h4>
+    <h4 style="margin-bottom: 1rem;">Connect With Us!</h4>
 
     <!-- Social Icons -->
     <div style="
@@ -441,7 +486,7 @@
     </div>
 
     <!-- About Us Button -->
-    <a href="#" style="
+    <a href="about-us.html" style="
       display: inline-block;
       background-color: white;
       color: #1a1a1a;
@@ -483,12 +528,8 @@
       transform: scale(1.2);
       filter: drop-shadow(0 0 5px white);
     }
+
   </style>
-
-
-  <footer style="background-color: var(--accent-bg); text-align: center; padding: 1rem; margin-top: 2rem; font-size: 0.95rem; color: var(--text-color);">
-    Share this website with others so the benefit may spread and you may earn ongoing reward,<em> In sha Allah <br></em>
-  </footer>
 
 </body>
 </html>
