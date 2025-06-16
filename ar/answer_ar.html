@@ -62,23 +62,37 @@
     a.back-link:hover {
       text-decoration: underline;
     }
-  </style>
+    /* loading spinner styling */
+    .spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #1f6f3e;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
 </head>
 <body>
-
+<div class="content" style="display: none;">
   <h1 id="heading"></h1>
-
   <p><strong>السؤال: </strong> <span id="question"></span></p>
   <p><strong>الجواب :</strong> <span id="answer"></span></p>
-
   <div id="from-quran"></div>
-
   <div id="from-sunnah"></div>
-
   <div id="conclusion"></div>
   <p><strong>والله أعلم.</strong></p>
-
   <a href="/" class="back-link">← العودة إلى الأسئلة</a>
+</div>
+  <div id="loader" style="display:none; text-align: center; margin-top: 50px;">
+  <div class="spinner"></div>
+</div>
 
   <script>
     // Extract slug from URL path
@@ -87,9 +101,14 @@
     // Replace this with your backend URL when deployed
     const backendUrl = 'https://asksunnah-backend-16oi.onrender.com';
 
+    //loader
+    document.getElementById("loader").style.display = "block";
+
     fetch(`${backendUrl}/api/ar/questions/${slug}`)
       .then(res => res.json())
       .then(data => {
+        document.getElementById("loader").style.display = "none";
+        document.querySelector(".content").style.display = "block";
         document.title = data.heading;
         document.getElementById("heading").innerText = data.heading;
         document.getElementById("question").innerText = data.question;
