@@ -60,7 +60,6 @@
     a.back-link:hover {
       text-decoration: underline;
     }
-
     .spinner {
   border: 8px solid #f3f3f3;
   border-top: 8px solid #1f6f3e;
@@ -95,41 +94,14 @@
     // Extract slug from URL path
     const slug = window.location.pathname.split("/").pop();
     document.getElementById("loader").style.display = "block";
-
-  </style>
-</head>
-<body>
-
-  <h1 id="heading"></h1>
-
-  <p><strong>Question:</strong> <span id="question"></span></p>
-  <p><strong>Answer:</strong> <span id="answer"></span></p>
-
-  <div id="from-quran"></div>
-
-  <div id="from-sunnah"></div>
-
-  <div id="conclusion"></div>
-  <p><strong>And Allah knows best.</strong></p>
-
-  <a href="/" class="back-link">← Back to Questions</a>
-
-  <script>
-    // Extract slug from URL path
-    const slug = window.location.pathname.split("/").pop();
-
-
     // Replace this with your backend URL when deployed
     const backendUrl = 'https://asksunnah-backend-16oi.onrender.com';
 
     fetch(`${backendUrl}/api/questions/${slug}`)
       .then(res => res.json())
       .then(data => {
-
         document.getElementById("loader").style.display = "none";
         document.querySelector(".content").style.display = "block";
-
-
         document.title = data.heading;
         document.getElementById("heading").innerText = data.heading;
         document.getElementById("question").innerText = data.question;
