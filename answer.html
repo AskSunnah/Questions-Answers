@@ -96,7 +96,7 @@
     const slug = window.location.pathname.split("/").pop();
     document.getElementById("loader").style.display = "block";
     // Replace this with your backend URL when deployed
-    const backendUrl = 'https://asksunnah-backend-16oi.onrender.com';
+    const backendUrl = 'https://asksunnah-backend-hno9.onrender.com';
 
     fetch(`${backendUrl}/api/questions/${slug}`)
       .then(res => res.json())
