@@ -84,8 +84,8 @@
   </header>
 
   <div class="nav">
-    <a href="#" onclick="loadPage('./admin-qa.html')">Add Q&A</a>
-    <a href="#" onclick="loadPage('./all-qa.html')">All Q&As</a>
+    <a href="#" onclick="loadPage('/admin/admin-qa.html')">Add Q&A</a>
+    <a href="#" onclick="loadPage('/admin/all-qa.html')">All Q&As</a>
   </div>
 
   <div class="content" id="content">
@@ -94,7 +94,7 @@
 
   <script>
     if (!localStorage.getItem('adminToken')) {
-  window.location.href = "admin.html";
+  window.location.href = "/admin/admin.html";
 }
     function loadPage(page) {
       const content = document.getElementById('content');
@@ -103,7 +103,7 @@
 
     function logout() {
       alert("You have been logged out.");
-      window.location.href = "./admin.html"; // or your actual login page
+      window.location.href = "/admin/admin.html"; // or your actual login page
     }
   </script>
 </body>

@@ -25,7 +25,7 @@ document.getElementById('login-btn').onclick = async function () {
       displayMessage("Login successful! Redirecting...", "green");
       
       setTimeout(() => {
-        window.location.href = "./admin-qa.html"; // or admin-dashboard.html
+        window.location.href = "/admin/admin-qa.html"; // or admin-dashboard.html
       }, 800);
     } else {
       displayMessage(data.message || "Login failed", "red");

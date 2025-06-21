@@ -1,5 +1,5 @@
 if (!localStorage.getItem('adminToken')) {
-  window.location.href = "./admin.html";
+  window.location.href = "/admin/admin.html";
 }
 let sections = []; // Interleaved blocks (quran, sunnah, normal, etc.)
 
