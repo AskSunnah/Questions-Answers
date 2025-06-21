@@ -337,10 +337,12 @@ body.dark .dark-toggle-btn {
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
     const fatwaList = document.getElementById("fatwaList");
+    const answerCount = document.getElementById("answerCount");
 
     try {
       const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/ar/all");
       const data = await res.json();
+      answerCount.textContent = `إجمالي الفتاوى: ${data.length}`;
 
       fatwaList.innerHTML = data.map((item, index) =>
         `<a href="questions/${item.slug}" class="question-item"><strong>س${index + 1}:</strong> ${item.heading}</a>`
