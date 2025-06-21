@@ -337,6 +337,7 @@ body.dark .dark-toggle-btn {
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
     const fatwaList = document.getElementById("fatwaList");
+    const answerCount = document.getElementById("answerCount");
 
     try {
       const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/ar/all");
