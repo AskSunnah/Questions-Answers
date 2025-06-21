@@ -332,27 +332,24 @@ body.dark header {
       
       <!-- All question-items listed here -->
       <div id="fatwaList">
-        <a href="questions/is_zinah_halal" class="question-item"><strong>Q1:</strong> Is Zinah (fornication) Halal?</a>
-        <a href="questions/participating_in_bank_promotions_and_interest_based_offers" class="question-item"><strong>Q2:</strong> Receiving an opening bank account gift from banks?</a>
-        <a href="questions/singing_without_music" class="question-item"><strong>Q3:</strong> Singing without musical instruments?</a>
-        <a href="questions/spay_my_cat" class="question-item"><strong>Q4:</strong> Can I spay/neuter my cat?</a>
-        <a href="questions/taxation_in_islam" class="question-item"><strong>Q5:</strong> Working in tax collection authorities?</a>
-        <a href="questions/rebelling_against_rulers" class="question-item"><strong>Q6:</strong> Ruling on going against government?</a>
-        <a href="questions/bank_refund_issue" class="question-item"><strong>Q7:</strong> Ruling on keeping refunded money from the bank?</a>
-        <a href="questions/how_to_advise_family_on_sinning" class="question-item"><strong>Q8:</strong> How to advise family on sinning?</a>
-        <a href="questions/ruling_on_combining_prayers_without_a_reason" class="question-item"><strong>Q9:</strong> Ruling on combining prayers without a reason?</a>
-        <a href="questions/dental_veneers" class="question-item"><strong>Q10:</strong> Are dental veneers permissible in Islam?</a>
-        <a href="questions/the_virtue_of_the_companions_sahabas_in_islam" class="question-item"><strong>Q11:</strong> Ruling on the one who curses Sahaba?</a>
-        <a href="questions/listening_to_music" class="question-item"><strong>Q12:</strong> Ruling on listening to clean songs that include music?</a>
-        <a href="questions/ruling_on_sponsored_hajj" class="question-item"><strong>Q13:</strong> Can I accept free hajj?</a>
-        <a href="questions/the_secret_habit" class="question-item"><strong>Q14:</strong> Is masturbation haram?</a>
-        <a href="questions/garment_below_ankles" class="question-item"><strong>Q15:</strong> Ruling on garment below the ankle</a>
-        <a href="questions/ruling_on_shaving_neck_hair" class="question-item"><strong>Q16:</strong> Ruling on shaving the neck hair</a>
-        <a href="questions/wishing_haram_was_halal" class="question-item"><strong>Q17:</strong> Wishing haram was halal</a>
-        <a href="questions/bleeding_vs_haydh_fatwa" class="question-item"><strong>Q18:</strong> Ruling on Menstruation and Irregular Bleeding</a>
+        <script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const fatwaList = document.getElementById("fatwaList");
+    const answerCount = document.getElementById("answerCount");
 
+    try {
+      const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/all");
+      const data = await res.json();
+      answerCount.textContent = `Total Answers: ${data.length}`;
 
-  
+      fatwaList.innerHTML = data.map((item, index) =>
+        `<a href="questions/${item.slug}" class="question-item"><strong>Q${index + 1}:</strong> ${item.heading}</a>`
+      ).join("");
+    } catch (err) {
+      fatwaList.innerHTML = "<p style='color:red;'>❌ Failed to load questions.</p>";
+    }
+  });
+</script>
         <!-- Add more question-items here if needed -->
       </div>
 

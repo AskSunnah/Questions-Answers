@@ -81,8 +81,7 @@
   <h1 id="heading"></h1>
   <p><strong>Question:</strong> <span id="question"></span></p>
   <p><strong>Answer:</strong> <span id="answer"></span></p>
-  <div id="from-quran"></div>
-  <div id="from-sunnah"></div>
+  <div id="dynamic-content"></div>
   <div id="conclusion"></div>
   <p><strong>And Allah knows best.</strong></p>
   <a href="/" class="back-link">← Back to Questions</a>
@@ -107,34 +106,48 @@
         document.getElementById("heading").innerText = data.heading;
         document.getElementById("question").innerText = data.question;
         document.getElementById("answer").innerText = data.answer;
+         // render content array
+      const container = document.getElementById("dynamic-content");
 
-           if (data.fromQuran && data.fromQuran.length > 0) {
-      let quranHtml = '<h2>From the Qur’an:</h2>';
-      data.fromQuran.forEach(item => {
-        quranHtml += `
-          <ul><li>
-            <strong>${item.reference}</strong>
-            <blockquote>${item.text}</blockquote>
-            <p>${item.commentary}</p>
-          </li></ul>`;
-      });
-      document.getElementById("from-quran").innerHTML = quranHtml;
-    }
+      if (data.content && data.content.length > 0) {
+        data.content.forEach(section => {
+          let html = "";
 
-    if (data.fromSunnah && data.fromSunnah.length > 0) {
-      let sunnahHtml = '<h2>From the Sunnah:</h2>';
-      data.fromSunnah.forEach(item => {
-        sunnahHtml += `
-          <ul><li>
-            <strong>${item.reference}</strong><br>
-            ${item.narrator}
-            <blockquote>${item.text}</blockquote>
-            <p>${item.commentary}</p>
-          </li></ul>`;
-      });
-      document.getElementById("from-sunnah").innerHTML = sunnahHtml;
-    }
+          const sectionTitle = {
+            quran: "From the Qur’an:",
+            sunnah: "From the Sunnah:",
+            salaf: "From the Salaf:",
+            scholar: "From the Scholars:",
+            normal: ""
+          }[section.type] || "";
 
+          if (section.type === "normal") {
+            html += `<p>${section.text}</p>`;
+          } else if (Array.isArray(section.items)) {
+            // New format: grouped items
+            html += `<h2>${sectionTitle}</h2><ul>`;
+            section.items.forEach(item => {
+              html += `<li>
+                ${item.reference ? `<strong>${item.reference}</strong><br>` : ""}
+                ${item.narrator ? `<em>${item.narrator}</em><br>` : ""}
+                <blockquote>${item.text}</blockquote>
+                ${item.commentary ? `<p>${item.commentary}</p>` : ""}
+              </li>`;
+            });
+            html += `</ul>`;
+          } else {
+            // Old format fallback
+            html += `<h2>${sectionTitle}</h2><ul><li>
+              ${section.reference ? `<strong>${section.reference}</strong><br>` : ""}
+              ${section.narrator ? `<em>${section.narrator}</em><br>` : ""}
+              <blockquote>${section.text}</blockquote>
+              ${section.commentary ? `<p>${section.commentary}</p>` : ""}
+            </li></ul>`;
+          }
+
+          container.innerHTML += html;
+        });
+      }
     if (data.conclusion) {
       document.getElementById("conclusion").innerHTML = `<h2>Conclusion:</h2><p>${data.conclusion}</p>`;
     }
