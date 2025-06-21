@@ -95,70 +95,79 @@
 </div>
 
   <script>
-    // Extract slug from URL path
-    const slug = window.location.pathname.split("/").pop();
+  const slug = window.location.pathname.split("/").pop();
+  const backendUrl = 'https://asksunnah-backend-hno9.onrender.com';
 
-    // Replace this with your backend URL when deployed
-    const backendUrl = 'https://asksunnah-backend-hno9.onrender.com';
+  document.getElementById("loader").style.display = "block";
 
-    //loader
-    document.getElementById("loader").style.display = "block";
+  fetch(`${backendUrl}/api/ar/questions/${slug}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("loader").style.display = "none";
+      document.querySelector(".content").style.display = "block";
+      document.title = data.heading;
+      document.getElementById("heading").innerText = data.heading;
+      document.getElementById("question").innerText = data.question;
+      document.getElementById("answer").innerText = data.answer;
 
-    fetch(`${backendUrl}/api/ar/questions/${slug}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("loader").style.display = "none";
-        document.querySelector(".content").style.display = "block";
-        document.title = data.heading;
-        document.getElementById("heading").innerText = data.heading;
-        document.getElementById("question").innerText = data.question;
-        document.getElementById("answer").innerText = data.answer;
+      const container = document.createElement("div");
+      if (data.content && data.content.length > 0) {
+        data.content.forEach(item => {
+          let html = "";
 
-        // Qur'an section
-        if (data.fromQuran && data.fromQuran.length > 0) {
-          let quranHtml = '<h2>من القرآن الكريم:</h2>';
-          data.fromQuran.forEach(item => {
-            quranHtml += `<ul><li><strong>${item.reference}</strong>`;
-            if (item.text) {
-              quranHtml += `<blockquote>${item.text}</blockquote>`;
-            }
-            if (item.commentary) {
-              quranHtml += `<p>${item.commentary}</p>`;
-            }
-            quranHtml += `</li></ul>`;
-          });
-          document.getElementById("from-quran").innerHTML = quranHtml;
-        }
+          switch (item.type) {
+            case "quran":
+              html += `<h2>من القرآن الكريم:</h2>
+                <ul><li>
+                  <strong>${item.reference}</strong>
+                  <blockquote>${item.text}</blockquote>
+                  ${item.commentary ? `<p>${item.commentary}</p>` : ""}
+                </li></ul>`;
+              break;
+            case "sunnah":
+              html += `<h2>من السنة النبوية:</h2>
+                <ul><li>
+                  <strong>${item.reference}</strong><br>
+                  ${item.narrator ? `<em>${item.narrator}</em><br>` : ""}
+                  <blockquote>${item.text}</blockquote>
+                  ${item.commentary ? `<p>${item.commentary}</p>` : ""}
+                </li></ul>`;
+              break;
+            case "salaf":
+              html += `<h2>من السلف الصالح:</h2>
+                <ul><li>
+                  ${item.reference ? `<strong>${item.reference}</strong><br>` : ""}
+                  <blockquote>${item.text}</blockquote>
+                </li></ul>`;
+              break;
+            case "scholar":
+              html += `<h2>من أقوال العلماء:</h2>
+                <ul><li>
+                  ${item.reference ? `<strong>${item.reference}</strong><br>` : ""}
+                  <blockquote>${item.text}</blockquote>
+                </li></ul>`;
+              break;
+            case "normal":
+              html += `<p>${item.text}</p>`;
+              break;
+          }
 
-        // Sunnah section
-        if (data.fromSunnah && data.fromSunnah.length > 0) {
-          let sunnahHtml = '<h2>من السنة النبوية:</h2>';
-          data.fromSunnah.forEach(item => {
-            sunnahHtml += `<ul><li><strong>${item.reference}</strong>`;
-            if (item.narrator) {
-              sunnahHtml += `<p>${item.narrator}</p>`;
-            }
-            if (item.text) {
-              sunnahHtml += `<blockquote>${item.text}</blockquote>`;
-            }
-            if (item.commentary) {
-              sunnahHtml += `<p>${item.commentary}</p>`;
-            }
-            sunnahHtml += `</li></ul>`;
-          });
-          document.getElementById("from-sunnah").innerHTML = sunnahHtml;
-        }
+          container.innerHTML += html;
+        });
+      }
 
-        // Conclusion section
-        if (data.conclusion) {
-          document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p>${data.conclusion}</p>`;
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching data:", err);
-        document.body.innerHTML = "<h2>تعذر العثور على السؤال</h2>";
-      });
-  </script>
+      document.querySelector(".content").insertBefore(container, document.getElementById("conclusion"));
+
+      if (data.conclusion) {
+        document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p>${data.conclusion}</p>`;
+      }
+    })
+    .catch(err => {
+      console.error("Error fetching data:", err);
+      document.body.innerHTML = "<h2>تعذر العثور على السؤال</h2>";
+    });
+</script>
+
 
 </body>
 </html>
