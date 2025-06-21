@@ -84,7 +84,7 @@ document.getElementById("qa-form").onsubmit = function (e) {
   const lang = document.getElementById('qa-language').value;
 const endpoint = lang === 'ar' ? '/api/admin/submit_ar' : '/api/admin/submit';
 console.log(endpoint);
-fetch(`https://asksunnah-backend-16oi.onrender.com${endpoint}`, {
+fetch(`https://asksunnah-backend-hno9.onrender.com${endpoint}`, {
   method: "POST",
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(qa)

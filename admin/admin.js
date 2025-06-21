@@ -1,5 +1,5 @@
 // change this to our actual backend
-const API_URL = "https://asksunnah-backend-16oi.onrender.com/admin/login";
+const API_URL = "https://asksunnah-backend-hno9.onrender.com/admin/login";
 
 document.getElementById('login-btn').onclick = async function () {
   const username = document.getElementById('username').value.trim();
