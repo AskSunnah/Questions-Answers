@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <title>AskSunnah Answer</title>
@@ -62,103 +62,105 @@
     a.back-link:hover {
       text-decoration: underline;
     }
-    /* loading spinner styling */
-    .spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #1f6f3e;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
-</style>
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #1f6f3e;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
+
 <div class="content" style="display: none;">
   <h1 id="heading"></h1>
-  <p><strong>السؤال: </strong> <span id="question"></span></p>
-  <p><strong>الجواب :</strong> <span id="answer"></span></p>
-  <div id="from-quran"></div>
-  <div id="from-sunnah"></div>
+  <p><strong>السؤال:</strong> <span id="question"></span></p>
+  <p><strong>الجواب:</strong> <span id="answer"></span></p>
+  <div id="dynamic-content"></div>
   <div id="conclusion"></div>
   <p><strong>والله أعلم.</strong></p>
   <a href="/" class="back-link">← العودة إلى الأسئلة</a>
 </div>
-  <div id="loader" style="display:none; text-align: center; margin-top: 50px;">
+
+<div id="loader" style="display:none; text-align: center; margin-top: 50px;">
   <div class="spinner"></div>
 </div>
 
-  <script>
-    // Extract slug from URL path
-    const slug = window.location.pathname.split("/").pop();
+<script>
+  const slug = window.location.pathname.split("/").pop();
+  const backendUrl = 'https://asksunnah-backend-hno9.onrender.com'; // use same backend
 
-    // Replace this with your backend URL when deployed
-    const backendUrl = 'https://asksunnah-backend-16oi.onrender.com';
+  document.getElementById("loader").style.display = "block";
 
-    //loader
-    document.getElementById("loader").style.display = "block";
+  fetch(`${backendUrl}/api/ar/questions/${slug}`)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("loader").style.display = "none";
+      document.querySelector(".content").style.display = "block";
+      document.title = data.heading;
+      document.getElementById("heading").innerText = data.heading;
+      document.getElementById("question").innerText = data.question;
+      document.getElementById("answer").innerText = data.answer;
 
-    fetch(`${backendUrl}/api/ar/questions/${slug}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("loader").style.display = "none";
-        document.querySelector(".content").style.display = "block";
-        document.title = data.heading;
-        document.getElementById("heading").innerText = data.heading;
-        document.getElementById("question").innerText = data.question;
-        document.getElementById("answer").innerText = data.answer;
+      const container = document.getElementById("dynamic-content");
 
-        // Qur'an section
-        if (data.fromQuran && data.fromQuran.length > 0) {
-          let quranHtml = '<h2>من القرآن الكريم:</h2>';
-          data.fromQuran.forEach(item => {
-            quranHtml += `<ul><li><strong>${item.reference}</strong>`;
-            if (item.text) {
-              quranHtml += `<blockquote>${item.text}</blockquote>`;
-            }
-            if (item.commentary) {
-              quranHtml += `<p>${item.commentary}</p>`;
-            }
-            quranHtml += `</li></ul>`;
-          });
-          document.getElementById("from-quran").innerHTML = quranHtml;
-        }
+      if (data.content && data.content.length > 0) {
+        data.content.forEach(section => {
+          let html = "";
 
-        // Sunnah section
-        if (data.fromSunnah && data.fromSunnah.length > 0) {
-          let sunnahHtml = '<h2>من السنة النبوية:</h2>';
-          data.fromSunnah.forEach(item => {
-            sunnahHtml += `<ul><li><strong>${item.reference}</strong>`;
-            if (item.narrator) {
-              sunnahHtml += `<p>${item.narrator}</p>`;
-            }
-            if (item.text) {
-              sunnahHtml += `<blockquote>${item.text}</blockquote>`;
-            }
-            if (item.commentary) {
-              sunnahHtml += `<p>${item.commentary}</p>`;
-            }
-            sunnahHtml += `</li></ul>`;
-          });
-          document.getElementById("from-sunnah").innerHTML = sunnahHtml;
-        }
+          const sectionTitle = {
+            quran: "من القرآن الكريم:",
+            sunnah: "من السنة النبوية:",
+            salaf: "من السلف الصالح:",
+            scholar: "من أقوال العلماء:",
+            normal: ""
+          }[section.type] || "";
 
-        // Conclusion section
-        if (data.conclusion) {
-          document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p>${data.conclusion}</p>`;
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching data:", err);
-        document.body.innerHTML = "<h2>تعذر العثور على السؤال</h2>";
-      });
-  </script>
+          if (section.type === "normal") {
+            html += `<p>${section.text}</p>`;
+          } else if (Array.isArray(section.items)) {
+            html += `<h2>${sectionTitle}</h2><ul>`;
+            section.items.forEach(item => {
+              html += `<li>
+                ${item.reference ? `<strong>${item.reference}</strong><br>` : ""}
+                ${item.narrator ? `<em>${item.narrator}</em><br>` : ""}
+                <blockquote>${item.text}</blockquote>
+                ${item.commentary ? `<p>${item.commentary}</p>` : ""}
+              </li>`;
+            });
+            html += `</ul>`;
+          } else {
+            html += `<h2>${sectionTitle}</h2><ul><li>
+              ${section.reference ? `<strong>${section.reference}</strong><br>` : ""}
+              ${section.narrator ? `<em>${section.narrator}</em><br>` : ""}
+              <blockquote>${section.text}</blockquote>
+              ${section.commentary ? `<p>${section.commentary}</p>` : ""}
+            </li></ul>`;
+          }
+
+          container.innerHTML += html;
+        });
+      }
+
+      if (data.conclusion) {
+        document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p>${data.conclusion}</p>`;
+      }
+    })
+    .catch(err => {
+      console.error("Error fetching data:", err);
+      document.body.innerHTML = "<h2>تعذر العثور على السؤال</h2>";
+    });
+</script>
 
 </body>
 </html>
