@@ -22,10 +22,10 @@ function renderSections() {
                  data-idx="${idx}" data-subidx="${itemIdx}" data-field="narrator" />` : ""}
           <textarea placeholder="Text" data-idx="${idx}" data-subidx="${itemIdx}" data-field="text">${item.text || ""}</textarea>
           <textarea placeholder="Commentary" data-idx="${idx}" data-subidx="${itemIdx}" data-field="commentary">${item.commentary || ""}</textarea>
-          <button onclick="deleteItem(${idx}, ${itemIdx})">Remove</button>
+          <button type="button" onclick="deleteItem(${idx}, ${itemIdx})">Remove</button>
         </div>`;
       });
-      html += `<button onclick="addItem(${idx})">Add ${section.type} Entry</button>`;
+      html += `<button type="button" onclick="addItem(${idx})">Add ${section.type} Entry</button>`;
     }
 
     html += `<div class="section-btns">
