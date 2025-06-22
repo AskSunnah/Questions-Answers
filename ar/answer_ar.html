@@ -127,7 +127,7 @@
           }[section.type] || "";
 
           if (section.type === "normal") {
-            html += `<p>${section.text}</p>`;
+            html += `<p style="white-space: pre-wrap;">${section.text}</p>`;
           } else if (Array.isArray(section.items)) {
             html += `<h2>${sectionTitle}</h2><ul>`;
             section.items.forEach(item => {
@@ -135,7 +135,7 @@
                 ${item.reference ? `<strong>${item.reference}</strong><br>` : ""}
                 ${item.narrator ? `<em>${item.narrator}</em><br>` : ""}
                 <blockquote>${item.text}</blockquote>
-                ${item.commentary ? `<p>${item.commentary}</p>` : ""}
+                ${item.commentary ? `<p style="white-space: pre-wrap;">${item.commentary}</p>` : ""}
               </li>`;
             });
             html += `</ul>`;
@@ -144,7 +144,7 @@
               ${section.reference ? `<strong>${section.reference}</strong><br>` : ""}
               ${section.narrator ? `<em>${section.narrator}</em><br>` : ""}
               <blockquote>${section.text}</blockquote>
-              ${section.commentary ? `<p>${section.commentary}</p>` : ""}
+              ${section.commentary ? `<p style="white-space: pre-wrap;">${section.commentary}</p>` : ""}
             </li></ul>`;
           }
 
@@ -153,7 +153,7 @@
       }
 
       if (data.conclusion) {
-        document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p>${data.conclusion}</p>`;
+        document.getElementById("conclusion").innerHTML = `<h2>الخلاصة:</h2><p style="white-space: pre-wrap;">${data.conclusion}</p>`;
       }
     })
     .catch(err => {
