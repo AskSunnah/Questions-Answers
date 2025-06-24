@@ -449,15 +449,94 @@ body.dark header {
       renderPagination();
     }
 
+ function renderPagination() {
+  paginationContainer.innerHTML = '';
+  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+  if (totalPages <= 1) return;
+
+
+
+      renderPagination();
+    }
+
    function renderPagination() {
   paginationContainer.innerHTML = '';
   const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
   if (totalPages <= 1) return;
 
+
   // Previous button
   if (currentPage > 1) {
     paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
   }
+
+
+  // 1. For 4 or fewer pages, show all
+  if (totalPages <= 4) {
+    for (let i = 1; i <= totalPages; i++) {
+      paginationContainer.appendChild(createBtn(i, i));
+    }
+  } else {
+    // 2. For 5 or more pages
+    // Always show 1
+    paginationContainer.appendChild(createBtn(1, 1));
+
+    // Sliding window (currentPage in middle, when possible)
+    let start = Math.max(2, currentPage - 1);
+    let end = Math.min(totalPages - 1, currentPage + 1);
+
+    // Show ... if window is not right after 1
+    if (start > 2) {
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+    }
+
+    // Show middle window pages
+    for (let i = start; i <= end; i++) {
+      paginationContainer.appendChild(createBtn(i, i));
+    }
+
+    // Show ... if window is not right before last
+    if (end < totalPages - 1) {
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+    }
+
+    // Always show last page
+    paginationContainer.appendChild(createBtn(totalPages, totalPages));
+  }
+
+  // Next button
+  if (currentPage < totalPages) {
+    paginationContainer.appendChild(createBtn('Next >', currentPage + 1));
+  }
+}
+
+
+
+
+    function createBtn(label, page) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = label;
+      a.style.padding = '0.5rem 0.75rem';
+      a.style.margin = '0 0.25rem';
+      a.style.textDecoration = 'none';
+      a.style.borderRadius = '6px';
+      a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
+      a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPage(page);
+        fatwaList.scrollIntoView({ behavior: 'smooth' });
+      });
+      return a;
+    }
+
 
   // --- Robust 1 2 3 ... N pagination ---
   if (totalPages <= 6) {
@@ -533,6 +612,85 @@ body.dark header {
       return a;
     }
 
+=========
+
+ function renderPagination() {
+  paginationContainer.innerHTML = '';
+  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+  if (totalPages <= 1) return;
+
+  // Previous button
+  if (currentPage > 1) {
+    paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
+  }
+
+  // 1. For 4 or fewer pages, show all
+  if (totalPages <= 4) {
+    for (let i = 1; i <= totalPages; i++) {
+      paginationContainer.appendChild(createBtn(i, i));
+    }
+  } else {
+    // 2. For 5 or more pages
+    // Always show 1
+    paginationContainer.appendChild(createBtn(1, 1));
+
+    // Sliding window (currentPage in middle, when possible)
+    let start = Math.max(2, currentPage - 1);
+    let end = Math.min(totalPages - 1, currentPage + 1);
+
+    // Show ... if window is not right after 1
+    if (start > 2) {
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+    }
+
+    // Show middle window pages
+    for (let i = start; i <= end; i++) {
+      paginationContainer.appendChild(createBtn(i, i));
+    }
+
+    // Show ... if window is not right before last
+    if (end < totalPages - 1) {
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+    }
+
+    // Always show last page
+    paginationContainer.appendChild(createBtn(totalPages, totalPages));
+  }
+
+  // Next button
+  if (currentPage < totalPages) {
+    paginationContainer.appendChild(createBtn('Next >', currentPage + 1));
+  }
+}
+
+
+
+
+    function createBtn(label, page) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = label;
+      a.style.padding = '0.5rem 0.75rem';
+      a.style.margin = '0 0.25rem';
+      a.style.textDecoration = 'none';
+      a.style.borderRadius = '6px';
+      a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
+      a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPage(page);
+        fatwaList.scrollIntoView({ behavior: 'smooth' });
+      });
+      return a;
+    }
+
+>>>>>>>>> Temporary merge branch 2
     function filterFatwas(query) {
       query = query.trim().toLowerCase();
       if (!query) {

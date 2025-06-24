@@ -455,123 +455,119 @@ body.dark .dark-toggle-btn {
       filteredFatwas.slice(start, end).forEach(item => {
         item.style.display = 'block';
       });
+function renderPagination() {
+    paginationContainer.innerHTML = '';
+    const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+    if (totalPages <= 1) return;
 
-      renderPagination();
+    // Previous button
+    if (currentPage > 1) {
+      paginationContainer.appendChild(createBtn('< السابق', currentPage - 1));
     }
 
-   function renderPagination() {
-  paginationContainer.innerHTML = '';
-  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-  if (totalPages <= 1) return;
-
-  // Previous button
-  if (currentPage > 1) {
-    paginationContainer.appendChild(createBtn('< السابق', currentPage - 1));
-  }
-
-  // --- Robust 1 2 3 ... N pagination ---
-  if (totalPages <= 6) {
-    // Show all pages for small lists
-    for (let i = 1; i <= totalPages; i++) {
-      paginationContainer.appendChild(createBtn(i, i));
-    }
-  } else {
-    // Always show first page
-    paginationContainer.appendChild(createBtn(1, 1));
-
-    // Show second and third if we're near the start
-    if (currentPage <= 3) {
-      for (let i = 2; i <= 3; i++) {
+    // --- Robust 1 2 3 ... N pagination ---
+    if (totalPages <= 6) {
+      // Show all pages for small lists
+      for (let i = 1; i <= totalPages; i++) {
         paginationContainer.appendChild(createBtn(i, i));
       }
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-    } else if (currentPage >= totalPages - 2) {
-      // Near end: leading dots
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-
-      // Show pages before last
-      for (let i = totalPages - 3; i < totalPages; i++) {
-        if (i > 1) paginationContainer.appendChild(createBtn(i, i));
-      }
     } else {
-      // Middle: one left, one right, with dots both sides
-      let leftDot = document.createElement('span');
-      leftDot.textContent = '...';
-      leftDot.style.margin = '0 4px';
-      paginationContainer.appendChild(leftDot);
+      // Always show first page
+      paginationContainer.appendChild(createBtn(1, 1));
 
-      paginationContainer.appendChild(createBtn(currentPage - 1, currentPage - 1));
-      paginationContainer.appendChild(createBtn(currentPage, currentPage));
-      paginationContainer.appendChild(createBtn(currentPage + 1, currentPage + 1));
+      // Show second and third if we're near the start
+      if (currentPage <= 3) {
+        for (let i = 2; i <= 3; i++) {
+          paginationContainer.appendChild(createBtn(i, i));
+        }
+        const dot = document.createElement('span');
+        dot.textContent = '...';
+        dot.style.margin = '0 4px';
+        paginationContainer.appendChild(dot);
+      } else if (currentPage >= totalPages - 2) {
+        // Near end: leading dots
+        const dot = document.createElement('span');
+        dot.textContent = '...';
+        dot.style.margin = '0 4px';
+        paginationContainer.appendChild(dot);
 
-      let rightDot = document.createElement('span');
-      rightDot.textContent = '...';
-      rightDot.style.margin = '0 4px';
-      paginationContainer.appendChild(rightDot);
-    }
-    // Always show last page
-    paginationContainer.appendChild(createBtn(totalPages, totalPages));
-  }
-
-  // Next button
-  if (currentPage < totalPages) {
-    paginationContainer.appendChild(createBtn('التالي >', currentPage + 1));
-  }
-}
-
-    function createBtn(label, page) {
-      const a = document.createElement('a');
-      a.href = '#';
-      a.textContent = label;
-      a.style.padding = '0.5rem 0.75rem';
-      a.style.margin = '0 0.25rem';
-      a.style.textDecoration = 'none';
-      a.style.borderRadius = '6px';
-      a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
-      a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPage(page);
-        fatwaList.scrollIntoView({ behavior: 'smooth' });
-      });
-      return a;
-    }
-
-    function filterFatwas(query) {
-      query = query.trim().toLowerCase();
-      if (!query) {
-        filteredFatwas = fatwas;
+        // Show pages before last
+        for (let i = totalPages - 3; i < totalPages; i++) {
+          if (i > 1) paginationContainer.appendChild(createBtn(i, i));
+        }
       } else {
-        filteredFatwas = fatwas.filter(item => {
-          return item.textContent.toLowerCase().includes(query);
-        });
+        // Middle: one left, one right, with dots both sides
+        let leftDot = document.createElement('span');
+        leftDot.textContent = '...';
+        leftDot.style.margin = '0 4px';
+        paginationContainer.appendChild(leftDot);
+
+        paginationContainer.appendChild(createBtn(currentPage - 1, currentPage - 1));
+        paginationContainer.appendChild(createBtn(currentPage, currentPage));
+        paginationContainer.appendChild(createBtn(currentPage + 1, currentPage + 1));
+
+        let rightDot = document.createElement('span');
+        rightDot.textContent = '...';
+        rightDot.style.margin = '0 4px';
+        paginationContainer.appendChild(rightDot);
       }
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
+      // Always show last page
+      paginationContainer.appendChild(createBtn(totalPages, totalPages));
     }
 
-    // *** Hook into your question fetch: ***
-    // Observe DOM change to #fatwaList so that we can grab all .question-item
-    const observer = new MutationObserver(() => {
-      fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      filteredFatwas = fatwas;
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
-    });
-    observer.observe(fatwaList, { childList: true });
+    // Next button
+    if (currentPage < totalPages) {
+      paginationContainer.appendChild(createBtn('التالي >', currentPage + 1));
+    }
+  }
 
-    // Hook search
-    const searchInput = document.getElementById('fatwaSearch');
-    searchInput.addEventListener('input', function () {
-      filterFatwas(this.value);
+  function createBtn(label, page) {
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = label;
+    a.style.padding = '0.5rem 0.75rem';
+    a.style.margin = '0 0.25rem';
+    a.style.textDecoration = 'none';
+    a.style.borderRadius = '6px';
+    a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
+    a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      showPage(page);
+      fatwaList.scrollIntoView({ behavior: 'smooth' });
     });
+    return a;
+  }
+
+  function filterFatwas(query) {
+    query = query.trim().toLowerCase();
+    if (!query) {
+      filteredFatwas = fatwas;
+    } else {
+      filteredFatwas = fatwas.filter(item => {
+        return item.textContent.toLowerCase().includes(query);
+      });
+    }
+    showPage(1);
+    document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
+  }
+
+  // Observe DOM change to #fatwaList so that we can grab all .question-item
+  const observer = new MutationObserver(() => {
+    fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
+    filteredFatwas = fatwas;
+    showPage(1);
+    document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
   });
+  observer.observe(fatwaList, { childList: true });
+
+  // Hook search
+  const searchInput = document.getElementById('fatwaSearch');
+  searchInput.addEventListener('input', function () {
+    filterFatwas(this.value);
+  });
+
+});
 </script>
 
   <!-- Footer -->
