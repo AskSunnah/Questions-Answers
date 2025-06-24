@@ -434,110 +434,145 @@ body.dark .dark-toggle-btn {
   </script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const fatwaList = document.getElementById('fatwaList');
-      const paginationContainer = document.querySelector('.pagination');
-      const fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      const itemsPerPage = 5; // Adjust items per page here
-      let currentPage = 1;
-      let filteredFatwas = fatwas;
+  // 1. Wait for the fatwaList to be loaded and filled by your async fetch
+  document.addEventListener("DOMContentLoaded", function () {
+    const paginationContainer = document.querySelector('.pagination');
+    const fatwaList = document.getElementById('fatwaList');
+    let fatwas = [];
+    let itemsPerPage = 5;
+    let currentPage = 1;
+    let filteredFatwas = [];
 
-      function showPage(page) {
-        currentPage = page;
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
+    // Helper: Rerender only the current page
+    function showPage(page) {
+      currentPage = page;
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
 
-        // Hide all first
-        fatwas.forEach(item => item.style.display = 'none');
-        // Show filtered items for this page
-        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
-
-        renderPagination();
-      }
-
-      function renderPagination() {
-        paginationContainer.innerHTML = '';
-        const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-        if (totalPages <= 1) return; // no pagination needed
-
-        // Helper to create page buttons
-        function createBtn(label, page) {
-          const a = document.createElement('a');
-          a.href = '#';
-          a.textContent = label;
-          a.style.padding = '0.5rem 0.75rem';
-          a.style.margin = '0 0.25rem';
-          a.style.textDecoration = 'none';
-          a.style.borderRadius = '6px';
-          a.style.backgroundColor = page === currentPage ? '#cccccc' : '#eeeeee';
-          a.style.fontWeight = page === currentPage ? 'bold' : 'normal';
-          a.addEventListener('click', e => {
-            e.preventDefault();
-            showPage(page);
-            // Scroll to top on page change (optional)
-            fatwaList.scrollIntoView({ behavior: 'smooth' });
-          });
-          return a;
-        }
-
-        // Previous button
-        if (currentPage > 1) {
-          paginationContainer.appendChild(createBtn('< قبل', currentPage - 1));
-        }
-
-        const delta = 2; // how many pages to show around current
-        const range = [];
-
-        for (let i = 1; i <= totalPages; i++) {
-          if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
-            range.push(i);
-          } else if (range[range.length - 1] !== '...') {
-            range.push('...');
-          }
-        }
-
-        range.forEach(val => {
-          if (val === '...') {
-            const span = document.createElement('span');
-            span.textContent = '…';
-            span.style.padding = '0.5rem 0.75rem';
-            paginationContainer.appendChild(span);
-          } else {
-            paginationContainer.appendChild(createBtn(val, val));
-          }
-        });
-
-        // Next button
-        if (currentPage < totalPages) {
-          paginationContainer.appendChild(createBtn('بعد >', currentPage + 1));
-        }
-      }
-
-      function filterFatwas(query) {
-        query = query.trim().toLowerCase();
-        if (!query) {
-          filteredFatwas = fatwas;
-        } else {
-          filteredFatwas = fatwas.filter(item => {
-            return item.textContent.toLowerCase().includes(query);
-          });
-        }
-        showPage(1); // Reset to page 1 after filtering
-      }
-
-      // Initial display
-      showPage(1);
-      document.getElementById('answerCount').textContent = `إجمالي الفتاوى: ${fatwas.length}`;
-
-
-      // Connect search input
-      const searchInput = document.getElementById('fatwaSearch');
-      searchInput.addEventListener('input', function () {
-        filterFatwas(this.value);
-        document.getElementById('answerCount').textContent = `إجمالي الفتاوى: ${filteredFatwas.length}`;
+      fatwas.forEach((item, idx) => {
+        item.style.display = 'none';
       });
+      filteredFatwas.slice(start, end).forEach(item => {
+        item.style.display = 'block';
+      });
+
+      renderPagination();
+    }
+
+   function renderPagination() {
+  paginationContainer.innerHTML = '';
+  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+  if (totalPages <= 1) return;
+
+  // Previous button
+  if (currentPage > 1) {
+    paginationContainer.appendChild(createBtn('< السابق', currentPage - 1));
+  }
+
+  // --- Robust 1 2 3 ... N pagination ---
+  if (totalPages <= 6) {
+    // Show all pages for small lists
+    for (let i = 1; i <= totalPages; i++) {
+      paginationContainer.appendChild(createBtn(i, i));
+    }
+  } else {
+    // Always show first page
+    paginationContainer.appendChild(createBtn(1, 1));
+
+    // Show second and third if we're near the start
+    if (currentPage <= 3) {
+      for (let i = 2; i <= 3; i++) {
+        paginationContainer.appendChild(createBtn(i, i));
+      }
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+    } else if (currentPage >= totalPages - 2) {
+      // Near end: leading dots
+      const dot = document.createElement('span');
+      dot.textContent = '...';
+      dot.style.margin = '0 4px';
+      paginationContainer.appendChild(dot);
+
+      // Show pages before last
+      for (let i = totalPages - 3; i < totalPages; i++) {
+        if (i > 1) paginationContainer.appendChild(createBtn(i, i));
+      }
+    } else {
+      // Middle: one left, one right, with dots both sides
+      let leftDot = document.createElement('span');
+      leftDot.textContent = '...';
+      leftDot.style.margin = '0 4px';
+      paginationContainer.appendChild(leftDot);
+
+      paginationContainer.appendChild(createBtn(currentPage - 1, currentPage - 1));
+      paginationContainer.appendChild(createBtn(currentPage, currentPage));
+      paginationContainer.appendChild(createBtn(currentPage + 1, currentPage + 1));
+
+      let rightDot = document.createElement('span');
+      rightDot.textContent = '...';
+      rightDot.style.margin = '0 4px';
+      paginationContainer.appendChild(rightDot);
+    }
+    // Always show last page
+    paginationContainer.appendChild(createBtn(totalPages, totalPages));
+  }
+
+  // Next button
+  if (currentPage < totalPages) {
+    paginationContainer.appendChild(createBtn('التالي >', currentPage + 1));
+  }
+}
+
+    function createBtn(label, page) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = label;
+      a.style.padding = '0.5rem 0.75rem';
+      a.style.margin = '0 0.25rem';
+      a.style.textDecoration = 'none';
+      a.style.borderRadius = '6px';
+      a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
+      a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPage(page);
+        fatwaList.scrollIntoView({ behavior: 'smooth' });
+      });
+      return a;
+    }
+
+    function filterFatwas(query) {
+      query = query.trim().toLowerCase();
+      if (!query) {
+        filteredFatwas = fatwas;
+      } else {
+        filteredFatwas = fatwas.filter(item => {
+          return item.textContent.toLowerCase().includes(query);
+        });
+      }
+      showPage(1);
+      document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
+    }
+
+    // *** Hook into your question fetch: ***
+    // Observe DOM change to #fatwaList so that we can grab all .question-item
+    const observer = new MutationObserver(() => {
+      fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
+      filteredFatwas = fatwas;
+      showPage(1);
+      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
     });
-  </script>
+    observer.observe(fatwaList, { childList: true });
+
+    // Hook search
+    const searchInput = document.getElementById('fatwaSearch');
+    searchInput.addEventListener('input', function () {
+      filterFatwas(this.value);
+    });
+  });
+</script>
 
   <!-- Footer -->
   <footer style="
