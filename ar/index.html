@@ -334,22 +334,24 @@ body.dark .dark-toggle-btn {
 
       <!-- All question-items listed here -->
       <div id="fatwaList">
-<a href="/ar/questions/is_zina_halal_ar" class="question-item"><strong>س1:</strong> هل الزنا حلال؟</a>
-<a href="/ar/questions/Ruling_on_receiving_gift_from_banks_ar" class="question-item"><strong>س2:</strong> استلام هدية عند فتح حساب بنكي من البنوك؟</a>
-<a href="/ar/questions/Singing_without_musical_instruments_ar" class="question-item"><strong>س3:</strong> الغناء بدون أدوات موسيقية؟</a>
-<a href="/ar/questions/Spaying_cat_ar" class="question-item"><strong>س4:</strong> هل يجوز لي تعقيم قطتي؟</a>
-<a href="/ar/questions/working_in_tax_collection_ar" class="question-item"><strong>س5:</strong> العمل في هيئات جمع الضرائب؟</a>
-<a href="/ar/questions/ruling_on_going_against_government_ar" class="question-item"><strong>س6:</strong> ما هو حكم الخروج على الحاكم؟</a>
-<a href="/ar/questions/money_refunded_ar" class="question-item"><strong>س7:</strong> حكم الاحتفاظ بالمال المسترد من البنك؟</a>
-<a href="/ar/questions/advise_family_ar" class="question-item"><strong>س8:</strong> كيف تنصح العائلة عند ارتكاب المعاصي؟</a>
-<a href="/ar/questions/combine_prayers_ar" class="question-item"><strong>س9:</strong> حكم جمع صلاتين بدون عذر؟</a>
-<a href="/ar/questions/dental_veeners_ar" class="question-item"><strong>س10:</strong> هل قشور الأسنان (الفينير) مباحة في الشريعة الإسلامية؟</a>
-<a href="/ar/questions/cursing_sahaba_ar" class="question-item"><strong>س11:</strong> حكم من يسب الصحابة رضي الله عنهم؟</a>
-<a href="/ar/questions/Listening_to_clean_songs_ar" class="question-item"><strong>س12:</strong> ما حكم الاستماع إلى الأغاني النظيفة ذات الكلمات الطيبة والموسيقى؟</a>
-<a href="/ar/questions/Can_i_accept_free_hajj_ar" class="question-item"><strong>س13:</strong> حكم الحج الممول من متبرع؟</a>
-<a href="/ar/questions/the_secret_habit_ar" class="question-item"><strong>س14:</strong> حكم الاستمناء: هل هو من الكبائر؟</a>
-<a href="/ar/questions/garment_below_ankle_ar" class="question-item"><strong>س15:</strong> حكم إسبال الثوب أسفل الكعبين</a>
-<a href="/ar/questions/shaving_neck_hair_ar" class="question-item"><strong>س16:</strong> حكم حلاقة شعر الرقبة</a>
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const fatwaList = document.getElementById("fatwaList");
+    const answerCount = document.getElementById("answerCount");
+
+    try {
+      const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/ar/all");
+      const data = await res.json();
+      answerCount.textContent = `إجمالي الفتاوى: ${data.length}`;
+
+      fatwaList.innerHTML = data.map((item, index) =>
+        `<a href="questions/${item.slug}" class="question-item"><strong>س${index + 1}:</strong> ${item.heading}</a>`
+      ).join("");
+    } catch (err) {
+      fatwaList.innerHTML = "<p style='color:red;'>فشل في تحميل الأسئلة.</p>";
+    }
+  });
+</script>
 
 
 

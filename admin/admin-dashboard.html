@@ -1,0 +1,110 @@
+<!-- admin-dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AskSunnah Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f7f8fa;
+    }
+    header {
+      background: #287346;
+      color: white;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 20px;
+    }
+    .nav {
+      background: #f0f3f2;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #287346;
+      font-weight: 600;
+    }
+    .nav a:hover {
+      text-decoration: underline;
+    }
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 80vh;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header div:last-child {
+        margin-top: 10px;
+      }
+      .nav {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>AskSunnah Admin Panel</div>
+    <div>
+      <a href="#" onclick="loadPage('/admin/admin-dashboard.html')">Dashboard</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </header>
+
+  <div class="nav">
+    <a href="#" onclick="loadPage('/admin/admin-qa.html')">Add Q&A</a>
+    <a href="#" onclick="loadPage('/admin/all-qa.html')">All Q&As</a>
+  </div>
+
+  <div class="content" id="content">
+    <p>Welcome to the AskSunnah Admin Dashboard. Select a tab to get started.</p>
+  </div>
+
+  <script>
+    if (!localStorage.getItem('adminToken')) {
+  window.location.href = "/admin/admin.html";
+}
+    function loadPage(page) {
+      const content = document.getElementById('content');
+      content.innerHTML = `<iframe src="${page}"></iframe>`;
+    }
+
+    function logout() {
+      alert("You have been logged out.");
+      window.location.href = "/admin/admin.html"; // or your actual login page
+    }
+  </script>
+</body>
+</html>
