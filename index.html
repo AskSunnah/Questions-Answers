@@ -276,6 +276,11 @@ body.dark header {
 body.dark header {
   background-color: var(--primary-color) !important;
 }
+
+
+
+
+
   </style>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4S7C7010H4"></script>
@@ -418,110 +423,111 @@ body.dark header {
   </script>
 
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const fatwaList = document.getElementById('fatwaList');
-      const paginationContainer = document.querySelector('.pagination');
-      const fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      const itemsPerPage = 5; // Adjust items per page here
-      let currentPage = 1;
-      let filteredFatwas = fatwas;
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+  const fatwaList = document.getElementById("fatwaList");
+  const answerCount = document.getElementById("answerCount");
+  const paginationContainer = document.querySelector('.pagination');
+  let fatwas = [];
+  let filteredFatwas = [];
+  let itemsPerPage = 5;
+  let currentPage = 1;
 
-      function showPage(page) {
-        currentPage = page;
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
+  // Fetch questions
+  try {
+    const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/all");
+    const data = await res.json();
+    answerCount.textContent = `Total Answers: ${data.length}`;
+    fatwaList.innerHTML = data.map((item, index) =>
+      `<a href="questions/${item.slug}" class="question-item"><strong>Q${index + 1}:</strong> ${item.heading}</a>`
+    ).join("");
+    fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
+    filteredFatwas = fatwas;
+    showPage(1);
+  } catch (err) {
+    fatwaList.innerHTML = "<p style='color:red;'>❌ Failed to load questions.</p>";
+  }
 
-        // Hide all first
-        fatwas.forEach(item => item.style.display = 'none');
-        // Show filtered items for this page
-        filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+  // Show specific page
+  function showPage(page) {
+    currentPage = page;
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    fatwas.forEach(item => item.style.display = 'none');
+    filteredFatwas.slice(start, end).forEach(item => item.style.display = 'block');
+    renderPagination();
+  }
 
-        renderPagination();
-      }
+  // Create pagination controls
+  function renderPagination() {
+    paginationContainer.innerHTML = '';
+    const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+    if (totalPages <= 1) return;
 
-      function renderPagination() {
-        paginationContainer.innerHTML = '';
-        const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-        if (totalPages <= 1) return; // no pagination needed
+    // Prev button
+    if (currentPage > 1)
+      paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
 
-        // Helper to create page buttons
-        function createBtn(label, page) {
-          const a = document.createElement('a');
-          a.href = '#';
-          a.textContent = label;
-          a.style.padding = '0.5rem 0.75rem';
-          a.style.margin = '0 0.25rem';
-          a.style.textDecoration = 'none';
-          a.style.borderRadius = '6px';
-          a.style.backgroundColor = page === currentPage ? '#cccccc' : '#eeeeee';
-          a.style.fontWeight = page === currentPage ? 'bold' : 'normal';
-          a.addEventListener('click', e => {
-            e.preventDefault();
-            showPage(page);
-            // Scroll to top on page change (optional)
-            fatwaList.scrollIntoView({ behavior: 'smooth' });
-          });
-          return a;
-        }
+    // Page numbers logic: 1 2 3 ... N
+    if (totalPages <= 4) {
+      for (let i = 1; i <= totalPages; i++)
+        paginationContainer.appendChild(createBtn(i, i));
+    } else {
+      paginationContainer.appendChild(createBtn(1, 1));
+      if (currentPage > 3) addDots();
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+      for (let i = start; i <= end; i++)
+        paginationContainer.appendChild(createBtn(i, i));
+      if (currentPage < totalPages - 2) addDots();
+      paginationContainer.appendChild(createBtn(totalPages, totalPages));
+    }
 
-        // Previous button
-        if (currentPage > 1) {
-          paginationContainer.appendChild(createBtn('< Previous', currentPage - 1));
-        }
+    // Next button
+    if (currentPage < totalPages)
+      paginationContainer.appendChild(createBtn('Next>', currentPage + 1));
+  }
 
-        const delta = 2; // how many pages to show around current
-        const range = [];
-
-        for (let i = 1; i <= totalPages; i++) {
-          if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
-            range.push(i);
-          } else if (range[range.length - 1] !== '...') {
-            range.push('...');
-          }
-        }
-
-        range.forEach(val => {
-          if (val === '...') {
-            const span = document.createElement('span');
-            span.textContent = '…';
-            span.style.padding = '0.5rem 0.75rem';
-            paginationContainer.appendChild(span);
-          } else {
-            paginationContainer.appendChild(createBtn(val, val));
-          }
-        });
-
-        // Next button
-        if (currentPage < totalPages) {
-          paginationContainer.appendChild(createBtn('Next >', currentPage + 1));
-        }
-      }
-
-      function filterFatwas(query) {
-        query = query.trim().toLowerCase();
-        if (!query) {
-          filteredFatwas = fatwas;
-        } else {
-          filteredFatwas = fatwas.filter(item => {
-            return item.textContent.toLowerCase().includes(query);
-          });
-        }
-        showPage(1); // Reset to page 1 after filtering
-      }
-
-      // Initial display
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
-
-      // Connect search input
-      const searchInput = document.getElementById('fatwaSearch');
-      searchInput.addEventListener('input', function () {
-        filterFatwas(this.value);
-        document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
-      });
+  function createBtn(label, page) {
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = label;
+    a.style.padding = '0.5rem 0.75rem';
+    a.style.margin = '0 0.25rem';
+    a.style.textDecoration = 'none';
+    a.style.borderRadius = '6px';
+    a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
+    a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      showPage(page);
+      fatwaList.scrollIntoView({ behavior: 'smooth' });
     });
-  </script>
+    return a;
+  }
+
+  function addDots() {
+    const dot = document.createElement('span');
+    dot.textContent = '...';
+    dot.style.margin = '0 4px';
+    paginationContainer.appendChild(dot);
+  }
+
+  // Search functionality
+  document.getElementById('fatwaSearch').addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase();
+    if (!query) {
+      filteredFatwas = fatwas;
+    } else {
+      filteredFatwas = fatwas.filter(item => item.textContent.toLowerCase().includes(query));
+    }
+    answerCount.textContent = `Total Answers: ${filteredFatwas.length}`;
+    showPage(1);
+  });
+});
+</script>
+
+
 
   <footer style="background: linear-gradient(to top, #1f6f3e, #2e8b57 98%, transparent);
     color: white;
@@ -530,6 +536,7 @@ body.dark header {
     font-family: 'Arial', sans-serif;
     margin-top: 3rem;
   ">
+
 
     <h4 style="margin-bottom: 1rem;">Connect With Us!</h4>
 
