@@ -466,7 +466,7 @@ body.dark .dark-toggle-btn {
 
   // Previous button
   if (currentPage > 1) {
-    paginationContainer.appendChild(createBtn('< السابق', currentPage - 1));
+    paginationContainer.appendChild(createBtn('<', currentPage - 1));
   }
 
   // 1. For 4 or fewer pages, show all
@@ -510,7 +510,7 @@ body.dark .dark-toggle-btn {
 
   // Next button
   if (currentPage < totalPages) {
-    paginationContainer.appendChild(createBtn('التالي >', currentPage + 1));
+    paginationContainer.appendChild(createBtn('>', currentPage + 1));
   }
 }
 
