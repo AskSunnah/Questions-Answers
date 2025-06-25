@@ -287,28 +287,31 @@ body.dark header {
   border-radius: 6px;
   font-weight: 500;
   font-family: inherit;
-  color: var(--primary-color);           /* Green text */
-  background: #fff;                      /* White background */
-  border: 1.5px solid var(--primary-color);
+  color: var(--primary-color);           
+  background: #fff;                      
+  /* border: 1.5px solid var(--primary-color); */ /* <--- Remove or comment out */
   transition: background 0.2s, color 0.2s;
 }
+
 
 .pagination a[aria-current="page"],
 .pagination a.active,
 .pagination a.selected {
-  background: var(--primary-color);      /* Green background */
-  color: #fff;                          /* White text */
+  background: var(--primary-color);      
+  color: #fff;                          
   font-weight: bold;
   pointer-events: none;
-  border: 1.5px solid var(--primary-color);
+  /* border: 1.5px solid var(--primary-color); */  /* <--- Remove or comment out */
 }
 
+
 .pagination a:hover:not([aria-current="page"]):not(.active) {
-  background: var(--secondary-color);    /* Slightly different green on hover */
+  background: var(--secondary-color);    
   color: #fff;
-  border: 1.5px solid var(--secondary-color);
+  /* border: 1.5px solid var(--secondary-color); */  /* <--- Remove or comment out */
   cursor: pointer;
 }
+
 
 .pagination span {
   background: transparent !important;
@@ -576,7 +579,7 @@ if (page === currentPage) {
     }
 
     // *** Hook into your question fetch: ***
-    // Observe DOM change to #fatwaList so that we can grab all .question-item
+    // Observe DOM change to #fatwaList so that we can grab all .question-itemgio
     const observer = new MutationObserver(() => {
       fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
       filteredFatwas = fatwas;
