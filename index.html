@@ -278,6 +278,45 @@ body.dark header {
 }
 
 
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.15rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--primary-color);           /* Green text */
+  background: #fff;                      /* White background */
+  border: 1.5px solid var(--primary-color);
+  transition: background 0.2s, color 0.2s;
+}
+
+.pagination a[aria-current="page"],
+.pagination a.active,
+.pagination a.selected {
+  background: var(--primary-color);      /* Green background */
+  color: #fff;                          /* White text */
+  font-weight: bold;
+  pointer-events: none;
+  border: 1.5px solid var(--primary-color);
+}
+
+.pagination a:hover:not([aria-current="page"]):not(.active) {
+  background: var(--secondary-color);    /* Slightly different green on hover */
+  color: #fff;
+  border: 1.5px solid var(--secondary-color);
+  cursor: pointer;
+}
+
+.pagination span {
+  background: transparent !important;
+  color: #555 !important;
+  border: none !important;
+  cursor: default;
+}
+
 
 
 
@@ -422,6 +461,7 @@ body.dark header {
     });
   </script>
 
+<!-- Page Pagination Buttons -->
 <script>
   // 1. Wait for the fatwaList to be loaded and filled by your async fetch
   document.addEventListener("DOMContentLoaded", function () {
@@ -505,17 +545,15 @@ body.dark header {
 
 
 
-
     function createBtn(label, page) {
       const a = document.createElement('a');
       a.href = '#';
       a.textContent = label;
-      a.style.padding = '0.5rem 0.75rem';
-      a.style.margin = '0 0.25rem';
-      a.style.textDecoration = 'none';
-      a.style.borderRadius = '6px';
-      a.style.backgroundColor = (page === currentPage) ? '#cccccc' : '#eeeeee';
-      a.style.fontWeight = (page === currentPage) ? 'bold' : 'normal';
+      a.className = 'pagination-btn';
+if (page === currentPage) {
+  a.classList.add('active');
+  a.setAttribute('aria-current', 'page');
+}
       a.addEventListener('click', function (e) {
         e.preventDefault();
         showPage(page);
