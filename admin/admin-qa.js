@@ -10,7 +10,6 @@ function renderSections() {
   container.innerHTML = "";
   sections.forEach((section, idx) => {
     let html = `<div class="section-block"><label>${section.type.toUpperCase()}</label>`;
-
     if (section.type === "normal") {
       html += `<textarea data-idx="${idx}" data-field="text" placeholder="Text" required>${section.text || ""}</textarea>`;
     } else {
@@ -29,7 +28,6 @@ function renderSections() {
       });
       html += `<button type="button" onclick="addItem(${idx})">Add ${section.type} Entry</button>`;
     }
-
     html += `<div class="section-btns">
       <button type="button" onclick="moveSection(${idx}, -1)">↑</button>
       <button type="button" onclick="moveSection(${idx}, 1)">↓</button>
