@@ -1,8 +1,10 @@
-/* if (!localStorage.getItem('adminToken')) {
-  window.location.href = "/admin/admin.html";
-} */
-let sections = []; // Interleaved blocks (quran, sunnah, normal, etc.)
-
+//checking to see if we want to edit a question if not then normal empty form will open
+const urlParams = new URLSearchParams(window.location.search);
+const isEdit = urlParams.get("edit") === "1";
+const editSlug = urlParams.get("slug");
+const editLang = urlParams.get("lang");
+//creating the form 
+let sections = [];
 function renderSections() {
   const container = document.getElementById("dynamic-sections");
   container.innerHTML = "";
@@ -62,11 +64,11 @@ window.deleteItem = function (idx, itemIdx) {
 window.addSection = function () {
   const type = document.getElementById("section-type").value;
   const newBlock = type === "normal"
-    ? { type, text: "" }
+  ? { type, text: "" }
     : { type, items: [{}] };
-  sections.push(newBlock);
-  renderSections();
-};
+    sections.push(newBlock);
+    renderSections();
+  };
 window.deleteSection = function (idx) {
   sections.splice(idx, 1);
   renderSections();
@@ -74,10 +76,10 @@ window.deleteSection = function (idx) {
 
 document.getElementById("add-section-btn").onclick = addSection;
 
+//after user clicks submit
 document.getElementById("qa-form").onsubmit = function (e) {
   e.preventDefault();
-
-    const qa = {
+  const qa = {
     title: document.getElementById('qa-title').value,
     slug: document.getElementById('qa-slug').value,
     question: document.getElementById('qa-question').value,
@@ -85,37 +87,78 @@ document.getElementById("qa-form").onsubmit = function (e) {
     conclusion: document.getElementById('qa-conclusion').value,
     content: sections // <- send full interleaved array
   };
-
-
   console.log("Submitting this Q&A:", qa);
-//edit backend link here
+  
+  //post or put
   const lang = document.getElementById('qa-language').value;
-const endpoint = lang === 'ar' ? '/api/admin/submit_ar' : '/api/admin/submit';
-console.log(endpoint);
+  let endpoint;
+  let method;
+  if (isEdit) {
+    endpoint = editLang === 'ar' 
+    ? `/api/admin/edit_ar/${editSlug}` 
+    : `/api/admin/edit/${editSlug}`;
+  method = "PUT";
+} else {
+  endpoint = lang === 'ar' 
+  ? '/api/admin/submit_ar' 
+  : '/api/admin/submit';
+  method = "POST";
+}
+console.log(endpoint,method);
 fetch(`https://asksunnah-backend-hno9.onrender.com${endpoint}`, {
-  method: "POST",
+  method,
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(qa)
-})  
-  .then(async res => {
-    if (!res.ok) {
-      const text = await res.text(); 
-      throw new Error("Server error: " + text); 
-    }
-    return res.json(); //Only parse if response is OK and JSON
-  })
-  .then(data => {
-    document.getElementById('save-message').innerText = "Saved successfully!";
-    document.getElementById('qa-form').reset();
-    sections = [];
-    renderSections();
-    console.log("Data uploaded on database")
-  })
-  .catch(err => {
-    console.error("Submission error:", err);
-    document.getElementById('save-message').innerText = "Failed to save.";
-  });
+})
+.then(async res => {
+  if (!res.ok) {
+    const text = await res.text(); 
+    throw new Error("Server error: " + text); 
+  }
+  return res.json(); //Only parse if response is OK and JSON
+})
+.then(data => {
+  document.getElementById('save-message').innerText = "Saved successfully!";
+  document.getElementById('qa-form').reset();
+  sections = [];
+  renderSections();
+  console.log("Data uploaded on database")
+})
+.catch(err => {
+  console.error("Submission error:", err);
+  document.getElementById('save-message').innerText = "Failed to save.";
+});
 
 };
+//fill data in form if edit was selected
+window.onload = function () {
+if (isEdit && editSlug && editLang) {
+  const endpoint = editLang === 'ar'
+    ? `/api/ar/questions/${editSlug}`
+    : `/api/questions/${editSlug}`;
 
+  fetch(`https://asksunnah-backend-hno9.onrender.com${endpoint}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Q&A not found");
+      return res.json();
+    })
+    .then(data => {
+      document.querySelector('h2').innerText = "Edit Q&A";
+      document.getElementById("qa-language").value = editLang;
+      document.getElementById("qa-title").value = data.heading;
+      document.getElementById("qa-slug").value = data.slug;
+      document.getElementById("qa-question").value = data.question;
+      document.getElementById("qa-answer").value = data.answer;
+      document.getElementById("qa-conclusion").value = data.conclusion;
+      sections = data.content || [];
+      renderSections();
+    })
+    .catch(err => {
+      alert("Failed to load question for editing.");
+      console.error(err);
+    });
+}else{
+  renderSections();
+}
+};
 renderSections();
