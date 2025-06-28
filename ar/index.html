@@ -266,6 +266,12 @@ body.dark .dark-toggle-btn {
   background: rgba(255, 255, 255, 0.1);
   color: #f1f5f9;
 }
+body.dark .question-item:hover {
+  color: #1e293b; 
+}
+body.dark #answerCount {
+  color: var(--text-color) 
+}
 .question-item {
   display: block;
   margin-top: 1.5rem;
@@ -371,7 +377,7 @@ body.dark .dark-toggle-btn {
     <section aria-labelledby="recent-answers">
         <div>
           <h3 id="recent-answers" style="margin: 0;">الاجابات الجديدة</h3>
-          <span id="answerCount" style="font-size: 0.95rem; color: #2c3e50; display: block; margin-top: 0.5rem"></span>
+          <span id="answerCount" style="font-size: 0.95rem; display: block; margin-top: 0.5rem"></span>
         </div>
 
       <!-- All question-items listed here -->
@@ -699,8 +705,21 @@ if (page === currentPage) {
     }
   </style>
 <script>
-  document.getElementById('toggleDarkMode').addEventListener('click', function () {
-    document.body.classList.toggle('dark');
+   const toggleBtn = document.getElementById('toggleDarkMode');
+  const body = document.body;
+
+  // Load saved mode
+  const savedMode = localStorage.getItem('mode');
+  if (savedMode === 'dark') {
+    body.classList.add('dark');
+    toggleBtn.textContent = '☀️ الوضع الفاتح';
+  }
+
+  toggleBtn.addEventListener('click', function () {
+    body.classList.toggle('dark');
+    const isDark = body.classList.contains('dark');
+    toggleBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌗 الوضع الليلي';
+    localStorage.setItem('mode', isDark ? 'dark' : 'light');
   });
 </script>
 
