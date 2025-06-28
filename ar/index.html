@@ -392,7 +392,7 @@ body.dark #answerCount {
       const data = await res.json();
       answerCount.textContent = `إجمالي الفتاوى: ${data.length}`;
 
-      fatwaList.innerHTML = data.map((item, index) =>
+      fatwaList.innerHTML = data.slice().reverse().map((item, index) =>
         `<a href="questions/${item.slug}" class="question-item"><strong>س${index + 1}:</strong> ${item.heading}</a>`
       ).join("");
     } catch (err) {

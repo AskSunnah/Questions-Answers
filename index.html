@@ -394,7 +394,7 @@ body.dark header {
       const data = await res.json();
       answerCount.textContent = `Total Answers: ${data.length}`;
 
-      fatwaList.innerHTML = data.map((item, index) =>
+      fatwaList.innerHTML = data.slice().reverse().map((item, index) =>
         `<a href="questions/${item.slug}" class="question-item"><strong>Q${index + 1}:</strong> ${item.heading}</a>`
       ).join("");
     } catch (err) {
