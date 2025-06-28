@@ -22,16 +22,16 @@ function renderSections() {
                  data-idx="${idx}" data-subidx="${itemIdx}" data-field="narrator" />` : ""}
           <textarea placeholder="Text" data-idx="${idx}" data-subidx="${itemIdx}" data-field="text">${item.text || ""}</textarea>
           <textarea placeholder="Commentary" data-idx="${idx}" data-subidx="${itemIdx}" data-field="commentary">${item.commentary || ""}</textarea>
-          <button onclick="deleteItem(${idx}, ${itemIdx})">Remove</button>
+          <button type="button" onclick="deleteItem(${idx}, ${itemIdx})">Remove</button>
         </div>`;
       });
-      html += `<button onclick="addItem(${idx})">Add ${section.type} Entry</button>`;
+      html += `<button type="button" onclick="addItem(${idx})">Add ${section.type} Entry</button>`;
     }
 
     html += `<div class="section-btns">
-      <button onclick="moveSection(${idx}, -1)">↑</button>
-      <button onclick="moveSection(${idx}, 1)">↓</button>
-      <button onclick="deleteSection(${idx})">Delete Section</button>
+      <button type="button" onclick="moveSection(${idx}, -1)">↑</button>
+      <button type="button" onclick="moveSection(${idx}, 1)">↓</button>
+      <button type="button" onclick="deleteSection(${idx})">Delete Section</button>
     </div></div>`;
     container.innerHTML += html;
   });
@@ -65,6 +65,10 @@ window.addSection = function () {
     ? { type, text: "" }
     : { type, items: [{}] };
   sections.push(newBlock);
+  renderSections();
+};
+window.deleteSection = function (idx) {
+  sections.splice(idx, 1);
   renderSections();
 };
 
