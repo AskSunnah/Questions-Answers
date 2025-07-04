@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Library | Arabic Reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Amiri', serif;
+      background-color: #f9fafb;
+    }
+
+    .header {
+      background-color: #166534;
+      color: white;
+      padding: 2rem 1rem 1rem 1rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    .glassbox {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+    }
+
+    #reader {
+      font-size: 22px;
+      line-height: 2.4;
+      white-space: pre-wrap;
+      min-height: 200px;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 10px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      align-items: center;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #166534;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    mark {
+      background: yellow;
+    }
+
+    .page-info {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Library</h1>
+    <br><br>
+    <p>Welcome to the Library, Students of Knowledge</p>
+  </div>
+
+  <div class="glassbox">
+    <div class="controls">
+      <button onclick="nextPage()">PREVIOUS</button>
+      <input type="text" id="searchInput" dir="ltr" placeholder="Search in text..." oninput="searchText()">
+
+      <button onclick="prevPage()">NEXT</button>
+    </div>
+
+    <div id="reader"></div>
+
+    <div class="page-info">Pages <span id="pageNum">1</span> from <span id="totalPages">3</span></div>
+  </div>
+
+  <script>
+    const pages = [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+الحَمْدُ لِلَّهِ رَبِّ العَالَمِينَ وَالصَّلَاةُ وَالسَّلَامُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَآلِهِ وَصَحْبِهِ أَجْمَعِينَ`,
+      `هٰذِهِ نُسْخَةٌ تَجْرِيبِيَّةٌ مِنْ مَوْقِعِنَا سَنَقُومُ بِدَمْجِهَا قَرِيبًا`,
+      `مِنْ أُصُولِ أَهْلِ السُّنَّةِ وَالجَمَاعَةِ: أَلا تُكَفِّرَ أَحَدًا مِنْ أَهْلِ القِبْلَةِ بِذَنْبٍ وَلاَ تُنْفِيَ أَحَدًا مِنَ الإِيمَان`
+    ];
+
+
+    let currentPage = 0;
+
+
+    function displayPage() {
+      const content = pages[currentPage];
+      document.getElementById('reader').innerHTML = content;
+      document.getElementById('pageNum').innerText = currentPage + 1;
+      document.getElementById('totalPages').innerText = pages.length;
+      searchText();
+      window.scrollTo(0, 0);
+    }
+
+    function nextPage() {
+      // PREVIOUS in Arabic-style (go backward)
+      if (currentPage > 0) {
+        currentPage--;
+        displayPage();
+      }
+    }
+
+    function prevPage() {
+      // NEXT in Arabic-style (go forward)
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        displayPage();
+      }
+    }
+
+    function searchText() {
+      const input = document.getElementById('searchInput').value.trim();
+      const reader = document.getElementById('reader');
+      const text = pages[currentPage];
+      if (input.length < 2) {
+        reader.innerHTML = text;
+        return;
+      }
+      const regex = new RegExp(input, 'gi');
+      reader.innerHTML = text.replace(regex, match => `<mark>${match}</mark>`);
+    }
+
+    displayPage();
+  </script>
+
+</body>
+</html>
