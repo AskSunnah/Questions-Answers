@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,10 +60,11 @@
       margin-bottom: 2rem;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       color: var(--primary-color);
     }
-    
+
     .header-content {
       display: flex;
       align-items: center;
@@ -113,7 +115,7 @@
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0,0,0,0.4);
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     .modal-content {
@@ -124,7 +126,7 @@
       width: 90%;
       max-width: 500px;
       border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
 
     .modal-content h3 {
@@ -176,6 +178,7 @@
       .question-item {
         font-size: 0.95rem;
       }
+
       header {
         padding: 2rem 1rem;
       }
@@ -225,124 +228,243 @@
         font-size: 0.85rem;
       }
     }
+
     body.dark {
-  --background: #0f172a;
-  --card-bg: #1e293b;
-  --accent-bg: #334155;
-  --text-color: #f1f5f9;
-}
+      --background: #0f172a;
+      --card-bg: #1e293b;
+      --accent-bg: #334155;
+      --text-color: #f1f5f9;
+    }
 
 
 
-body.dark .modal-content {
-  background-color: #1e293b;
-  color: #f1f5f9;
-}
+    body.dark .modal-content {
+      background-color: #1e293b;
+      color: #f1f5f9;
+    }
 
-body.dark .modal-content input,
-body.dark .modal-content textarea {
-  background-color: #334155;
-  color: #f1f5f9;
-  border: 1px solid #475569;
-}
+    body.dark .modal-content input,
+    body.dark .modal-content textarea {
+      background-color: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+    }
 
-body.dark .modal-content button {
-  background-color: #22c55e;
-  color: #fff;
-}
+    body.dark .modal-content button {
+      background-color: #22c55e;
+      color: #fff;
+    }
 
-.dark-toggle-btn {
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: var(--text-color);
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-body.dark .dark-toggle-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #f1f5f9;
-}
-body.dark .question-item:hover {
-  color: #1e293b; 
-}
-body.dark #answerCount {
-  color: var(--text-color) 
-}
-.question-item {
-  display: block;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-left: 5px solid var(--primary-color);
-  background-color: var(--accent-bg);
-  border-radius: 5px;
-  text-decoration: none;
-  color: inherit;
-  transition: background-color 0.2s;
-}
+    .dark-toggle-btn {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
 
-.question-item:hover {
-  background-color: #e0f2f1;
-  cursor: pointer;
-}
+    body.dark .dark-toggle-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+    }
 
+    body.dark .question-item:hover {
+      color: #1e293b;
+    }
 
-.pagination a,
-.pagination span {
-  display: inline-block;
-  padding: 0.5rem 0.75rem;
-  margin: 0 0.15rem;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--primary-color);           
-  background: #fff;                      
-  /* border: 1.5px solid var(--primary-color); */ /* <--- Remove or comment out */
-  transition: background 0.2s, color 0.2s;
-}
+    body.dark #answerCount {
+      color: var(--text-color)
+    }
+
+    .question-item {
+      display: block;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-left: 5px solid var(--primary-color);
+      background-color: var(--accent-bg);
+      border-radius: 5px;
+      text-decoration: none;
+      color: inherit;
+      transition: background-color 0.2s;
+    }
+
+    .question-item:hover {
+      background-color: #e0f2f1;
+      cursor: pointer;
+    }
 
 
-.pagination a[aria-current="page"],
-.pagination a.active,
-.pagination a.selected {
-  background: var(--primary-color);      
-  color: #fff;                          
-  font-weight: bold;
-  pointer-events: none;
-  /* border: 1.5px solid var(--primary-color); */  /* <--- Remove or comment out */
-}
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.15rem;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--primary-color);
+      background: #fff;
+      /* border: 1.5px solid var(--primary-color); */
+      /* <--- Remove or comment out */
+      transition: background 0.2s, color 0.2s;
+    }
 
 
-.pagination a:hover:not([aria-current="page"]):not(.active) {
-  background: var(--secondary-color);    
-  color: #fff;
-  /* border: 1.5px solid var(--secondary-color); */  /* <--- Remove or comment out */
-  cursor: pointer;
-}
+    .pagination a[aria-current="page"],
+    .pagination a.active,
+    .pagination a.selected {
+      background: var(--primary-color);
+      color: #fff;
+      font-weight: bold;
+      pointer-events: none;
+      /* border: 1.5px solid var(--primary-color); */
+      /* <--- Remove or comment out */
+    }
 
-.pagination span {
-  background: transparent !important;
-  color: #555 !important;
-  border: none !important;
-  cursor: default;
-}
 
+    .pagination a:hover:not([aria-current="page"]):not(.active) {
+      background: var(--secondary-color);
+      color: #fff;
+      /* border: 1.5px solid var(--secondary-color); */
+      /* <--- Remove or comment out */
+      cursor: pointer;
+    }
+
+    .pagination span {
+      background: transparent !important;
+      color: #555 !important;
+      border: none !important;
+      cursor: default;
+    }
+
+    .navbar {
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+
+    /* Hamburger Button */
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      position: absolute;
+      top: 0.6rem;
+      right: 1rem;
+      z-index: 11;
+    }
+
+    /* Small Screens */
+    @media (max-width: 768px) {
+
+      .navbar {
+        /* background:#e9f5ec; */
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+
+    /* Dark mode styles */
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
+
+    body.dark .nav-link {
+      color: white;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
     <h1>AskSunnah.com</h1>
     <p>احصل على إجابات شرعية موثوقة من الشيخ الدكتور فلاح كركولي — مستندة من القرآن والسنة (نسخة تجريبية)</p>
-    <button class="dark-toggle-btn" id="toggleDarkMode">🌗 الوضع الليلي </button>
+    <!-- <button class="dark-toggle-btn" id="toggleDarkMode">🌗 الوضع الليلي </button> -->
 
   </header>
 
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 1rem 0;">
+  <!-- Navbar -->
+  <nav class="navbar" aria-label="التنقل الرئيسي">
+    <button class="nav-toggle" aria-label="تبديل القائمة" aria-expanded="false">
+      ☰
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="nav-link">المكتبة</a></li>
+        <li><a href="/ar/about-us_ar.html" class="nav-link">من نحن</a></li>
+        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">شاركنا
+            رأيك</a></li>
+        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">تبرع</a></li>
+        <li class="nav-darkmode">
+          <span id="toggleDarkMode" class="dark-toggle-icon" title="تبديل الوضع الليلي" tabindex="0"
+            aria-label="تبديل الوضع الليلي" style="cursor:pointer;font-size:1.6rem;display:inline-block;">🌗</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Remove it as navbar created for it already -->
+  <!-- <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 1rem 0;">
     <a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="btn" aria-label="زيارة المكتبة">
       📚 المكتبة
     </a>
@@ -351,60 +473,57 @@ body.dark #answerCount {
     </a>
     <a href="https://forms.gle/e5jGuDBJhZAyCP448" class="btn" aria-label="ساهم باقتراحك" target="_blank" rel="noopener">💬 ساهم باقتراحك</a>
 
-  </div>
+  </div> -->
 
   <main aria-label="الصفحة الرئيسية">
     <section aria-labelledby="ask-question">
       <h2 id="ask-question">أرسل سؤالك</h2>
       <p>هل لديك سؤال عن الإسلام؟ أرسله الآن وستتلقى الرد من الشيخ فلاح كركولي وفق رأي موثوق من العلماء.</p>
       <a href="#" class="btn" id="openModalBtn" aria-label="أرسل سؤالك">أرسل سؤالك</a>
-      <a href="/index.html" id="switchToEnglish" style="margin-right: 1rem; text-decoration: underline; color: inherit;">
+      <a href="/index.html" id="switchToEnglish"
+        style="margin-right: 1rem; text-decoration: underline; color: inherit;">
         English
       </a>
     </section>
 
     <!-- Search Bar -->
     <div style="margin: 2rem 0;">
-      <input
-        type="text"
-        id="fatwaSearch"
-        placeholder="ابحث..."
+      <input type="text" id="fatwaSearch" placeholder="ابحث..."
         style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; text-align: right;"
-        aria-label="ابحث"
-      />
+        aria-label="ابحث" />
     </div>
 
     <section aria-labelledby="recent-answers">
-        <div>
-          <h3 id="recent-answers" style="margin: 0;">الاجابات الجديدة</h3>
-          <span id="answerCount" style="font-size: 0.95rem; display: block; margin-top: 0.5rem"></span>
-        </div>
+      <div>
+        <h3 id="recent-answers" style="margin: 0;">الاجابات الجديدة</h3>
+        <span id="answerCount" style="font-size: 0.95rem; display: block; margin-top: 0.5rem"></span>
+      </div>
 
       <!-- All question-items listed here -->
       <div id="fatwaList">
-<script>
-  document.addEventListener("DOMContentLoaded", async function () {
-    const fatwaList = document.getElementById("fatwaList");
-    const answerCount = document.getElementById("answerCount");
+        <script>
+          document.addEventListener("DOMContentLoaded", async function () {
+            const fatwaList = document.getElementById("fatwaList");
+            const answerCount = document.getElementById("answerCount");
 
-    try {
-      const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/ar/all");
-      const data = await res.json();
-      answerCount.textContent = `إجمالي الفتاوى: ${data.length}`;
+            try {
+              const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/ar/all");
+              const data = await res.json();
+              answerCount.textContent = `إجمالي الفتاوى: ${data.length}`;
 
-      fatwaList.innerHTML = data.map((item, index) =>
-        `<a href="questions/${item.slug}" class="question-item"><strong>س${index + 1}:</strong> ${item.heading}</a>`
-      ).join("");
-    } catch (err) {
-      fatwaList.innerHTML = "<p style='color:red;'>فشل في تحميل الأسئلة.</p>";
-    }
-  });
-</script>
-
-
+              fatwaList.innerHTML = data.slice().reverse().map((item, index) =>
+                `<a href="questions/${item.slug}" class="question-item"><strong>س${index + 1}:</strong> ${item.heading}</a>`
+              ).join("");
+            } catch (err) {
+              fatwaList.innerHTML = "<p style='color:red;'>فشل في تحميل الأسئلة.</p>";
+            }
+          });
+        </script>
 
 
-<!-- Add more question-items here if needed -->
+
+
+        <!-- Add more question-items here if needed -->
       </div>
 
       <!-- Pagination block -->
@@ -412,8 +531,9 @@ body.dark #answerCount {
     </section>
   </main>
 
-<!-- Modal For Submitting Questions -->
-  <div id="questionModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <!-- Modal For Submitting Questions -->
+  <div id="questionModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+    aria-describedby="modalDesc">
     <div class="modal-content">
       <span class="close" id="closeModalBtn" role="button" aria-label="إغلاق">&times;</span>
       <h3 id="modalTitle">أرسل سؤالك</h3>
@@ -438,19 +558,19 @@ body.dark #answerCount {
     const form = document.getElementById("questionForm");
     const thankYou = document.getElementById("thankYouMessage");
 
-    openBtn.addEventListener("click", function(e) {
+    openBtn.addEventListener("click", function (e) {
       e.preventDefault();
       modal.style.display = "block";
     });
 
-    closeBtn.addEventListener("click", function() {
+    closeBtn.addEventListener("click", function () {
       modal.style.display = "none";
       form.reset();
       thankYou.style.display = "none";
       form.style.display = "block";
     });
 
-    window.addEventListener("click", function(e) {
+    window.addEventListener("click", function (e) {
       if (e.target === modal) {
         modal.style.display = "none";
         form.reset();
@@ -459,7 +579,7 @@ body.dark #answerCount {
       }
     });
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
       const formData = new FormData(form);
       fetch(form.action, {
@@ -469,149 +589,164 @@ body.dark #answerCount {
           Accept: "application/json"
         }
       })
-      .then(response => {
-        if (response.ok) {
-          form.style.display = "none";
-          thankYou.style.display = "block";
-        } else {
-          alert("حدث خطأ. حاول مجددًا.");
-        }
-      })
-      .catch(() => alert("هناك مشكلة في الإرسال."));
+        .then(response => {
+          if (response.ok) {
+            form.style.display = "none";
+            thankYou.style.display = "block";
+          } else {
+            alert("حدث خطأ. حاول مجددًا.");
+          }
+        })
+        .catch(() => alert("هناك مشكلة في الإرسال."));
     });
   </script>
 
   <!-- Page Pagination Buttons -->
-<script>
-  // 1. Wait for the fatwaList to be loaded and filled by your async fetch
-  document.addEventListener("DOMContentLoaded", function () {
-    const paginationContainer = document.querySelector('.pagination');
-    const fatwaList = document.getElementById('fatwaList');
-    let fatwas = [];
-    let itemsPerPage = 5;
-    let currentPage = 1;
-    let filteredFatwas = [];
+  <script>
+    // 1. Wait for the fatwaList to be loaded and filled by your async fetch
+    document.addEventListener("DOMContentLoaded", function () {
+      const paginationContainer = document.querySelector('.pagination');
+      const fatwaList = document.getElementById('fatwaList');
+      let fatwas = [];
+      let itemsPerPage = 5;
+      let currentPage = 1;
+      let filteredFatwas = [];
 
-    // Helper: Rerender only the current page
-    function showPage(page) {
-      currentPage = page;
-      const start = (page - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
+      // Helper: Rerender only the current page
+      function showPage(page) {
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
 
-      fatwas.forEach((item, idx) => {
-        item.style.display = 'none';
-      });
-      filteredFatwas.slice(start, end).forEach(item => {
-        item.style.display = 'block';
-      });
+        fatwas.forEach((item, idx) => {
+          item.style.display = 'none';
+        });
+        filteredFatwas.slice(start, end).forEach(item => {
+          item.style.display = 'block';
+        });
 
-      renderPagination();
-    }
+        renderPagination();
+      }
 
- function renderPagination() {
-  paginationContainer.innerHTML = '';
-  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-  if (totalPages <= 1) return;
+      function renderPagination() {
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+        if (totalPages <= 1) return;
 
-  // Previous button
-  if (currentPage > 1) {
-    paginationContainer.appendChild(createBtn('<', currentPage - 1));
-  }
+        // Previous button
+        if (currentPage > 1) {
+          paginationContainer.appendChild(createBtn('<', currentPage - 1));
+        }
 
-  // 1. For 4 or fewer pages, show all
-  if (totalPages <= 4) {
-    for (let i = 1; i <= totalPages; i++) {
-      paginationContainer.appendChild(createBtn(i, i));
-    }
-  } else {
-    // 2. For 5 or more pages
-    // Always show 1
-    paginationContainer.appendChild(createBtn(1, 1));
+        // 1. For 4 or fewer pages, show all
+        if (totalPages <= 4) {
+          for (let i = 1; i <= totalPages; i++) {
+            paginationContainer.appendChild(createBtn(i, i));
+          }
+        } else {
+          // 2. For 5 or more pages
+          // Always show 1
+          paginationContainer.appendChild(createBtn(1, 1));
 
-    // Sliding window (currentPage in middle, when possible)
-    let start = Math.max(2, currentPage - 1);
-    let end = Math.min(totalPages - 1, currentPage + 1);
+          // Sliding window (currentPage in middle, when possible)
+          let start = Math.max(2, currentPage - 1);
+          let end = Math.min(totalPages - 1, currentPage + 1);
 
-    // Show ... if window is not right after 1
-    if (start > 2) {
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-    }
+          // Show ... if window is not right after 1
+          if (start > 2) {
+            const dot = document.createElement('span');
+            dot.textContent = '...';
+            dot.style.margin = '0 4px';
+            paginationContainer.appendChild(dot);
+          }
 
-    // Show middle window pages
-    for (let i = start; i <= end; i++) {
-      paginationContainer.appendChild(createBtn(i, i));
-    }
+          // Show middle window pages
+          for (let i = start; i <= end; i++) {
+            paginationContainer.appendChild(createBtn(i, i));
+          }
 
-    // Show ... if window is not right before last
-    if (end < totalPages - 1) {
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-    }
+          // Show ... if window is not right before last
+          if (end < totalPages - 1) {
+            const dot = document.createElement('span');
+            dot.textContent = '...';
+            dot.style.margin = '0 4px';
+            paginationContainer.appendChild(dot);
+          }
 
-    // Always show last page
-    paginationContainer.appendChild(createBtn(totalPages, totalPages));
-  }
+          // Always show last page
+          paginationContainer.appendChild(createBtn(totalPages, totalPages));
+        }
 
-  // Next button
-  if (currentPage < totalPages) {
-    paginationContainer.appendChild(createBtn('>', currentPage + 1));
-  }
-}
+        // Next button
+        if (currentPage < totalPages) {
+          paginationContainer.appendChild(createBtn('>', currentPage + 1));
+        }
+      }
 
 
 
-    function createBtn(label, page) {
-      const a = document.createElement('a');
-      a.href = '#';
-      a.textContent = label;
-      a.className = 'pagination-btn';
-if (page === currentPage) {
-  a.classList.add('active');
-  a.setAttribute('aria-current', 'page');
-}
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPage(page);
-        fatwaList.scrollIntoView({ behavior: 'smooth' });
-      });
-      return a;
-    }
+      function createBtn(label, page) {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = label;
+        a.className = 'pagination-btn';
+        if (page === currentPage) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+        }
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          showPage(page);
+          fatwaList.scrollIntoView({ behavior: 'smooth' });
+        });
+        return a;
+      }
 
-    function filterFatwas(query) {
-      query = query.trim().toLowerCase();
-      if (!query) {
+      function filterFatwas(query) {
+        query = query.trim().toLowerCase();
+        if (!query) {
+          filteredFatwas = fatwas;
+        } else {
+          filteredFatwas = fatwas.filter(item => {
+            return item.textContent.toLowerCase().includes(query);
+          });
+        }
+        showPage(1);
+        document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
+      }
+
+      // *** Hook into your question fetch: ***
+      // Observe DOM change to #fatwaList so that we can grab all .question-item
+      const observer = new MutationObserver(() => {
+        fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
         filteredFatwas = fatwas;
-      } else {
-        filteredFatwas = fatwas.filter(item => {
-          return item.textContent.toLowerCase().includes(query);
+        showPage(1);
+        document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
+      });
+      observer.observe(fatwaList, { childList: true });
+
+      // Hook search
+      const searchInput = document.getElementById('fatwaSearch');
+      searchInput.addEventListener('input', function () {
+        filterFatwas(this.value);
+      });
+    });
+
+    // This is added to toggle the navbar hamburger menu for small screens
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
         });
       }
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
-    }
-
-    // *** Hook into your question fetch: ***
-    // Observe DOM change to #fatwaList so that we can grab all .question-item
-    const observer = new MutationObserver(() => {
-      fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      filteredFatwas = fatwas;
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
     });
-    observer.observe(fatwaList, { childList: true });
 
-    // Hook search
-    const searchInput = document.getElementById('fatwaSearch');
-    searchInput.addEventListener('input', function () {
-      filterFatwas(this.value);
-    });
-  });
-</script>
+  </script>
 
   <!-- Footer -->
   <footer style="
@@ -638,20 +773,23 @@ if (page === currentPage) {
 
       <a href="https://www.youtube.com/@falah.kurkully" target="_blank" class="social-icon">
         <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
-          <path d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z"/>
+          <path
+            d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z" />
         </svg>
 
-      <a href="https://www.tiktok.com/@falah.kurkully" target="_blank" class="social-icon">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
-          <path d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z"/>
-        </svg>
-      </a>
-      
-      <a href="https://instagram.com/falah.kurkully" target="_blank" class="social-icon">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
-          <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 2.5A5.5 5.5 0 0 0 6.5 12 5.5 5.5 0 0 0 12 17.5 5.5 5.5 0 0 0 17.5 12 5.5 5.5 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5zm4.75-2a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z"/>
-        </svg>
-      </a>
+        <a href="https://www.tiktok.com/@falah.kurkully" target="_blank" class="social-icon">
+          <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+            <path
+              d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z" />
+          </svg>
+        </a>
+
+        <a href="https://instagram.com/falah.kurkully" target="_blank" class="social-icon">
+          <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+            <path
+              d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 2.5A5.5 5.5 0 0 0 6.5 12 5.5 5.5 0 0 0 12 17.5 5.5 5.5 0 0 0 17.5 12 5.5 5.5 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5zm4.75-2a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z" />
+          </svg>
+        </a>
 
       </a>
     </div>
@@ -704,24 +842,54 @@ if (page === currentPage) {
       filter: drop-shadow(0 0 5px white);
     }
   </style>
-<script>
-   const toggleBtn = document.getElementById('toggleDarkMode');
-  const body = document.body;
+  <script>
+    const toggleBtn = document.getElementById('toggleDarkMode');
+    const body = document.body;
 
-  // Load saved mode
-  const savedMode = localStorage.getItem('mode');
-  if (savedMode === 'dark') {
-    body.classList.add('dark');
-    toggleBtn.textContent = '☀️ الوضع الفاتح';
-  }
+    // Load saved mode
+    // const savedMode = localStorage.getItem('mode');
+    // if (savedMode === 'dark') {
+    //   body.classList.add('dark');
+    //   toggleBtn.textContent = '☀️ الوضع الفاتح';
+    // }
 
-  toggleBtn.addEventListener('click', function () {
-    body.classList.toggle('dark');
-    const isDark = body.classList.contains('dark');
-    toggleBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌗 الوضع الليلي';
-    localStorage.setItem('mode', isDark ? 'dark' : 'light');
-  });
-</script>
+    // toggleBtn.addEventListener('click', function () {
+    //   body.classList.toggle('dark');
+    //   const isDark = body.classList.contains('dark');
+    //   toggleBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌗 الوضع الليلي';
+    //   localStorage.setItem('mode', isDark ? 'dark' : 'light');
+    // });
+
+
+        // Set icon based on saved mode
+    function setDarkIcon() {
+      const isDark = body.classList.contains('dark');
+      toggleBtn.textContent = isDark ? '☀️' : '🌗';
+      toggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+    // Apply saved mode on load
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode === 'dark') {
+      body.classList.add('dark');
+    }
+    setDarkIcon();
+
+    function toggleMode() {
+      body.classList.toggle('dark');
+      localStorage.setItem('mode', body.classList.contains('dark') ? 'dark' : 'light');
+      setDarkIcon();
+    }
+
+    toggleBtn.addEventListener('click', toggleMode);
+    toggleBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleMode();
+      }
+    });
+    
+  </script>
 
 </body>
+
 </html>

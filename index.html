@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AskSunnah.com provides Islamic answers from Dr. Sheikh Falah Kurkully based on Qur’an and Sunnah — clear, concise, and authentic.">
+  <meta name="description"
+    content="AskSunnah.com provides Islamic answers from Dr. Sheikh Falah Kurkully based on Qur’an and Sunnah — clear, concise, and authentic.">
   <title>AskSunnah.com - Get Answers from Dr. Sheikh Falah Kurkully</title>
   <style>
     :root {
@@ -58,7 +60,8 @@
       margin-bottom: 2rem;
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       color: var(--primary-color);
     }
 
@@ -94,7 +97,7 @@
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0,0,0,0.4);
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     .modal-content {
@@ -105,7 +108,7 @@
       width: 90%;
       max-width: 500px;
       border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
 
     .modal-content h3 {
@@ -144,7 +147,7 @@
       cursor: pointer;
     }
 
-    
+
 
     @media (max-width: 768px) {
       header h1 {
@@ -207,171 +210,298 @@
 
       footer a {
         font-size: 0.85rem;
-      }   
+      }
 
-      
+
 
     }
 
     body.dark {
-  --background: #0f172a;
-  --card-bg: #1e293b;
-  --accent-bg: #334155;
-  --text-color: #f1f5f9;
-}
+      --background: #0f172a;
+      --card-bg: #1e293b;
+      --accent-bg: #334155;
+      --text-color: #f1f5f9;
+    }
 
 
 
 
-body.dark .modal-content input,
-body.dark .modal-content textarea {
-  background-color: #334155;
-  color: #f1f5f9;
-  border: 1px solid #475569;
-}
+    body.dark .modal-content input,
+    body.dark .modal-content textarea {
+      background-color: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+    }
 
-body.dark .modal-content button {
-  background-color: #22c55e;
-  color: #fff;
-}
+    body.dark .modal-content button {
+      background-color: #22c55e;
+      color: #fff;
+    }
 body.dark .question-item:hover {
   color: #1e293b; 
 }
 body.dark #answerCount {
   color: var(--text-color) 
 }
-.dark-toggle-btn {
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: var(--text-color);
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-body.dark .dark-toggle-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #f1f5f9;
-}
-.question-item {
-  display: block;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-left: 5px solid var(--primary-color);
-  background-color: var(--accent-bg);
-  border-radius: 5px;
-  text-decoration: none;
-  color: inherit;
-  transition: background-color 0.2s;
-}
+    body.dark .question-item:hover {
+      color: #1e293b;
+    }
 
-.question-item:hover {
-  background-color: #e0f2f1;
-  cursor: pointer;
-}
+    body.dark #answerCount {
+      color: var(--text-color)
+    }
 
+    .dark-toggle-btn {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
 
+    body.dark .dark-toggle-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+    }
 
-body.dark header {
-  background-color: var(--primary-color) !important;
-}
+    .question-item {
+      display: block;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-left: 5px solid var(--primary-color);
+      background-color: var(--accent-bg);
+      border-radius: 5px;
+      text-decoration: none;
+      color: inherit;
+      transition: background-color 0.2s;
+    }
 
-body.dark header {
-  background-color: var(--primary-color) !important;
-}
-
-
-.pagination a,
-.pagination span {
-  display: inline-block;
-  padding: 0.5rem 0.75rem;
-  margin: 0 0.15rem;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  font-family: inherit;
-  color: var(--primary-color);           
-  background: #fff;                      
-  /* border: 1.5px solid var(--primary-color); */ /* <--- Remove or comment out */
-  transition: background 0.2s, color 0.2s;
-}
-
-
-.pagination a[aria-current="page"],
-.pagination a.active,
-.pagination a.selected {
-  background: var(--primary-color);      
-  color: #fff;                          
-  font-weight: bold;
-  pointer-events: none;
-  /* border: 1.5px solid var(--primary-color); */  /* <--- Remove or comment out */
-}
-
-
-.pagination a:hover:not([aria-current="page"]):not(.active) {
-  background: var(--secondary-color);    
-  color: #fff;
-  /* border: 1.5px solid var(--secondary-color); */  /* <--- Remove or comment out */
-  cursor: pointer;
-}
-
-
-.pagination span {
-  background: transparent !important;
-  color: #555 !important;
-  border: none !important;
-  cursor: default;
-}
+    .question-item:hover {
+      background-color: #e0f2f1;
+      cursor: pointer;
+    }
 
 
 
+    body.dark header {
+      background-color: var(--primary-color) !important;
+    }
 
+    body.dark header {
+      background-color: var(--primary-color) !important;
+    }
+
+
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.15rem;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--primary-color);
+      background: #fff;
+      /* border: 1.5px solid var(--primary-color); */
+      /* <--- Remove or comment out */
+      transition: background 0.2s, color 0.2s;
+    }
+
+
+    .pagination a[aria-current="page"],
+    .pagination a.active,
+    .pagination a.selected {
+      background: var(--primary-color);
+      color: #fff;
+      font-weight: bold;
+      pointer-events: none;
+      /* border: 1.5px solid var(--primary-color); */
+      /* <--- Remove or comment out */
+    }
+
+
+    .pagination a:hover:not([aria-current="page"]):not(.active) {
+      background: var(--secondary-color);
+      color: #fff;
+      /* border: 1.5px solid var(--secondary-color); */
+      /* <--- Remove or comment out */
+      cursor: pointer;
+    }
+
+
+    .pagination span {
+      background: transparent !important;
+      color: #555 !important;
+      border: none !important;
+      cursor: default;
+    }
+
+    .navbar {
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+
+    /* Hamburger Button */
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      position: absolute;
+      top: 0.6rem;
+      right: 1rem;
+      z-index: 11;
+    }
+
+    /* Small Screens */
+    @media (max-width: 768px) {
+
+      .navbar {
+        /* background:#e9f5ec; */
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+
+    /* Dark mode styles */
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
+    body.dark .nav-link {
+      color: white;
+    }
   </style>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4S7C7010H4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-4S7C7010H4', {
-    anonymize_ip: true,
-    client_storage: 'none',
-    allow_google_signals: false,
-    allow_ad_personalization_signals: false
-  });
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4S7C7010H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-4S7C7010H4', {
+      anonymize_ip: true,
+      client_storage: 'none',
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    });
 
-<link rel="icon" type="image/x-icon" href="example.ico">
+// This is added to toggle the navbar hamburger menu for small screens
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+
+
+  </script>
+
+  <link rel="icon" type="image/x-icon" href="example.ico">
 </head>
+
 <body>
 
+
   <header>
-    <h1>AskSunnah.com</h1>
-    <p>Get authentic answers from Dr. Sheikh Falah Kurkully — grounded in Qur’an and Sunnah (Beta-Version)</p>
-    <button class="dark-toggle-btn" id="toggleDarkMode">🌗 Dark Mode</button>
-
+    <h1>AskSunnah</h1>
+    <p>Authentic answers from Dr. Sheikh Falah Kurkully – grounded in Qur’an and Sunnah</p>
   </header>
+  <nav class="navbar" aria-label="Main Navigation">
+    <button class="nav-toggle" aria-label="Toggle Navigation" aria-expanded="false">
+      ☰
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="library/Welcome_to_library/Welcome_to_library.html" class="nav-link">Library</a></li>
+        <li><a href="about-us.html" class="nav-link">About Us</a></li>
+        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">Feedback</a>
+        </li>
+        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">Donate</a></li>
+        <li class="nav-darkmode">
+          <span id="toggleDarkMode" class="dark-toggle-icon" title="Toggle dark mode" tabindex="0"
+            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.6rem;display:inline-block;">🌗</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 1rem 0;">
-
-    <a href="library/Welcome_to_library/Welcome_to_library.html" class="btn" aria-label="Visit the Library">📚 Library</a>
-    <a href="https://www.paypal.me/asksunnah" class="btn" aria-label="Donate to support the deen">❤️ Help support the Deen</a>
-    <a href="https://forms.gle/e5jGuDBJhZAyCP448" class="btn" aria-label="Share your thoughts" target="_blank" rel="noopener">💬 Share your Thoughts</a>
-  </div>
 
   <main aria-label="Main Content Area">
     <section aria-labelledby="ask-question">
       <h2 id="ask-question">Ask a Question!</h2>
-      <p>Have a question about Islam? Submit it and get a response directly from Dr. Sheikh Falah Kurkully, based on one clear opinion from trusted scholars.</p>
+      <p>Have a question about Islam? Submit it and get a response directly from Dr. Sheikh Falah Kurkully, based on one
+        clear opinion from trusted scholars.</p>
       <a href="#" class="btn" id="openModalBtn" aria-label="Submit your question">Submit Your Question</a>
       <a href="/ar/" style="margin-left: 1rem; text-decoration: underline; color: inherit;">العربية</a>
     </section>
 
     <!-- Search Bar -->
     <div style="margin: 2rem 0;">
-      <input type="text" id="fatwaSearch" placeholder="Search..." 
+      <input type="text" id="fatwaSearch" placeholder="Search..."
         style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
     </div>
 
@@ -381,27 +511,27 @@ body.dark header {
         <span id="answerCount" style="font-size:0.95rem; display: block; margin-top: 0.5rem"></span>
       </div>
 
-      
+
       <!-- All question-items listed here -->
       <div id="fatwaList">
         <script>
-  document.addEventListener("DOMContentLoaded", async function () {
-    const fatwaList = document.getElementById("fatwaList");
-    const answerCount = document.getElementById("answerCount");
+          document.addEventListener("DOMContentLoaded", async function () {
+            const fatwaList = document.getElementById("fatwaList");
+            const answerCount = document.getElementById("answerCount");
 
-    try {
-      const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/all");
-      const data = await res.json();
-      answerCount.textContent = `Total Answers: ${data.length}`;
+            try {
+              const res = await fetch("https://asksunnah-backend-hno9.onrender.com/api/all");
+              const data = await res.json();
+              answerCount.textContent = `Total Answers: ${data.length}`;
 
-      fatwaList.innerHTML = data.map((item, index) =>
-        `<a href="questions/${item.slug}" class="question-item"><strong>Q${index + 1}:</strong> ${item.heading}</a>`
-      ).join("");
-    } catch (err) {
-      fatwaList.innerHTML = "<p style='color:red;'>❌ Failed to load questions.</p>";
-    }
-  });
-</script>
+              fatwaList.innerHTML = data.slice().reverse().map((item, index) =>
+                `<a href="questions/${item.slug}" class="question-item"><strong>Q${index + 1}:</strong> ${item.heading}</a>`
+              ).join("");
+            } catch (err) {
+              fatwaList.innerHTML = "<p style='color:red;'>❌ Failed to load questions.</p>";
+            }
+          });
+        </script>
         <!-- Add more question-items here if needed -->
       </div>
 
@@ -419,7 +549,8 @@ body.dark header {
         <textarea name="question" rows="5" placeholder="Your Question" required></textarea>
         <button type="submit">Send Question</button>
       </form>
-      <div id="thankYouMessage" style="display:none; margin-top: 1rem; color: green;">✅ Your question has been submitted. JazakAllah Khair!</div>
+      <div id="thankYouMessage" style="display:none; margin-top: 1rem; color: green;">✅ Your question has been
+        submitted. JazakAllah Khair!</div>
     </div>
   </div>
 
@@ -430,18 +561,18 @@ body.dark header {
     const form = document.getElementById("questionForm");
     const thankYou = document.getElementById("thankYouMessage");
 
-    openBtn.addEventListener("click", function(e) {
+    openBtn.addEventListener("click", function (e) {
       e.preventDefault();
       modal.style.display = "block";
     });
 
-    closeBtn.addEventListener("click", function() {
+    closeBtn.addEventListener("click", function () {
       modal.style.display = "none";
       form.reset();
       thankYou.style.display = "none";
     });
 
-    window.addEventListener("click", function(e) {
+    window.addEventListener("click", function (e) {
       if (e.target === modal) {
         modal.style.display = "none";
         form.reset();
@@ -449,7 +580,7 @@ body.dark header {
       }
     });
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
       const formData = new FormData(form);
       fetch(form.action, {
@@ -457,151 +588,151 @@ body.dark header {
         body: formData,
         headers: { Accept: "application/json" }
       })
-      .then(response => {
-        if (response.ok) {
-          form.style.display = "none";
-          thankYou.style.display = "block";
-        } else {
-          alert("Something went wrong. Please try again.");
-        }
-      })
-      .catch(() => alert("There was a problem submitting your question."));
+        .then(response => {
+          if (response.ok) {
+            form.style.display = "none";
+            thankYou.style.display = "block";
+          } else {
+            alert("Something went wrong. Please try again.");
+          }
+        })
+        .catch(() => alert("There was a problem submitting your question."));
     });
   </script>
 
-<!-- Page Pagination Buttons -->
-<script>
-  // 1. Wait for the fatwaList to be loaded and filled by your async fetch
-  document.addEventListener("DOMContentLoaded", function () {
-    const paginationContainer = document.querySelector('.pagination');
-    const fatwaList = document.getElementById('fatwaList');
-    let fatwas = [];
-    let itemsPerPage = 5;
-    let currentPage = 1;
-    let filteredFatwas = [];
+  <!-- Page Pagination Buttons -->
+  <script>
+    // 1. Wait for the fatwaList to be loaded and filled by your async fetch
+    document.addEventListener("DOMContentLoaded", function () {
+      const paginationContainer = document.querySelector('.pagination');
+      const fatwaList = document.getElementById('fatwaList');
+      let fatwas = [];
+      let itemsPerPage = 5;
+      let currentPage = 1;
+      let filteredFatwas = [];
 
-    // Helper: Rerender only the current page
-    function showPage(page) {
-      currentPage = page;
-      const start = (page - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
+      // Helper: Rerender only the current page
+      function showPage(page) {
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
 
-      fatwas.forEach((item, idx) => {
-        item.style.display = 'none';
-      });
-      filteredFatwas.slice(start, end).forEach(item => {
-        item.style.display = 'block';
-      });
-
-      renderPagination();
-    }
-
- function renderPagination() {
-  paginationContainer.innerHTML = '';
-  const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
-  if (totalPages <= 1) return;
-
-  // Previous button
-  if (currentPage > 1) {
-    paginationContainer.appendChild(createBtn('<', currentPage - 1));
-  }
-
-  // 1. For 4 or fewer pages, show all
-  if (totalPages <= 4) {
-    for (let i = 1; i <= totalPages; i++) {
-      paginationContainer.appendChild(createBtn(i, i));
-    }
-  } else {
-    // 2. For 5 or more pages
-    // Always show 1
-    paginationContainer.appendChild(createBtn(1, 1));
-
-    // Sliding window (currentPage in middle, when possible)
-    let start = Math.max(2, currentPage - 1);
-    let end = Math.min(totalPages - 1, currentPage + 1);
-
-    // Show ... if window is not right after 1
-    if (start > 2) {
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-    }
-
-    // Show middle window pages
-    for (let i = start; i <= end; i++) {
-      paginationContainer.appendChild(createBtn(i, i));
-    }
-
-    // Show ... if window is not right before last
-    if (end < totalPages - 1) {
-      const dot = document.createElement('span');
-      dot.textContent = '...';
-      dot.style.margin = '0 4px';
-      paginationContainer.appendChild(dot);
-    }
-
-    // Always show last page
-    paginationContainer.appendChild(createBtn(totalPages, totalPages));
-  }
-
-  // Next button
-  if (currentPage < totalPages) {
-    paginationContainer.appendChild(createBtn('>', currentPage + 1));
-  }
-}
-
-
-
-    function createBtn(label, page) {
-      const a = document.createElement('a');
-      a.href = '#';
-      a.textContent = label;
-      a.className = 'pagination-btn';
-if (page === currentPage) {
-  a.classList.add('active');
-  a.setAttribute('aria-current', 'page');
-}
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPage(page);
-        fatwaList.scrollIntoView({ behavior: 'smooth' });
-      });
-      return a;
-    }
-
-    function filterFatwas(query) {
-      query = query.trim().toLowerCase();
-      if (!query) {
-        filteredFatwas = fatwas;
-      } else {
-        filteredFatwas = fatwas.filter(item => {
-          return item.textContent.toLowerCase().includes(query);
+        fatwas.forEach((item, idx) => {
+          item.style.display = 'none';
         });
+        filteredFatwas.slice(start, end).forEach(item => {
+          item.style.display = 'block';
+        });
+
+        renderPagination();
       }
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
-    }
 
-    // *** Hook into your question fetch: ***
-    // Observe DOM change to #fatwaList so that we can grab all .question-itemgio
-    const observer = new MutationObserver(() => {
-      fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
-      filteredFatwas = fatwas;
-      showPage(1);
-      document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
+      function renderPagination() {
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(filteredFatwas.length / itemsPerPage);
+        if (totalPages <= 1) return;
+
+        // Previous button
+        if (currentPage > 1) {
+          paginationContainer.appendChild(createBtn('<', currentPage - 1));
+        }
+
+        // 1. For 4 or fewer pages, show all
+        if (totalPages <= 4) {
+          for (let i = 1; i <= totalPages; i++) {
+            paginationContainer.appendChild(createBtn(i, i));
+          }
+        } else {
+          // 2. For 5 or more pages
+          // Always show 1
+          paginationContainer.appendChild(createBtn(1, 1));
+
+          // Sliding window (currentPage in middle, when possible)
+          let start = Math.max(2, currentPage - 1);
+          let end = Math.min(totalPages - 1, currentPage + 1);
+
+          // Show ... if window is not right after 1
+          if (start > 2) {
+            const dot = document.createElement('span');
+            dot.textContent = '...';
+            dot.style.margin = '0 4px';
+            paginationContainer.appendChild(dot);
+          }
+
+          // Show middle window pages
+          for (let i = start; i <= end; i++) {
+            paginationContainer.appendChild(createBtn(i, i));
+          }
+
+          // Show ... if window is not right before last
+          if (end < totalPages - 1) {
+            const dot = document.createElement('span');
+            dot.textContent = '...';
+            dot.style.margin = '0 4px';
+            paginationContainer.appendChild(dot);
+          }
+
+          // Always show last page
+          paginationContainer.appendChild(createBtn(totalPages, totalPages));
+        }
+
+        // Next button
+        if (currentPage < totalPages) {
+          paginationContainer.appendChild(createBtn('>', currentPage + 1));
+        }
+      }
+
+
+
+      function createBtn(label, page) {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = label;
+        a.className = 'pagination-btn';
+        if (page === currentPage) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+        }
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          showPage(page);
+          fatwaList.scrollIntoView({ behavior: 'smooth' });
+        });
+        return a;
+      }
+
+      function filterFatwas(query) {
+        query = query.trim().toLowerCase();
+        if (!query) {
+          filteredFatwas = fatwas;
+        } else {
+          filteredFatwas = fatwas.filter(item => {
+            return item.textContent.toLowerCase().includes(query);
+          });
+        }
+        showPage(1);
+        document.getElementById('answerCount').textContent = `Total Answers: ${filteredFatwas.length}`;
+      }
+
+      // *** Hook into your question fetch: ***
+      // Observe DOM change to #fatwaList so that we can grab all .question-itemgio
+      const observer = new MutationObserver(() => {
+        fatwas = Array.from(fatwaList.querySelectorAll('.question-item'));
+        filteredFatwas = fatwas;
+        showPage(1);
+        document.getElementById('answerCount').textContent = `Total Answers: ${fatwas.length}`;
+      });
+      observer.observe(fatwaList, { childList: true });
+
+      // Hook search
+      const searchInput = document.getElementById('fatwaSearch');
+      searchInput.addEventListener('input', function () {
+        filterFatwas(this.value);
+      });
     });
-    observer.observe(fatwaList, { childList: true });
+  </script>
 
-    // Hook search
-    const searchInput = document.getElementById('fatwaSearch');
-    searchInput.addEventListener('input', function () {
-      filterFatwas(this.value);
-    });
-  });
-</script>
-
-<!-- Footer -->
+  <!-- Footer -->
 
   <footer style="background: linear-gradient(to top, #1f6f3e, #2e8b57 98%, transparent);
     color: white;
@@ -624,15 +755,24 @@ if (page === currentPage) {
       margin-bottom: 0.5rem;
     ">
       <a href="https://instagram.com/falah.kurkully" target="_blank" class="social-icon">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 2.5A5.5 5.5 0 0 0 6.5 12 5.5 5.5 0 0 0 12 17.5 5.5 5.5 0 0 0 17.5 12 5.5 5.5 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5zm4.75-2a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z"/></svg>
+        <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+          <path
+            d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 2.5A5.5 5.5 0 0 0 6.5 12 5.5 5.5 0 0 0 12 17.5 5.5 5.5 0 0 0 17.5 12 5.5 5.5 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 8.5zm4.75-2a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z" />
+        </svg>
       </a>
 
       <a href="https://www.tiktok.com/@falah.kurkully" target="_blank" class="social-icon">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z"/></svg>
+        <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+          <path
+            d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z" />
+        </svg>
       </a>
 
       <a href="https://www.youtube.com/@falah.kurkully" target="_blank" class="social-icon">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z"/></svg>
+        <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+          <path
+            d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z" />
+        </svg>
       </a>
     </div>
 
@@ -669,6 +809,7 @@ if (page === currentPage) {
         width: 24px;
         height: 24px;
       }
+
       footer a.social-icon {
         margin-bottom: 10px;
       }
@@ -683,27 +824,55 @@ if (page === currentPage) {
       transform: scale(1.2);
       filter: drop-shadow(0 0 5px white);
     }
-
   </style>
-<script>
-  const toggleBtn = document.getElementById('toggleDarkMode');
-  const body = document.body;
+  <script>
+    const toggleBtn = document.getElementById('toggleDarkMode');
+    const body = document.body;
 
-  // Apply saved mode on load
-  const savedMode = localStorage.getItem('mode');
-  if (savedMode === 'dark') {
-    body.classList.add('dark');
-    toggleBtn.textContent = '☀️ Light Mode';
-  }
+    // // Apply saved mode on load
+    // const savedMode = localStorage.getItem('mode');
+    // if (savedMode === 'dark') {
+    //   body.classList.add('dark');
+    //   toggleBtn.textContent = '☀️ Light Mode';
+    // }
 
-  toggleBtn.addEventListener('click', function () {
-    body.classList.toggle('dark');
+    // toggleBtn.addEventListener('click', function () {
+    //   body.classList.toggle('dark');
 
-    const isDark = body.classList.contains('dark');
-    toggleBtn.textContent = isDark ? '☀️ Light Mode' : '🌗 Dark Mode';
-    localStorage.setItem('mode', isDark ? 'dark' : 'light');
-  });
-</script>
+    //   const isDark = body.classList.contains('dark');
+    //   toggleBtn.textContent = isDark ? '☀️ Light Mode' : '🌗 Dark Mode';
+    //   localStorage.setItem('mode', isDark ? 'dark' : 'light');
+    // });
+
+
+    // Set icon based on saved mode
+    function setDarkIcon() {
+      const isDark = body.classList.contains('dark');
+      toggleBtn.textContent = isDark ? '☀️' : '🌗';
+      toggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+    // Apply saved mode on load
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode === 'dark') {
+      body.classList.add('dark');
+    }
+    setDarkIcon();
+
+    function toggleMode() {
+      body.classList.toggle('dark');
+      localStorage.setItem('mode', body.classList.contains('dark') ? 'dark' : 'light');
+      setDarkIcon();
+    }
+
+    toggleBtn.addEventListener('click', toggleMode);
+    toggleBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleMode();
+      }
+    });
+  </script>
 
 </body>
+
 </html>
