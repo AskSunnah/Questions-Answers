@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>English Books | Library</title>
+  <title>الكتب العربية | المكتبة</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <style>
     :root {
@@ -19,6 +19,7 @@
       background-size: cover;
       background-position: center;
       color: white;
+      direction: rtl;
     }
 
     header {
@@ -54,6 +55,8 @@
       border: none;
       width: 80%;
       max-width: 400px;
+      direction: rtl;
+      text-align: right;
     }
 
     .book-grid {
@@ -111,86 +114,82 @@
 <body>
 
   <header>
-    <h1>English Books</h1>
+    <h1>الكتب العربية</h1>
   </header>
 
   <div class="container">
-    <!-- 🔍 Search Bar -->
+    <!-- 🔍 شريط البحث -->
     <div class="search-bar">
-      <input type="text" placeholder="Search English books..." onkeyup="filterBooks()" id="searchInput" />
+      <input type="text" placeholder="ابحث في الكتب..." onkeyup="filterBooks()" id="searchInput" />
     </div>
 
-    <!-- 📚 Category Filter -->
+    <!-- 📚 الفلترة حسب التصنيف -->
     <div class="category-filter">
       <select id="categorySelect" onchange="filterBooks()">
-        <option value="all">All Categories</option>
-        <option value="aqeedah">Aqeedah</option>
-        <option value="seerah">Seerah</option>
-        <option value="hadith">Hadith</option>
-        <option value="fiqh">Fiqh</option>
-        <!-- Add more categories -->
+        <option value="all">كل التصنيفات</option>
+        <option value="aqeedah">عقيدة</option>
+        <option value="seerah">سيرة</option>
+        <option value="hadith">حديث</option>
+        <option value="fiqh">فقه</option>
       </select>
     </div>
 
-    <!-- 📘 Book Cards Will Be Injected Here -->
+    <!-- 📘 البطاقات -->
     <div class="book-grid" id="bookGrid">
-      <!-- Populated by JavaScript -->
+      <!-- يتم تعبئتها بواسطة JavaScript -->
     </div>
   </div>
 
   <script>
-    // 🔧 Example books array (replace with fetch from backend later)
     const books = [
       {
-        title: "The Fundamentals of Tawheed",
-        author: "Dr. Bilal Philips",
+        title: "شرح العقيدة الواسطية",
+        author: "ابن عثيمين",
         category: "aqeedah",
-        link: "/library/library_eng/book.html"
+        link: "/library/library_ar/book.html"
       },
       {
-        title: "The Sealed Nectar",
-        author: "Safī-ur-Rahmān al-Mubārakfūrī",
+        title: "الرحيق المختوم",
+        author: "صفي الرحمن المباركفوري",
         category: "seerah",
-        link: "/library/library_eng/book.html"
+        link: "/library/library_ar/book.html"
       },
       {
-        title: "Explanation of 40 Hadiths",
-        author: "Imam al-Nawawi",
+        title: "الأربعون النووية",
+        author: "الإمام النووي",
         category: "hadith",
-        link: "/library/library_eng/book.html"
+        link: "/library/library_ar/book.html"
       },
       {
-        title: "Fiqh Made Easy",
-        author: "Dr. Saalih al-Fawzaan",
+        title: "الفقه الميسر",
+        author: "صالح الفوزان",
         category: "fiqh",
-        link: "/library/library_eng/book.html"
+        link: "/library/library_ar/book.html"
       }
-      // Add more books or fetch from backend
     ];
 
-    // 🚀 Render all books initially
     window.onload = function () {
       renderBooks(books);
     };
 
-    // 📤 Filter books by search and category
     function filterBooks() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const category = document.getElementById("categorySelect").value;
 
       const filtered = books.filter(book => {
         const matchesCategory = category === "all" || book.category === category;
-        const matchesSearch = book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query);
+        const matchesSearch =
+          book.title.toLowerCase().includes(query) ||
+          book.author.toLowerCase().includes(query);
         return matchesCategory && matchesSearch;
       });
 
       renderBooks(filtered);
     }
 
-    // 🧱 Render books into #bookGrid
     function renderBooks(bookList) {
       const container = document.getElementById("bookGrid");
-      container.innerHTML = ""; // Clear previous
+      container.innerHTML = "";
 
       bookList.forEach(book => {
         const card = document.createElement("div");
@@ -200,7 +199,7 @@
         card.innerHTML = `
           <div class="book-title">${book.title}</div>
           <div class="book-author">${book.author}</div>
-          <a href="${book.link}">Read Book</a>
+          <a href="${book.link}">اقرأ الكتاب</a>
         `;
 
         container.appendChild(card);
@@ -210,4 +209,3 @@
 
 </body>
 </html>
-    
