@@ -1,0 +1,109 @@
+<!-- book.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+
+    header {
+      background-color: #166534;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .book-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .author-link {
+      font-size: 1rem;
+      color: #166534;
+      text-decoration: none;
+    }
+
+    .metadata {
+      margin: 2rem 0;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .toc h3 {
+      margin-top: 2rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      color: #1e40af;
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="book-title">The Simplest Jurisprudence Book</h1>
+    <a href="#" class="author-link">[ Abu Hanifa ]</a>
+  </header>
+
+  <div class="container">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumbs">Doctrine · Book sections · Home</div>
+
+    <!-- Book Metadata (can be rendered from backend later) -->
+    <div class="metadata">
+      <strong>Book:</strong> Al-Fiqh Al-Absat (with simplified explanation)<br />
+      <strong>Author:</strong> Attributed to Abu Hanifa Al-Nu’man (d. 150 AH)<br />
+      <strong>Publisher:</strong> Al-Furqan Library - UAE<br />
+      <strong>Edition:</strong> First, 1419 AH - 1999 AD<br />
+      <strong>Number of Pages:</strong> 167<br />
+      <strong>Note:</strong> [Book numbering matches the printed version]
+    </div>
+
+    <!-- Table of Contents (can loop over chapters from backend later) -->
+    <div class="toc">
+      <h3>Index of Topics</h3>
+      <ul>
+        <li><a href="read.html?page=1">In the name of God, the most gracious...</a></li>
+        <li><a href="read.html?page=2">From the principles of the Sunnis and the community</a></li>
+        <li><a href="read.html?page=3">Definition of faith and its pillars</a></li>
+        <li><a href="read.html?page=4">Ruling on denying something essential</a></li>
+        <!-- Add more chapters here -->
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

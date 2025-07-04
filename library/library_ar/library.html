@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المكتبة</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #1f6f3e;
+      --secondary-color: #2e8b57;
+      --background: #f7f7f7;
+      --card-bg: #ffffff;
+      --accent-bg: #f0f4fa;
+      --text-color: #2c3e50;
+      --font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background-color: #f9fafb;
+    }
+
+    /* Header */
+    header {
+      background-color: #166534;
+      color: white;
+      padding: 2rem 1rem 1rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    main {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/library-bg.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      text-align: center;
+      color: #fff;
+      font-family: var(--font-family);
+      border: 4px solid white;
+    }
+
+    main button {
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      background-color: #166534;
+      border: none;
+      border-radius: 6px;
+      height: 50px;
+      width: 160px;
+      cursor: pointer;
+      margin: 0.5rem;
+    }
+
+    main button:hover {
+      background-color: #e2e8f0;
+      color: #166534;
+    }
+
+    .navbar {
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      position: absolute;
+      top: 0.6rem;
+      left: 1rem;
+      z-index: 11;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
+
+    body.dark .nav-link {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>المكتبة</h1>
+  </header>
+
+  <nav class="navbar" aria-label="شريط التنقل">
+    <button class="nav-toggle" aria-label="تبديل القائمة" aria-expanded="false">☰</button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
+        <li><a href="/ar/about-us_ar.html" class="nav-link">عن الموقع</a></li>
+        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank">شارك برأيك</a></li>
+        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">تبرع</a></li>
+        <li><a href="/library/library_eng/library.html" class="nav-link">English</a></li>
+        <li class="nav-darkmode">
+          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="تفعيل الوضع الداكن" tabindex="0"
+            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;"></i>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <h1>مرحبًا بكم في المكتبة، يا طلاب العلم!</h1>
+    <div>
+      <button onclick="location.href='/library/ar_books.html'">الكتب العربية</button>
+      <button onclick="location.href='/library/en_books.html'">الكتب الإنجليزية</button>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

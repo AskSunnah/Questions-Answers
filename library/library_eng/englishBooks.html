@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Books | Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1f6f3e;
+      --accent-bg: rgba(255, 255, 255, 0.1);
+      --font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                  url('/static/library-bg.webp');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    header {
+      background-color: rgba(22, 101, 52, 0.9);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+    }
+
+    .search-bar,
+    .category-filter {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .search-bar input,
+    .category-filter select {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .book-card {
+      background-color: var(--accent-bg);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .book-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-author {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+
+    .book-card a {
+      align-self: start;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .book-card a:hover {
+      background-color: #14532d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>English Books</h1>
+  </header>
+
+  <div class="container">
+    <!-- 🔍 Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search English books..." onkeyup="filterBooks()" id="searchInput" />
+    </div>
+
+    <!-- 📚 Category Filter -->
+    <div class="category-filter">
+      <select id="categorySelect" onchange="filterBooks()">
+        <option value="all">All Categories</option>
+        <option value="aqeedah">Aqeedah</option>
+        <option value="seerah">Seerah</option>
+        <option value="hadith">Hadith</option>
+        <option value="fiqh">Fiqh</option>
+        <!-- Add more categories -->
+      </select>
+    </div>
+
+    <!-- 📘 Book Cards Will Be Injected Here -->
+    <div class="book-grid" id="bookGrid">
+      <!-- Populated by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    // 🔧 Example books array (replace with fetch from backend later)
+    const books = [
+      {
+        title: "The Fundamentals of Tawheed",
+        author: "Dr. Bilal Philips",
+        category: "aqeedah",
+        link: "/library/eng/book1.html"
+      },
+      {
+        title: "The Sealed Nectar",
+        author: "Safī-ur-Rahmān al-Mubārakfūrī",
+        category: "seerah",
+        link: "/library/eng/book2.html"
+      },
+      {
+        title: "Explanation of 40 Hadiths",
+        author: "Imam al-Nawawi",
+        category: "hadith",
+        link: "/library/eng/book3.html"
+      },
+      {
+        title: "Fiqh Made Easy",
+        author: "Dr. Saalih al-Fawzaan",
+        category: "fiqh",
+        link: "/library/eng/book4.html"
+      }
+      // Add more books or fetch from backend
+    ];
+
+    // 🚀 Render all books initially
+    window.onload = function () {
+      renderBooks(books);
+    };
+
+    // 📤 Filter books by search and category
+    function filterBooks() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const category = document.getElementById("categorySelect").value;
+
+      const filtered = books.filter(book => {
+        const matchesCategory = category === "all" || book.category === category;
+        const matchesSearch = book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
+
+      renderBooks(filtered);
+    }
+
+    // 🧱 Render books into #bookGrid
+    function renderBooks(bookList) {
+      const container = document.getElementById("bookGrid");
+      container.innerHTML = ""; // Clear previous
+
+      bookList.forEach(book => {
+        const card = document.createElement("div");
+        card.className = "book-card";
+        card.setAttribute("data-category", book.category);
+
+        card.innerHTML = `
+          <div class="book-title">${book.title}</div>
+          <div class="book-author">${book.author}</div>
+          <a href="${book.link}">View Book</a>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>
+    

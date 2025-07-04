@@ -1,0 +1,161 @@
+<!-- read.html -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Read Book</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .content-area {
+      flex: 1;
+      padding: 2rem;
+      max-width: 70%;
+    }
+
+    .sidebar {
+      width: 30%;
+      max-width: 300px;
+      background-color: #f1f5f9;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+      border-left: 1px solid #ddd;
+    }
+
+    .chapter-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .pagination {
+      margin-bottom: 1rem;
+    }
+
+    .pagination button,
+    .pagination input {
+      padding: 0.3rem 0.7rem;
+      margin-right: 0.3rem;
+      font-size: 1rem;
+    }
+
+    .font-controls {
+      margin-bottom: 1rem;
+    }
+
+    .font-controls button {
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .book-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      transition: font-size 0.2s ease;
+    }
+
+    .chapter-list h3 {
+      margin-bottom: 1rem;
+    }
+
+    .chapter-list a {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #1e40af;
+      text-decoration: none;
+    }
+
+    .chapter-list a.active {
+      font-weight: bold;
+      color: #166534;
+    }
+  </style>
+</head>
+<body>
+  <div class="content-area">
+    <!-- Breadcrumb -->
+    <div class="breadcrumbs">Book index ‹ In the name of God, the most gracious...</div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button onclick="goToPage(1)">«</button>
+      <button onclick="prevPage()"><</button>
+      <input type="number" id="pageInput" value="1" onchange="goToPage(this.value)" />
+      <button onclick="nextPage()">></button>
+      <button onclick="goToPage(999)">»</button>
+    </div>
+
+    <!-- Font Resize Controls -->
+    <div class="font-controls">
+      Font size:
+      <button onclick="resizeText(-1)">-A</button>
+      <button onclick="resizeText(1)">+A</button>
+    </div>
+
+    <!-- Book Content Area -->
+    <div id="bookText" class="book-text">
+      <!-- Load from backend in real use -->
+      <p>Praise be to God, Lord of the Worlds, and may blessings and peace be upon our Master Muhammad, his family and companions.</p>
+      <p>Imam Abu Bakr bin Muhammad al-Kasani narrated...</p>
+    </div>
+  </div>
+
+  <!-- Sidebar Chapter Navigation -->
+  <div class="sidebar">
+    <div class="chapter-list">
+      <h3>Chapters of the Book</h3>
+      <a href="read.html?page=1" class="active">In the name of God, the most gracious...</a>
+      <a href="read.html?page=2">From the principles of the Sunnis...</a>
+      <a href="read.html?page=3">Definition of faith and its pillars</a>
+      <a href="read.html?page=4">Ruling on denying something...</a>
+      <!-- More links -->
+    </div>
+  </div>
+
+  <script>
+    // Font resize logic
+    let currentFontSize = 1.1;
+
+    function resizeText(delta) {
+      currentFontSize += delta * 0.1;
+      document.getElementById('bookText').style.fontSize = currentFontSize + 'rem';
+    }
+
+    // Pagination (dummy logic, hook into backend later)
+    function goToPage(page) {
+      window.location.href = `read.html?page=${page}`;
+    }
+
+    function prevPage() {
+      const current = parseInt(document.getElementById('pageInput').value);
+      if (current > 1) goToPage(current - 1);
+    }
+
+    function nextPage() {
+      const current = parseInt(document.getElementById('pageInput').value);
+      goToPage(current + 1);
+    }
+
+    // On load: read page from URL
+    window.onload = function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const page = urlParams.get('page');
+      document.getElementById('pageInput').value = page || 1;
+      // Later: fetch and load chapter content by page number
+    };
+  </script>
+</body>
+</html>
