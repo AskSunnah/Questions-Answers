@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="احصل على إجابات شرعية من الدكتور الشيخ فلاح كركلي، مستندة من القرآن والسنة.">
-  <title>AskSunnah.com - إجابات من الشيخ فلاح كركولي</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <title>Ask Sunnah - إجابات من الشيخ فلاح كركولي</title>
   <style>
     :root {
       --primary-color: #1f6f3e;
@@ -392,6 +393,7 @@
     /* Small Screens */
     @media (max-width: 768px) {
 
+
       .navbar {
         /* background:#e9f5ec; */
         padding: 1.5rem 0;
@@ -405,6 +407,7 @@
         display: none;
         width: 100%;
       }
+
 
       .nav-menu.open {
         display: block;
@@ -436,7 +439,8 @@
 <body>
 
   <header>
-    <h1>AskSunnah.com</h1>
+    <h1>اسأل السنة
+</h1>
     <p>احصل على إجابات شرعية موثوقة من الشيخ الدكتور فلاح كركولي — مستندة من القرآن والسنة (نسخة تجريبية)</p>
     <!-- <button class="dark-toggle-btn" id="toggleDarkMode">🌗 الوضع الليلي </button> -->
 
@@ -451,29 +455,20 @@
       <ul>
         <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
         <li><a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="nav-link">المكتبة</a></li>
-        <li><a href="/ar/about-us_ar.html" class="nav-link">من نحن</a></li>
+
+        <li><a href="/ar/about-us_ar.html" class="nav-link">عن الموقع</a></li>
         <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">شاركنا
             رأيك</a></li>
-        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">تبرع</a></li>
-        <li class="nav-darkmode">
-          <span id="toggleDarkMode" class="dark-toggle-icon" title="تبديل الوضع الليلي" tabindex="0"
-            aria-label="تبديل الوضع الليلي" style="cursor:pointer;font-size:1.6rem;display:inline-block;">🌗</span>
+        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">ساهم</a></li>
+        <li class="nav-darkmode" style="margin-top: 10px;">
+          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
+            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
+
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Remove it as navbar created for it already -->
-  <!-- <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 1rem 0;">
-    <a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="btn" aria-label="زيارة المكتبة">
-      📚 المكتبة
-    </a>
-    <a href="https://www.paypal.me/asksunnah" class="btn" aria-label="تبرع لدعم الموقع">
-      ❤️ ساهم في دعم هذا العمل
-    </a>
-    <a href="https://forms.gle/e5jGuDBJhZAyCP448" class="btn" aria-label="ساهم باقتراحك" target="_blank" rel="noopener">💬 ساهم باقتراحك</a>
-
-  </div> -->
 
   <main aria-label="الصفحة الرئيسية">
     <section aria-labelledby="ask-question">
@@ -846,25 +841,14 @@
     const toggleBtn = document.getElementById('toggleDarkMode');
     const body = document.body;
 
-    // Load saved mode
-    // const savedMode = localStorage.getItem('mode');
-    // if (savedMode === 'dark') {
-    //   body.classList.add('dark');
-    //   toggleBtn.textContent = '☀️ الوضع الفاتح';
-    // }
-
-    // toggleBtn.addEventListener('click', function () {
-    //   body.classList.toggle('dark');
-    //   const isDark = body.classList.contains('dark');
-    //   toggleBtn.textContent = isDark ? '☀️ الوضع الفاتح' : '🌗 الوضع الليلي';
-    //   localStorage.setItem('mode', isDark ? 'dark' : 'light');
-    // });
-
-
-        // Set icon based on saved mode
+     // Set icon based on saved mode
+ 
     function setDarkIcon() {
       const isDark = body.classList.contains('dark');
-      toggleBtn.textContent = isDark ? '☀️' : '🌗';
+      toggleBtn.className = isDark
+        ? 'dark-toggle-icon fa-solid fa-sun'
+        : 'dark-toggle-icon fa-solid fa-moon';
+
       toggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     }
     // Apply saved mode on load
