@@ -267,7 +267,7 @@
 <body>
 
 <header>
-  <h1>Explanation of the Fundamentals of Ahl al-Sunnah wa’l-Jamāʿah</h1>
+  <h1 id="bookTitle"></h1>
 </header>
 <nav class="navbar" aria-label="Main Navigation">
     <button class="nav-toggle" aria-label="Toggle Navigation" aria-expanded="false">
@@ -292,47 +292,18 @@
     <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="" width="30px">
   </button>
       <aside class="sidebar">
-        <!-- load from backend -->
-        <h2>Table of content</h2>
-        <a href="#">In the Name of Allah, the Most Merciful</a>
-        <a href="#">Foundations of Ahl al-Sunnah wa’l-Jamāʿah</a>
-        <a href="#">Definition of Faith and its Pillars</a>
-        <a href="#">Ruling on Denying the Creator</a>
-        <a href="#">Speech on Free Will</a>
-        <a href="#">Refutation of Those Who Claim Allah Didn't Create Evil</a>
-        <a href="#">In the Name of Allah, the Most Merciful</a>
-        <a href="#">Foundations of Ahl al-Sunnah wa’l-Jamāʿah</a>
-        <a href="#">Definition of Faith and its Pillars</a>
-        <a href="#">Ruling on Denying the Creator</a>
-        <a href="#">Speech on Free Will</a>
-        <a href="#">Refutation of Those Who Claim Allah Didn't Create Evil</a>
-      </aside>
+  <!-- dynamically filled by JS -->
+      </aside>  
       <main>
         <div class="content">
-        <div id="pageContent">
-          <!-- load from backend -->
-          <p style="text-align: center; color: #6b7280;">[In the Name of Allah, the Most Merciful, the Most Compassionate]</p>
-          <p>
-            All praise is due to Allah, Lord of the worlds, and peace and blessings be upon our Prophet Muhammad and his family and companions.
-            Imam Abu Bakr narrated from Abu ‘Ammar ʿAmmār ibn Aḥmad al-Samarqandī, who said: Abū al-ʿAyn Maymūn ibn Muḥammad ibn Makḥūl al-Nasafī informed us...
-          </p>
-          <p>
-            From the foundations of Ahl al-Sunnah wa’l-Jamāʿah: I asked Abū Ḥanīfah al-Nuʿmān ibn Thābit (may Allah be pleased with him) about al-Fiqh al-Akbar. He said: Do not declare anyone from the People of the Qiblah a disbeliever due to sin...
-          </p>
+          <div id="pageContent">
+          </div>
         </div>
-      </div>
       <hr>
       <div class="referencebox">
-        <ul id="referencesList">
-          1.reference q
-        </ul>
-        <ul id="referencesList">
-          1.reference q
-        </ul>
-        <ul id="referencesList">
-          1.reference q
-        </ul>
+        <ul id="referencesList"></ul>
       </div>
+
       <hr>
         <div class="controls">
           <button onclick="changeFontSize(-1)">-</button>
@@ -352,7 +323,140 @@
 </footer>
  </body>
 <script>
+  let book = null;
+  let currentPage = 0;
   let fontSize = 1.1;
+
+  async function fetchBook() {
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    if (!slug) return alert("No book slug found in URL.");
+
+    try {
+      const res = await fetch(`https://asksunnah-backend-hno9.onrender.com/api/books/en/${slug}`);
+      const data = await res.json();
+      book = data.book;
+      document.getElementById("bookTitle").textContent = book.title;
+      currentPage = 0;
+      renderPage();
+      renderSidebar();
+    } catch (err) {
+      console.error("Error fetching book:", err);
+      document.getElementById('pageContent').innerHTML = "<p>Failed to load book.</p>";
+    }
+  }
+
+  function renderPage() {
+    if (!book || !book.pages || book.pages.length === 0) return;
+
+    const page = book.pages[currentPage];
+    if (!page) return;
+
+    const container = document.getElementById('pageContent');
+    container.innerHTML = "";
+
+    const references = [];
+
+    page.blocks.forEach(block => {
+      const el = document.createElement("div");
+
+      if (["ayah", "hadith", "quote"].includes(block.type) && block.reference) {
+        references.push(block.reference);
+      }
+
+      switch (block.type) {
+        case "heading":
+          el.innerHTML = `<h3>${block.text}</h3>`;
+          break;
+        case "paragraph":
+          el.innerHTML = `<p>${block.text}</p>`;
+          break;
+        case "quote":
+          el.innerHTML = `<blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">${block.text}</blockquote>`;
+          break;
+        case "hadith":
+          el.innerHTML = `
+            <p><strong>${block.text}</strong></p>
+            ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+            ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
+          `;
+          break;
+        case "ayah":
+          el.innerHTML = `
+            <p style="font-weight:bold; color:#25603a;">${block.text}</p>
+            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+          `;
+          break;
+        default:
+          el.innerHTML = `<p>${block.text}</p>`;
+      }
+
+      container.appendChild(el);
+    });
+
+    // Render references at the bottom
+    const refList = document.getElementById("referencesList");
+    refList.innerHTML = "";
+    references.forEach((ref, idx) => {
+      const li = document.createElement("li");
+      li.textContent = `${idx + 1}. ${ref}`;
+      refList.appendChild(li);
+    });
+
+    document.getElementById('pageInput').value = currentPage + 1;
+  }
+
+  function renderSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  sidebar.innerHTML = "<h2>Table of Contents</h2>";
+
+  let flatPages = [];
+
+  // Step 1: Flatten all pages first
+  book.chapters.forEach((chapter, chapterIndex) => {
+    chapter.pages.forEach((pg, pageIndex) => {
+      flatPages.push({ ...pg, chapterIndex, pageIndex });
+    });
+  });
+
+  // Step 2: Set globally accessible flat list
+  book.pages = flatPages;
+
+  // Step 3: Immediately show the first page
+  currentPage = 0;
+  renderPage();
+
+  // Step 4: Build sidebar with clickable chapter links
+  book.chapters.forEach((chapter, chapterIndex) => {
+    const chapterLink = document.createElement('a');
+    chapterLink.href = "#";
+    chapterLink.textContent = chapter.title;
+
+    chapterLink.onclick = (e) => {
+      e.preventDefault();
+      const firstPageIndex = book.pages.findIndex(p => p.chapterIndex === chapterIndex);
+      if (firstPageIndex !== -1) {
+        currentPage = firstPageIndex;
+        renderPage();
+        highlightSidebar(currentPage);
+      }
+    };
+
+    sidebar.appendChild(chapterLink);
+  });
+
+  highlightSidebar(currentPage); // highlight the first chapter by default
+}
+
+
+
+
+  function highlightSidebar(activeIndex) {
+    const links = document.querySelectorAll(".sidebar a");
+    links.forEach((link, i) => {
+      link.classList.toggle("active", i === activeIndex);
+    });
+  }
 
   function changeFontSize(delta) {
     fontSize += delta * 0.1;
@@ -361,11 +465,23 @@
 
   function goToPage(action) {
     const input = document.getElementById('pageInput');
-    let currentPage = parseInt(input.value);
-    if (action === 'prev' && currentPage > 1) input.value = currentPage - 1;
-    else if (action === 'next') input.value = currentPage + 1;
+    let target = parseInt(input.value) - 1;
+
+    if (action === 'prev' && currentPage > 0) {
+      currentPage--;
+    } else if (action === 'next' && currentPage < book.pages.length - 1) {
+      currentPage++;
+    } else if (action === 'goto' && target >= 0 && target < book.pages.length) {
+      currentPage = target;
+    }
+
+    renderPage();
+    highlightSidebar(currentPage);
   }
+
+  window.onload = fetchBook;
 </script>
+
 
 </body>
 </html>

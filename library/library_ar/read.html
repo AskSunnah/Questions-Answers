@@ -61,8 +61,10 @@
       font-size: 0.95rem;
     }
 
-    .sidebar a:hover {
-      color: #166534;
+    .sidebar a:hover,
+    .sidebar a.active {
+      color: #14532d;
+      font-weight: bold;
     }
 
     .sidebar-toggle {
@@ -71,7 +73,6 @@
       background: none;
       border: none;
       cursor: pointer;
-      text-align: left;
       margin: 6px;
       color: var(--primary-color);
     }
@@ -112,6 +113,7 @@
 
     .controls button:hover {
       background-color: #e5e5e5;
+      color: #000;
     }
 
     .referencebox {
@@ -169,43 +171,14 @@
     }
 
     @media (max-width: 768px) {
-      .nav-toggle {
-        display: block;
-      }
-
-      .nav-menu {
-        display: none;
-        width: 100%;
-      }
-
-      .nav-menu.open {
-        display: block;
-      }
-
-      .navbar ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .layout {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        display: none;
-        width: 100vw;
-        max-height: 50vh;
-        overflow-y: auto;
-      }
-
-      .sidebar.open {
-        display: block;
-      }
-
-      .sidebar-toggle {
-        display: block;
-      }
+      .nav-toggle { display: block; }
+      .nav-menu { display: none; width: 100%; }
+      .nav-menu.open { display: block; }
+      .navbar ul { flex-direction: column; align-items: center; gap: 1rem; }
+      .layout { flex-direction: column; }
+      .sidebar { display: none; width: 100vw; max-height: 50vh; overflow-y: auto; }
+      .sidebar.open { display: block; }
+      .sidebar-toggle { display: block; }
     }
 
     .footer {
@@ -217,8 +190,9 @@
   </style>
 </head>
 <body>
+
 <header>
-  <h1>شرح أُصول أهل السُّنَّة والجماعة</h1>
+  <h1 id="bookTitle">جاري تحميل العنوان...</h1>
 </header>
 
 <nav class="navbar" aria-label="Main Navigation">
@@ -237,39 +211,22 @@
 
 <div class="layout">
   <button class="sidebar-toggle" aria-label="تبديل الشريط الجانبي">
-    <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="" width="30px">
+    <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="قائمة" width="30px">
   </button>
 
   <aside class="sidebar">
-    <h2>فهرس المحتويات</h2>
-    <a href="#">بسم الله الرحمن الرحيم</a>
-    <a href="#">أصول أهل السنة والجماعة</a>
-    <a href="#">تعريف الإيمان وأركانه</a>
-    <a href="#">حكم إنكار الخالق</a>
-    <a href="#">الكلام في الإرادة الحرة</a>
-    <a href="#">الرد على من زعم أن الله لم يخلق الشر</a>
+    <!-- الفهرس سيتم تحميله تلقائيًا -->
   </aside>
 
   <main>
     <div class="content">
-      <div id="pageContent">
-        <p style="text-align: center; color: #6b7280;">[بسم الله الرحمن الرحيم]</p>
-        <p>الحمد لله رب العالمين، وصلى الله وسلم على نبينا محمد وعلى آله وصحبه أجمعين.</p>
-        <p>
-          قال الإمام أبو بكر عن أبي عمّار عمار بن أحمد السمرقندي: أخبرنا أبو العين ميمون بن محمد بن مخول النسفي...
-        </p>
-        <p>
-          من أصول أهل السنة والجماعة: سألت أبا حنيفة النعمان بن ثابت رضي الله عنه عن الفقه الأكبر، فقال: لا تكفر أحدًا من أهل القبلة بذنب...
-        </p>
-      </div>
+      <div id="pageContent"></div>
     </div>
 
     <hr>
 
     <div class="referencebox">
-      <ul id="referencesList"><li>١. مرجع</li></ul>
-      <ul id="referencesList"><li>٢. مرجع</li></ul>
-      <ul id="referencesList"><li>٣. مرجع</li></ul>
+      <ul id="referencesList"></ul>
     </div>
 
     <hr>
@@ -278,7 +235,7 @@
       <button onclick="changeFontSize(-1)">-</button>
       <button onclick="changeFontSize(1)">+</button>
       <button onclick="goToPage('prev')">‹</button>
-      <input type="number" id="pageInput" value="76" style="width: 60px;">
+      <input type="number" id="pageInput" value="1" style="width: 60px;">
       <button onclick="goToPage('next')">›</button>
     </div>
   </main>
@@ -287,7 +244,119 @@
 <footer class="footer"></footer>
 
 <script>
+  let book = null;
+  let currentPage = 0;
   let fontSize = 1.1;
+
+  async function fetchBook() {
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    if (!slug) return alert("لم يتم تحديد الكتاب.");
+
+    try {
+      const res = await fetch(`https://asksunnah-backend-hno9.onrender.com/api/books/ar/${slug}`);
+      const data = await res.json();
+      book = data.book;
+      document.getElementById("bookTitle").textContent = book.title;
+      currentPage = 0;
+      renderPage();
+      renderSidebar();
+    } catch (err) {
+      console.error("حدث خطأ في تحميل الكتاب:", err);
+      document.getElementById('pageContent').innerHTML = "<p>فشل تحميل محتوى الكتاب.</p>";
+    }
+  }
+
+  function renderPage() {
+    if (!book || !book.pages || book.pages.length === 0) return;
+    const page = book.pages[currentPage];
+    if (!page) return;
+
+    const container = document.getElementById('pageContent');
+    container.innerHTML = "";
+
+    const references = [];
+
+    page.blocks.forEach(block => {
+      const el = document.createElement("div");
+      if (["ayah", "hadith", "quote"].includes(block.type) && block.reference) {
+        references.push(block.reference);
+      }
+
+      switch (block.type) {
+        case "heading":
+          el.innerHTML = `<h3>${block.text}</h3>`; break;
+        case "paragraph":
+          el.innerHTML = `<p>${block.text}</p>`; break;
+        case "quote":
+          el.innerHTML = `<blockquote style="border-right: 3px solid var(--primary-color); padding-right: 1rem; color: #1f6f3e;">${block.text}</blockquote>`; break;
+        case "hadith":
+          el.innerHTML = `
+            <p><strong>${block.text}</strong></p>
+            ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+            ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}`; break;
+        case "ayah":
+          el.innerHTML = `
+            <p style="font-weight:bold; color:#25603a;">${block.text}</p>
+            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}`; break;
+        default:
+          el.innerHTML = `<p>${block.text}</p>`;
+      }
+      container.appendChild(el);
+    });
+
+    const refList = document.getElementById("referencesList");
+    refList.innerHTML = "";
+    references.forEach((ref, idx) => {
+      const li = document.createElement("li");
+      li.textContent = `${idx + 1}. ${ref}`;
+      refList.appendChild(li);
+    });
+
+    document.getElementById('pageInput').value = currentPage + 1;
+  }
+
+ function renderSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  sidebar.innerHTML = "<h2>فهرس المحتويات</h2>";
+
+  let flatPages = [];
+
+  // Step 1: Flatten all pages first
+  book.chapters.forEach((chapter, chapterIndex) => {
+    chapter.pages.forEach((pg, pageIndex) => {
+      flatPages.push({ ...pg, chapterIndex, pageIndex });
+    });
+  });
+
+  // Step 2: Set globally accessible flat list
+  book.pages = flatPages;
+
+  // Step 3: Immediately show the first page
+  currentPage = 0;
+  renderPage();
+
+  // Step 4: Build sidebar with clickable chapter links
+  book.chapters.forEach((chapter, chapterIndex) => {
+    const chapterLink = document.createElement('a');
+    chapterLink.href = "#";
+    chapterLink.textContent = chapter.title;
+
+    chapterLink.onclick = (e) => {
+      e.preventDefault();
+      const firstPageIndex = book.pages.findIndex(p => p.chapterIndex === chapterIndex);
+      if (firstPageIndex !== -1) {
+        currentPage = firstPageIndex;
+        renderPage();
+        highlightSidebar(currentPage);
+      }
+    };
+
+    sidebar.appendChild(chapterLink);
+  });
+
+  highlightSidebar(currentPage); // highlight the first chapter by default
+}
 
   function changeFontSize(delta) {
     fontSize += delta * 0.1;
@@ -296,33 +365,16 @@
 
   function goToPage(action) {
     const input = document.getElementById('pageInput');
-    let currentPage = parseInt(input.value);
-    if (action === 'prev' && currentPage > 1) input.value = currentPage - 1;
-    else if (action === 'next') input.value = currentPage + 1;
+    let target = parseInt(input.value) - 1;
+    if (action === 'prev' && currentPage > 0) currentPage--;
+    else if (action === 'next' && currentPage < book.pages.length - 1) currentPage++;
+    else if (action === 'goto' && target >= 0 && target < book.pages.length) currentPage = target;
+    renderPage();
+    highlightSidebar(currentPage);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const navToggleBtn = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
-    const sidebar = document.querySelector('.sidebar');
-
-    if (navToggleBtn && navMenu) {
-      navToggleBtn.addEventListener('click', () => {
-        const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
-        navToggleBtn.setAttribute('aria-expanded', !expanded);
-        navMenu.classList.toggle('open');
-      });
-    }
-
-    if (sidebarToggleBtn && sidebar) {
-      sidebarToggleBtn.addEventListener('click', () => {
-        const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
-        sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
-        sidebar.classList.toggle('open');
-      });
-    }
-  });
+  document.addEventListener('DOMContentLoaded', fetchBook);
 </script>
+
 </body>
 </html>

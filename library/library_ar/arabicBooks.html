@@ -141,71 +141,66 @@
   </div>
 
   <script>
-    const books = [
-      {
-        title: "شرح العقيدة الواسطية",
-        author: "ابن عثيمين",
-        category: "aqeedah",
-        link: "/library/library_ar/book.html"
-      },
-      {
-        title: "الرحيق المختوم",
-        author: "صفي الرحمن المباركفوري",
-        category: "seerah",
-        link: "/library/library_ar/book.html"
-      },
-      {
-        title: "الأربعون النووية",
-        author: "الإمام النووي",
-        category: "hadith",
-        link: "/library/library_ar/book.html"
-      },
-      {
-        title: "الفقه الميسر",
-        author: "صالح الفوزان",
-        category: "fiqh",
-        link: "/library/library_ar/book.html"
-      }
-    ];
+  let books = [];
 
-    window.onload = function () {
+  window.onload = async function () {
+    try {
+      const response = await fetch('https://asksunnah-backend-hno9.onrender.com/api/books/ar'); 
+      const data = await response.json();
+
+      books = data.books.map(book => ({
+        title: book.title,
+        author: book.author || "غير معروف",
+        category: book.category?.toLowerCase() || "uncategorized",
+        link: `/library/library_ar/read.html?slug=${book.slug}`
+      }));
+
       renderBooks(books);
-    };
+    } catch (err) {
+      console.error("فشل تحميل الكتب:", err);
+    }
+  };
 
-    function filterBooks() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const category = document.getElementById("categorySelect").value;
+  function filterBooks() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const category = document.getElementById("categorySelect").value;
 
-      const filtered = books.filter(book => {
-        const matchesCategory = category === "all" || book.category === category;
-        const matchesSearch =
-          book.title.toLowerCase().includes(query) ||
-          book.author.toLowerCase().includes(query);
-        return matchesCategory && matchesSearch;
-      });
+    const filtered = books.filter(book => {
+      const matchesCategory = category === "all" || book.category === category;
+      const matchesSearch =
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query);
+      return matchesCategory && matchesSearch;
+    });
 
-      renderBooks(filtered);
+    renderBooks(filtered);
+  }
+
+  function renderBooks(bookList) {
+    const container = document.getElementById("bookGrid");
+    container.innerHTML = "";
+
+    if (bookList.length === 0) {
+      container.innerHTML = "<p>لا توجد كتب مطابقة.</p>";
+      return;
     }
 
-    function renderBooks(bookList) {
-      const container = document.getElementById("bookGrid");
-      container.innerHTML = "";
+    bookList.forEach(book => {
+      const card = document.createElement("div");
+      card.className = "book-card";
+      card.setAttribute("data-category", book.category);
 
-      bookList.forEach(book => {
-        const card = document.createElement("div");
-        card.className = "book-card";
-        card.setAttribute("data-category", book.category);
+      card.innerHTML = `
+        <div class="book-title">${book.title}</div>
+        <div class="book-author">${book.author}</div>
+        <a href="${book.link}">اقرأ الكتاب</a>
+      `;
 
-        card.innerHTML = `
-          <div class="book-title">${book.title}</div>
-          <div class="book-author">${book.author}</div>
-          <a href="${book.link}">اقرأ الكتاب</a>
-        `;
+      container.appendChild(card);
+    });
+  }
+</script>
 
-        container.appendChild(card);
-      });
-    }
-  </script>
 
 </body>
 </html>
