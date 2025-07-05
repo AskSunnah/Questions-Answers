@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Admin - Ask Sunnah</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            color: #1e293b;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f6f3e;
+            margin-bottom: 1.5rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .language-toggle button {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #e2e8f0;
+            color: #1e293b;
+            transition: background 0.3s;
+        }
+
+        .language-toggle button.active {
+            background-color: #287346;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-left: 5px solid #287346;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        button {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        button.delete-btn {
+            background-color: #e53e3e;
+            color: white;
+        }
+
+        button.edit-btn {
+            background-color: gray;
+            color: white;
+        }
+
+        /* Modal Styles */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #1e293b;
+            border: 1px solid #ccc;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #modal strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #modal button {
+            background: #287346;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Manage Books</h1>
+
+    <div class="language-toggle">
+        <button id="btn-en" class="active" onclick="switchLanguage('en')">English</button>
+        <button id="btn-ar" onclick="switchLanguage('ar')">Arabic</button>
+    </div>
+
+    <ul id="book-list"></ul>
+
+    <!-- Modal -->
+    <div id="modal">
+        <strong id="modal-title"></strong>
+        <span id="modal-message"></span>
+        <br />
+        <div id="modal-actions">
+            <!-- Yes/No buttons will be injected here for delete confirmation -->
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const API = "https://asksunnah-backend-hno9.onrender.com";
+        let currentLanguage = "en";
+
+        async function fetchBooks(lang) {
+            const list = document.getElementById("book-list");
+            list.innerHTML = "Loading books...";
+
+            try {
+                const res = await fetch(`${API}/api/books/${lang}`);
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.message || "Failed to load");
+
+                renderBooks(data.books, lang);
+            } catch (err) {
+                showModal("Error", err.message || "Failed to load books.");
+                list.innerHTML = `<li style="color:red;">Error: ${err.message}</li>`;
+            }
+        }
+
+        function renderBooks(books, lang) {
+            const list = document.getElementById("book-list");
+            list.innerHTML = "";
+
+            if (!books.length) {
+                list.innerHTML = `<li>No books found in ${lang === 'en' ? 'English' : 'Arabic'}.</li>`;
+                return;
+            }
+
+            books.forEach(book => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+          <span>${book.title}</span>
+          <div class="actions">
+            <button class="edit-btn" onclick="editBook('${lang}', '${book.slug}')">Edit</button>
+            <button class="delete-btn" onclick="deleteBook('${lang}', '${book.slug}', this)">Delete</button>
+          </div>
+        `;
+                list.appendChild(li);
+            });
+        }
+
+        function deleteBook(lang, slug, btn) {
+            // Show custom modal for confirmation
+            showDeleteConfirmModal("Delete Book", "Are you sure you want to delete this book?", async function onYes() {
+                btn.disabled = true;
+                btn.innerText = "Deleting...";
+
+                try {
+                    const endpoint = `${API}/api/books/${lang}/${slug}`;
+                    const res = await fetch(endpoint, { method: "DELETE" });
+                    const data = await res.json();
+
+                    if (res.ok && data.success) {
+                        btn.closest("li").remove();
+                        // Remove or comment out the next line to prevent the second modal:
+                        // showModal("Success", "Book deleted successfully.");
+                    } else {
+                        showModal("Error", data.message || "Delete failed");
+                        btn.disabled = false;
+                        btn.innerText = "Delete";
+                    }
+                } catch (err) {
+                    showModal("Error", "Something went wrong while deleting the book.");
+                    btn.disabled = false;
+                    btn.innerText = "Delete";
+                }
+            });
+        }
+        function editBook(lang, slug) {
+            showModal("Edit Book", `Coming soon: Edit book with slug "${slug}"`);
+
+        }
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById("btn-en").classList.toggle("active", lang === "en");
+            document.getElementById("btn-ar").classList.toggle("active", lang === "ar");
+            fetchBooks(lang);
+        }
+
+        function showModal(title, message) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal').style.display = 'block';
+
+            setTimeout(() => {
+                if (document.getElementById('modal').style.display === 'block') {
+                    closeModal();
+                }
+            }, 4000);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function showDeleteConfirmModal(title, message, onYes) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+
+            const actionsDiv = document.getElementById('modal-actions');
+            actionsDiv.innerHTML = `
+    <button id="modal-yes" style="background:#e53e3e; color:white; border:none; padding:0.5rem 1.2rem; font-weight:bold; border-radius:6px; cursor:pointer; margin-right:1rem;">Yes</button>
+    <button id="modal-no" style="background:#287346; color:white; border:none; padding:0.5rem 1.2rem; font-weight:bold; border-radius:6px; cursor:pointer;">No</button>
+  `;
+
+            document.getElementById('modal').style.display = 'block';
+
+            document.getElementById('modal-yes').onclick = function () {
+                closeModal();
+                onYes();
+            };
+            document.getElementById('modal-no').onclick = function () {
+                closeModal();
+            };
+        }
+
+        // Initial Load
+        fetchBooks(currentLanguage);
+    </script>
+
+</body>
+
+</html>
