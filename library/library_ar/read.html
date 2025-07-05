@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>قراءة الكتاب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary-color: #1f6f3e;
+      --secondary-color: #2e8b57;
+      --background: #f7f7f7;
+      --card-bg: #ffffff;
+      --accent-bg: #f0f4fa;
+      --text-color: #2c3e50;
+      --font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-family);
+      margin: 0;
+      color: #111827;
+      background-color: var(--background);
+      direction: rtl;
+    }
+
+    header {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/library-bg.webp');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .layout {
+      display: flex;
+      flex-direction: row;
+      padding: 1em;
+    }
+
+    .sidebar {
+      width: 20%;
+      background-color: #fff;
+      border-left: 1px solid #e5e7eb;
+      padding: 1rem;
+      overflow-y: scroll;
+      height: 70vh;
+    }
+
+    .sidebar h2 {
+      font-size: 1.2rem;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar a {
+      display: block;
+      text-decoration: none;
+      color: var(--primary-color);
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+    }
+
+    .sidebar a:hover {
+      color: #166534;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      margin: 6px;
+      color: var(--primary-color);
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem;
+      line-height: 2;
+      font-size: 1.1rem;
+      background-color: #ffffff;
+      border: 2px solid #bad5c590;
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .controls input,
+    .controls button {
+      margin: 0 0.3rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .controls input {
+      border: 1px solid #ccc;
+      background-color: white;
+    }
+
+    .controls button {
+      border: 1px solid #ccc;
+      background-color: var(--primary-color);
+      color: white;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background-color: #e5e5e5;
+    }
+
+    .referencebox {
+      font-size: x-small;
+      padding: 1em;
+    }
+
+    hr {
+      border: 1px solid #a8e0c075;
+      width: 90%;
+    }
+
+    .navbar {
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      position: absolute;
+      top: 0.6rem;
+      left: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        display: none;
+        width: 100vw;
+        max-height: 50vh;
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        display: block;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 1rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>شرح أُصول أهل السُّنَّة والجماعة</h1>
+</header>
+
+<nav class="navbar" aria-label="Main Navigation">
+  <button class="nav-toggle" aria-label="تبديل التنقل" aria-expanded="false">☰</button>
+  <div class="nav-menu">
+    <ul>
+      <li><a href="/" class="nav-link">الرئيسية</a></li>
+      <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
+      <li><a href="/library/library_ar/book.html" class="nav-link">العودة إلى الكتاب</a></li>
+      <li class="nav-darkmode">
+        <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="الوضع الليلي" tabindex="0" style="cursor:pointer;font-size:1.3rem;"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="layout">
+  <button class="sidebar-toggle" aria-label="تبديل الشريط الجانبي">
+    <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="" width="30px">
+  </button>
+
+  <aside class="sidebar">
+    <h2>فهرس المحتويات</h2>
+    <a href="#">بسم الله الرحمن الرحيم</a>
+    <a href="#">أصول أهل السنة والجماعة</a>
+    <a href="#">تعريف الإيمان وأركانه</a>
+    <a href="#">حكم إنكار الخالق</a>
+    <a href="#">الكلام في الإرادة الحرة</a>
+    <a href="#">الرد على من زعم أن الله لم يخلق الشر</a>
+  </aside>
+
+  <main>
+    <div class="content">
+      <div id="pageContent">
+        <p style="text-align: center; color: #6b7280;">[بسم الله الرحمن الرحيم]</p>
+        <p>الحمد لله رب العالمين، وصلى الله وسلم على نبينا محمد وعلى آله وصحبه أجمعين.</p>
+        <p>
+          قال الإمام أبو بكر عن أبي عمّار عمار بن أحمد السمرقندي: أخبرنا أبو العين ميمون بن محمد بن مخول النسفي...
+        </p>
+        <p>
+          من أصول أهل السنة والجماعة: سألت أبا حنيفة النعمان بن ثابت رضي الله عنه عن الفقه الأكبر، فقال: لا تكفر أحدًا من أهل القبلة بذنب...
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="referencebox">
+      <ul id="referencesList"><li>١. مرجع</li></ul>
+      <ul id="referencesList"><li>٢. مرجع</li></ul>
+      <ul id="referencesList"><li>٣. مرجع</li></ul>
+    </div>
+
+    <hr>
+
+    <div class="controls">
+      <button onclick="changeFontSize(-1)">-</button>
+      <button onclick="changeFontSize(1)">+</button>
+      <button onclick="goToPage('prev')">‹</button>
+      <input type="number" id="pageInput" value="76" style="width: 60px;">
+      <button onclick="goToPage('next')">›</button>
+    </div>
+  </main>
+</div>
+
+<footer class="footer"></footer>
+
+<script>
+  let fontSize = 1.1;
+
+  function changeFontSize(delta) {
+    fontSize += delta * 0.1;
+    document.getElementById('pageContent').style.fontSize = fontSize + 'rem';
+  }
+
+  function goToPage(action) {
+    const input = document.getElementById('pageInput');
+    let currentPage = parseInt(input.value);
+    if (action === 'prev' && currentPage > 1) input.value = currentPage - 1;
+    else if (action === 'next') input.value = currentPage + 1;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const navToggleBtn = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (navToggleBtn && navMenu) {
+      navToggleBtn.addEventListener('click', () => {
+        const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+        navToggleBtn.setAttribute('aria-expanded', !expanded);
+        navMenu.classList.toggle('open');
+      });
+    }
+
+    if (sidebarToggleBtn && sidebar) {
+      sidebarToggleBtn.addEventListener('click', () => {
+        const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
+        sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
+        sidebar.classList.toggle('open');
+      });
+    }
+  });
+</script>
+</body>
+</html>

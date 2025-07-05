@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title>قراءة الكتاب | المكتبة</title>
+  <title>Read Book</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --primary-color: #1f6f3e;
+      --secondary-color: #2e8b57;
+      --background: #f7f7f7;
+      --card-bg: #ffffff;
+      --accent-bg: #f0f4fa;
+      --text-color: #2c3e50;
+      --font-family: 'Segoe UI', sans-serif;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f9f9f9;
       color: #111827;
-      direction: rtl;
+      direction: ltr;
+      margin: 0;
     }
 
     header {
-      background-color: #166534;
+      background-image:
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+       url('/static/library-bg.webp'); 
+      background-size: cover;
+      background-position: center;
       color: white;
       padding: 1rem 2rem;
       text-align: center;
@@ -23,15 +36,17 @@
     .layout {
       display: flex;
       flex-direction: row;
-      min-height: 90vh;
+      padding: 1em;
+      
     }
 
     .sidebar {
       width: 20%;
       background-color: #fff;
-      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
       padding: 1rem;
-      overflow-y: auto;
+      overflow-y: scroll;
+      height: 70vh;
     }
 
     .sidebar h2 {
@@ -43,21 +58,31 @@
     .sidebar a {
       display: block;
       text-decoration: none;
-      color: #1e3a8a;
+      color: var(--primary-color);
       padding: 0.4rem 0;
       font-size: 0.95rem;
+      overflow: auto;
     }
 
     .sidebar a:hover {
       color: #166534;
     }
-
+    .sidebar-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: right;
+      margin: 6px;
+      color: var(--primary-color);
+    }
     .content {
       flex: 1;
-      padding: 2rem;
       line-height: 2;
       font-size: 1.1rem;
       background-color: #ffffff;
+      border: 2px solid #bad5c590;
     }
 
     .controls {
@@ -65,7 +90,7 @@
       margin-bottom: 1rem;
     }
 
-    .controls button, .controls input {
+     .controls input {
       margin: 0 0.3rem;
       padding: 0.4rem 0.7rem;
       border: 1px solid #ccc;
@@ -74,11 +99,134 @@
       cursor: pointer;
       font-family: inherit;
     }
-
+    .controls button{
+      margin: 0 0.3rem;
+      padding: 0.4rem 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: white;
+      background-color: var(--primary-color);
+      cursor: pointer;
+      font-family: inherit;
+    }
     .controls button:hover {
       background-color: #e5e5e5;
     }
+    .referencebox{
+      font-size: x-small;
+      bottom: 0;
+      padding: 1em;
+    }
+    hr{
+      border: 1px solid #a8e0c075;
+      width: 90%;
+    }
+    .navbar {
+      background-repeat: no-repeat;
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
 
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+
+    /* Hamburger Button */
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      position: absolute;
+      top: 0.6rem;
+      right: 1rem;
+      z-index: 11;
+    }
+
+    /* Small Screens */
+    @media (max-width: 768px) {
+
+      .navbar {
+        /* background:#e9f5ec; */
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      /* body{
+        display: flex;
+        flex-direction: column;
+      } */
+      .layout{
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar {
+        display: none;
+        width: 100vw;
+        overflow-y: auto;
+        max-height: 50vh;
+     }
+     .sidebar-toggle{
+      display: block;
+     }
+      .sidebar.open {
+        
+        display: block;
+    }
+    }
+
+    /* Dark mode styles */
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
     .footer {
       text-align: center;
       font-size: 0.9rem;
@@ -86,55 +234,123 @@
       color: #6b7280;
     }
   </style>
+  <script>// This is added to toggle the navbar hamburger menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+    // This is added to toggle the sidebar menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar');
+
+  if (sidebarToggleBtn && sidebar) {
+    sidebarToggleBtn.addEventListener('click', () => {
+      const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
+      sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
+      sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
+    });
+  }
+});
+    </script>
 </head>
 <body>
 
 <header>
-  <h1>قراءة الكتاب: شرح أصول أهل السنة والجماعة</h1>
+  <h1>Explanation of the Fundamentals of Ahl al-Sunnah wa’l-Jamāʿah</h1>
 </header>
-
-<div class="layout">
-  <aside class="sidebar">
-    <h2>فصول الكتاب</h2>
-    <a href="#">بسم الله الرحمن الرحيم</a>
-    <a href="#">من أصول أهل السنة والجماعة</a>
-    <a href="#">أفضل الفقه وتعريف الإيمان وأركانه</a>
-    <a href="#">حكم من كذب بالخالق</a>
-    <a href="#">الكلام عن الاستطاعة</a>
-    <a href="#">الرد على من زعم أن الله لم يخلق الشر</a>
-    <!-- Add more as needed -->
-  </aside>
-
-  <main class="content">
-    <div class="controls">
-      <button onclick="changeFontSize(-1)">-A</button>
-      <button onclick="changeFontSize(1)">+A</button>
-      <button onclick="goToPage('prev')">‹</button>
-      <input type="number" id="pageInput" value="76" style="width: 60px;">
-      <button onclick="goToPage('next')">›</button>
-      <button onclick="goToPage('goto')">اذهب</button>
+<nav class="navbar" aria-label="Main Navigation">
+    <button class="nav-toggle" aria-label="Toggle Navigation" aria-expanded="false">
+      ☰
+    </button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/library/library_eng/library.html" class="nav-link">Library</a></li>
+        <!-- add the actual book link here using slug -->
+        <li><a href="/library/library_eng/book.html" class="nav-link">Back to Book</a></li>
+        <li class="nav-darkmode" style="margin-top: 10px;">
+          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
+          aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
+          
+        </li>
+      </ul>
     </div>
-
-    <div id="pageContent">
-      <p style="text-align: center; color: #6b7280;">[بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ]</p>
-      <p>
-        الحمد لله رب العالمين، والصلاة والسلام على سيدنا محمد وآله وصحبه أجمعين.
-        رُوي الإمام أبو بكر عن أبي عمار عمار بن أحمد السمرقندي قال: أخبرنا أبو العين ميمون بن محمد بن مكحول النسفي...
-      </p>
-      <p>
-        من أصول أهل السنة والجماعة: سألت أبا حنيفة النعمان بن ثابت رضي الله عنه عن الفقه الأكبر، فقال: لا تكفر أحداً من أهل القبلة بذنب...
-      </p>
-      <!-- More page content -->
+  </nav>
+    <div class="layout">
+      <button class="sidebar-toggle" aria-label="Toggle sidebar">
+    <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="" width="30px">
+  </button>
+      <aside class="sidebar">
+        <!-- load from backend -->
+        <h2>Table of content</h2>
+        <a href="#">In the Name of Allah, the Most Merciful</a>
+        <a href="#">Foundations of Ahl al-Sunnah wa’l-Jamāʿah</a>
+        <a href="#">Definition of Faith and its Pillars</a>
+        <a href="#">Ruling on Denying the Creator</a>
+        <a href="#">Speech on Free Will</a>
+        <a href="#">Refutation of Those Who Claim Allah Didn't Create Evil</a>
+        <a href="#">In the Name of Allah, the Most Merciful</a>
+        <a href="#">Foundations of Ahl al-Sunnah wa’l-Jamāʿah</a>
+        <a href="#">Definition of Faith and its Pillars</a>
+        <a href="#">Ruling on Denying the Creator</a>
+        <a href="#">Speech on Free Will</a>
+        <a href="#">Refutation of Those Who Claim Allah Didn't Create Evil</a>
+      </aside>
+      <main>
+        <div class="content">
+        <div id="pageContent">
+          <!-- load from backend -->
+          <p style="text-align: center; color: #6b7280;">[In the Name of Allah, the Most Merciful, the Most Compassionate]</p>
+          <p>
+            All praise is due to Allah, Lord of the worlds, and peace and blessings be upon our Prophet Muhammad and his family and companions.
+            Imam Abu Bakr narrated from Abu ‘Ammar ʿAmmār ibn Aḥmad al-Samarqandī, who said: Abū al-ʿAyn Maymūn ibn Muḥammad ibn Makḥūl al-Nasafī informed us...
+          </p>
+          <p>
+            From the foundations of Ahl al-Sunnah wa’l-Jamāʿah: I asked Abū Ḥanīfah al-Nuʿmān ibn Thābit (may Allah be pleased with him) about al-Fiqh al-Akbar. He said: Do not declare anyone from the People of the Qiblah a disbeliever due to sin...
+          </p>
+        </div>
+      </div>
+      <hr>
+      <div class="referencebox">
+        <ul id="referencesList">
+          1.reference q
+        </ul>
+        <ul id="referencesList">
+          1.reference q
+        </ul>
+        <ul id="referencesList">
+          1.reference q
+        </ul>
+      </div>
+      <hr>
+        <div class="controls">
+          <button onclick="changeFontSize(-1)">-</button>
+          <button id="turn-page" onclick="changeFontSize(1)">+</button>
+          <button id="turn-page" onclick="goToPage('prev')">‹</button>
+          <!-- this value should display current page number -->
+          <input type="number" id="pageInput" value="76" style="width: 60px;">
+          <button onclick="goToPage('next')">›</button>
+        </div>
+      </main>
     </div>
-    <div class="referencebox">references here
-    <ul id="referencesList"></ul></div>
-  </main>
-</div>
+  
+ 
 
 <footer class="footer">
-  المصدر: المكتبة الشاملة | جميع الحقوق محفوظة
+  
 </footer>
-
+ </body>
 <script>
   let fontSize = 1.1;
 
@@ -146,13 +362,8 @@
   function goToPage(action) {
     const input = document.getElementById('pageInput');
     let currentPage = parseInt(input.value);
-    if (action === 'first') input.value = 1;
-    else if (action === 'prev' && currentPage > 1) input.value = currentPage - 1;
+    if (action === 'prev' && currentPage > 1) input.value = currentPage - 1;
     else if (action === 'next') input.value = currentPage + 1;
-    else if (action === 'last') input.value = 999; // Placeholder
-    else if (action === 'goto') {
-      alert("سيتم تحميل الصفحة " + input.value); // Replace with actual load
-    }
   }
 </script>
 
