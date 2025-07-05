@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description" content="عن الموقع — الرؤية، المهمة، المنهجية، تحت إشراف الدكتور الشيخ فلاح كركولي." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <title>عن الموقع — Ask Sunnah</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="عن الموقع — الرؤية، المهمة، المنهجية، تحت إشراف الدكتور الشيخ فلاح كركولي." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -39,6 +46,7 @@
       text-align: right;
     }
 
+
     header.hero {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
@@ -46,15 +54,18 @@
       text-align: center;
     }
 
+
     header.hero h1 {
       font-size: 2.75rem;
       margin-bottom: .5rem;
     }
 
+
     header.hero p {
       font-size: 1.1rem;
       opacity: .9;
     }
+
 
     main.container {
       max-width: 900px;
@@ -62,14 +73,17 @@
       padding: 0 1rem;
     }
 
+
     .card {
       background: var(--card-bg);
       border-right: 5px solid var(--primary);
       border-radius: 8px;
       padding: 1.5rem;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
       margin-bottom: 1.5rem;
     }
+
 
     .card h2 {
       color: var(--primary);
@@ -81,10 +95,12 @@
       font-size: 1rem;
     }
 
+
     .card ul {
       list-style: disc inside;
       margin-top: .5rem;
     }
+
 
     .footer {
       background: linear-gradient(to top, #1f6f3e, #2e8b57 98%, transparent);
@@ -95,21 +111,25 @@
       margin-top: 4rem;
     }
 
+
     .footer .social-icon {
       display: inline-block;
       margin: 0 0.5rem;
       transition: transform 0.3s ease, filter 0.3s ease;
     }
 
+
     .footer .social-icon:hover {
       transform: scale(1.2);
       filter: drop-shadow(0 0 5px white);
     }
 
+
     .bio {
       margin-top: .75rem;
       font-size: 1rem;
     }
+
 
     .dua-section {
       background: var(--card-bg);
@@ -118,9 +138,11 @@
       margin-top: 2rem;
       font-style: italic;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
       text-align: center;
       font-size: 1.05rem;
     }
+
 
     @media (max-width: 600px) {
       .footer svg {
@@ -218,37 +240,108 @@
     body.dark .nav-link {
       color: white;
     }
+
+
+    .navbar {
+      background: #e9f5ec;
+      padding: 1rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+      background: var(--secondary);
+      color: #fff;
+    }
+
+    /* Hamburger Button */
+    .nav-toggle {
+      display: none;
+      font-size: 1.3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      position: absolute;
+      top: 0.6rem;
+      right: 1rem;
+      z-index: 11;
+    }
+
+    /* Small Screens */
+    @media (max-width: 768px) {
+
+      .navbar {
+        /* background:#e9f5ec; */
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+
+    /* Dark mode styles */
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
+
+    body.dark .nav-link {
+      color: white;
+    }
   </style>
 </head>
+
 
 <body>
 
   <!-- Hero Section -->
   <header class="hero" data-aos="fade">
     <h1>عن الموقع</h1>
+    <h1>عن الموقع</h1>
     <p>أجوبة موثوقة من الدكتور الشيخ فلاح كركولي — مستندة إلى القرآن والسنة ومنهج السلف الصالح.</p>
   </header>
-
-    <!-- Navbar -->
-  <nav class="navbar" aria-label="التنقل الرئيسي">
-    <button class="nav-toggle" aria-label="تبديل القائمة" aria-expanded="false">
-      ☰
-    </button>
-    <div class="nav-menu">
-      <ul>
-        <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
-        <li><a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="nav-link">المكتبة</a></li>
-        <li><a href="/ar/about-us_ar.html" class="nav-link">عن الموقع</a></li>
-        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">شاركنا
-            رأيك</a></li>
-        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">ساهم</a></li>
-        <li class="nav-darkmode" style="margin-top: 10px;">
-          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
-            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
   <!-- Main Content -->
   <main class="container">
@@ -258,12 +351,16 @@
       <h2>الرؤية</h2>
       <p>بناء موسوعة شاملة وسهلة الوصول للمعرفة الإسلامية — مستندة إلى القرآن الكريم وسنة النبي ﷺ ومنهج السلف الصالح.
       </p>
+      <p>بناء موسوعة شاملة وسهلة الوصول للمعرفة الإسلامية — مستندة إلى القرآن الكريم وسنة النبي ﷺ ومنهج السلف الصالح.
+      </p>
     </section>
 
     <!-- Mission -->
     <section class="card" data-aos="fade-up">
       <h2>المهمة</h2>
+
       <p>AskSunnah هو منصة تعليمية ودعوية تُقدم إجابات علمية واضحة تحت إشراف الدكتور الشيخ فلاح كركولي (دكتوراه في
+
         علوم الحديث). نرحب بالأسئلة من المسلمين وغير المسلمين حول المسائل الإسلامية والاجتماعية والشخصية.</p>
     </section>
 
@@ -297,6 +394,12 @@
       <p class="bio">
         الدكتور الشيخ فلاح كركولي هو عالم إسلامي متميز حاصل على دكتوراه في علوم الحديث. تتلمذ على أيدي كبار العلماء مثل
         الشيخ ابن عثيمين، الشيخ صالح الفوزان، الشيخ عبد المحسن العباد، الشيخ مقبل بن هادي الوادعي، والشيخ أبو بكر
+
+        الجزائري. لديه عقود من الخبرة في مجال الدعوة والتعليم، ويقدم عبر AskSunnah أجوبة مبنية على العلم والدقة
+
+        والأمانة الشرعية.
+        الدكتور الشيخ فلاح كركولي هو عالم إسلامي متميز حاصل على دكتوراه في علوم الحديث. تتلمذ على أيدي كبار العلماء مثل
+        الشيخ ابن عثيمين، الشيخ صالح الفوزان، الشيخ عبد المحسن العباد، الشيخ مقبل بن هادي الوادعي، والشيخ أبو بكر
         الجزائري. لديه عقود من الخبرة في مجال الدعوة والتعليم، ويقدم عبر AskSunnah أجوبة مبنية على العلم والدقة
         والأمانة الشرعية.
       </p>
@@ -319,11 +422,15 @@
         <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
           <path
             d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z" />
+          <path
+            d="M21.8 8.001a2.752 2.752 0 0 0-1.938-1.938C18.23 6 12 6 12 6s-6.23 0-7.862.063A2.752 2.752 0 0 0 2.2 8.001 28.914 28.914 0 0 0 2 12a28.914 28.914 0 0 0 .2 3.999 2.752 2.752 0 0 0 1.938 1.938C5.77 18 12 18 12 18s6.23 0 7.862-.063a2.752 2.752 0 0 0 1.938-1.938A28.914 28.914 0 0 0 22 12a28.914 28.914 0 0 0-.2-3.999zM10 15V9l5 3-5 3z" />
         </svg>
       </a>
       <a href="https://www.tiktok.com/@falah.kurkully" target="_blank" class="social-icon">
         <!-- TikTok -->
         <svg width="28" height="28" fill="white" viewBox="0 0 24 24">
+          <path
+            d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z" />
           <path
             d="M16.5 1a5.51 5.51 0 0 0 4.5 2V6a7.5 7.5 0 0 1-4.5-1.5V14a6.5 6.5 0 1 1-6.5-6.5c.5 0 1 .07 1.5.2v2.16a3.5 3.5 0 1 0 2 3.14V1h3z" />
         </svg>
@@ -342,6 +449,9 @@
     <a href="#"
       style="display: inline-block; background-color: white; color: #1a1a1a; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none; font-weight: bold; transition: background-color 0.3s;"
       onmouseover="this.style.backgroundColor='#e2e2e2'" onmouseout="this.style.backgroundColor='white'">
+    <a href="#"
+      style="display: inline-block; background-color: white; color: #1a1a1a; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none; font-weight: bold; transition: background-color 0.3s;"
+      onmouseover="this.style.backgroundColor='#e2e2e2'" onmouseout="this.style.backgroundColor='white'">
       عن الموقع
     </a>
 
@@ -356,6 +466,21 @@
       duration: 900,
       easing: 'ease-in-out',
       once: true
+    });
+
+
+    // This is added to toggle the navbar hamburger menu for small screens
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
     });
 
 

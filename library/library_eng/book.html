@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Details</title>
+  <style>
+    :root {
+      --primary-color: #1f6f3e;
+      --secondary-color: #2e8b57;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+
+    header {
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('/static/library-bg.webp');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .book-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .author-link {
+      font-size: 1rem;
+      color: #d1fae5;
+      text-decoration: none;
+    }
+
+    nav.navbar {
+      background-color: #e9f5ec;
+      padding: 1rem 1.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    nav .nav-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    nav .nav-link:hover {
+      background-color: var(--secondary-color);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .metadata {
+      margin: 2rem 0;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .toc h3 {
+      margin-top: 2rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      color: #1e40af;
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 class="book-title" id="bookTitle">Loading...</h1>
+</header>
+
+<nav class="navbar">
+  <ul>
+    <li><a href="/" class="nav-link">Home</a></li>
+    <li><a href="/library/library_eng/library.html" class="nav-link">Library</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+  <div class="metadata" id="bookMeta">
+  </div>
+
+  <div class="toc">
+    <h3>Index of Topics</h3>
+    <ul id="chapterList">
+    </ul>
+  </div>
+</div>
+
+<script>
+  async function fetchBookDetails() {
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    if (!slug) return alert("No book selected.");
+
+    try {
+      const res = await fetch(`https://asksunnah-backend-hno9.onrender.com/api/books/en/${slug}`);
+      const data = await res.json();
+      const book = data.book;
+      document.getElementById("bookTitle").textContent = book.title;
+      const totalPages = book.chapters.reduce((sum, ch) => sum + (ch.pages?.length || 0), 0);
+      document.getElementById("bookMeta").innerHTML = `
+        <strong>Book:</strong> ${book.title}<br />
+        <strong>Author:</strong> ${book.author}<br />
+        <strong>Category:</strong> ${book.category || "—"}<br />
+        <strong>Language:</strong> ${book.language}<br />
+        <strong>Total Pages:</strong> ${totalPages}<br />
+      `;
+      const list = document.getElementById("chapterList");
+      book.chapters.forEach((chapter, index) => {
+        const li = document.createElement("li");
+        const firstPage = chapter.pages?.[0]?.number || 1;
+        li.innerHTML = `<a href="read.html?slug=${slug}&page=${firstPage}">${chapter.title}</a>`;
+        list.appendChild(li);
+      });
+
+    } catch (err) {
+      console.error("Error loading book:", err);
+      document.getElementById("bookTitle").textContent = "Error loading book";
+    }
+  }
+
+  fetchBookDetails();
+</script>
+
+</body>
+</html>

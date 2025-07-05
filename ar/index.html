@@ -452,7 +452,8 @@
     <div class="nav-menu">
       <ul>
         <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
-        <li><a href="/library/Welcome_to_library_ar/Welcome_to_library_ar.html" class="nav-link">المكتبة</a></li>
+        <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
+
         <li><a href="/ar/about-us_ar.html" class="nav-link">عن الموقع</a></li>
         <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">شاركنا
             رأيك</a></li>
@@ -460,6 +461,7 @@
         <li class="nav-darkmode" style="margin-top: 10px;">
           <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
             aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
+
         </li>
       </ul>
     </div>
@@ -837,7 +839,6 @@
     const toggleBtn = document.getElementById('toggleDarkMode');
     const body = document.body;
 
-
      // Set icon based on saved mode
  
     function setDarkIcon() {
@@ -845,6 +846,7 @@
       toggleBtn.className = isDark
         ? 'dark-toggle-icon fa-solid fa-sun'
         : 'dark-toggle-icon fa-solid fa-moon';
+
       toggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     }
     // Apply saved mode on load
