@@ -245,35 +245,6 @@
       color: #6b7280;
     }
   </style>
-  <script>// This is added to toggle the navbar hamburger menu for small screens
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const navToggleBtn = document.querySelector('.nav-toggle');
-      const navMenu = document.querySelector('.nav-menu');
-
-      if (navToggleBtn && navMenu) {
-        navToggleBtn.addEventListener('click', () => {
-          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
-          navToggleBtn.setAttribute('aria-expanded', !expanded);
-          navMenu.classList.toggle('open');
-        });
-      }
-    });
-    // This is added to toggle the sidebar menu for small screens
-
-    document.addEventListener('DOMContentLoaded', function () {
-  const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
-  const sidebar = document.querySelector('.sidebar');
-
-  if (sidebarToggleBtn && sidebar) {
-    sidebarToggleBtn.addEventListener('click', () => {
-      const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
-      sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
-      sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
-    });
-  }
-});
-    </script>
 </head>
 <body>
 
@@ -332,7 +303,34 @@
   
 </footer>
  </body>
-<script>
+<script>// This is added to toggle the navbar hamburger menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+    // This is added to toggle the sidebar menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar');
+
+  if (sidebarToggleBtn && sidebar) {
+    sidebarToggleBtn.addEventListener('click', () => {
+      const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
+      sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
+      sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
+    });
+  }
+});
   let book = null;
   let currentPage = 0;
   let fontSize = 1.1;

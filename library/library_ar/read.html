@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>قراءة الكتاب</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
+    <style>
     :root {
       --primary-color: #1f6f3e;
       --secondary-color: #2e8b57;
@@ -14,17 +14,18 @@
       --text-color: #2c3e50;
       --font-family: 'Segoe UI', sans-serif;
     }
-
     body {
-      font-family: var(--font-family);
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       color: #111827;
-      background-color: var(--background);
-      direction: rtl;
+      direction: ltr;
+      margin: 0;
     }
 
     header {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/library-bg.webp');
+      background-image:
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+       url('/static/library-bg.webp'); 
       background-size: cover;
       background-position: center;
       color: white;
@@ -36,15 +37,17 @@
       display: flex;
       flex-direction: row;
       padding: 1em;
+      
     }
 
     .sidebar {
       width: 20%;
       background-color: #fff;
-      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
       padding: 1rem;
       overflow-y: scroll;
       height: 70vh;
+      
     }
 
     .sidebar h2 {
@@ -59,33 +62,31 @@
       color: var(--primary-color);
       padding: 0.4rem 0;
       font-size: 0.95rem;
+      overflow: auto;
     }
 
-    .sidebar a:hover,
-    .sidebar a.active {
-      color: #14532d;
-      font-weight: bold;
+    .sidebar a:hover {
+      color: #166534;
     }
-
     .sidebar-toggle {
       display: none;
       font-size: 1.3rem;
       background: none;
       border: none;
       cursor: pointer;
+      text-align: right;
       margin: 6px;
       color: var(--primary-color);
     }
-
     .content {
-      min-height: 60vh;
+      min-height: 50vh;
       width: 60vw;
-      overflow-y: scroll;
       flex: 1;
+      padding: 1em;
       line-height: 2;
       font-size: 1.1rem;
+      border: 1px double rgba(0, 95, 30, 0.203);
       background-color: #fff9f1;
-      border: 3px solid #bad5c590;
       border-radius: 2%;
     }
 
@@ -94,42 +95,42 @@
       margin-bottom: 1rem;
     }
 
-    .controls input,
-    .controls button {
+     .controls input {
       margin: 0 0.3rem;
       padding: 0.4rem 0.7rem;
+      border: 1px solid #ccc;
       border-radius: 4px;
+      background-color: white;
+      cursor: pointer;
       font-family: inherit;
     }
-
-    .controls input {
+    .controls button{
+      margin: 0 0.3rem;
+      padding: 0.4rem 0.7rem;
       border: 1px solid #ccc;
-      background-color: white;
-    }
-
-    .controls button {
-      border: 1px solid #ccc;
-      background-color: var(--primary-color);
+      border-radius: 4px;
       color: white;
+      background-color: var(--primary-color);
       cursor: pointer;
+      font-family: inherit;
     }
-
     .controls button:hover {
       background-color: #e5e5e5;
-      color: #000;
     }
-
-    .referencebox {
+    .referencebox{
       font-size: x-small;
+      bottom: 0;
       padding: 1em;
     }
-
-    hr {
-      border: 1px solid #a8e0c075;
+    .referencebox ul{
+      list-style: none;
+    }
+    hr{
+      color: rgba(0, 95, 30, 0.203);
       width: 90%;
     }
-
     .navbar {
+      background-repeat: no-repeat;
       background: #e9f5ec;
       padding: 1rem 1.5rem;
       position: relative;
@@ -138,12 +139,12 @@
 
     .navbar ul {
       list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1.5rem;
-      padding: 0;
-      margin: 0;
     }
 
     .nav-link {
@@ -153,6 +154,7 @@
       padding: 0.5rem 1rem;
       border-radius: 4px;
       transition: background 0.2s;
+      display: inline-block;
     }
 
     .nav-link:hover,
@@ -161,6 +163,7 @@
       color: #fff;
     }
 
+    /* Hamburger Button */
     .nav-toggle {
       display: none;
       font-size: 1.3rem;
@@ -170,20 +173,71 @@
       color: var(--primary-color);
       position: absolute;
       top: 0.6rem;
-      left: 1rem;
+      right: 1rem;
+      z-index: 11;
     }
 
+    /* Small Screens */
     @media (max-width: 768px) {
-      .nav-toggle { display: block; }
-      .nav-menu { display: none; width: 100%; }
-      .nav-menu.open { display: block; }
-      .navbar ul { flex-direction: column; align-items: center; gap: 1rem; }
-      .layout { flex-direction: column; }
-      .sidebar { display: none; width: 100vw; max-height: 50vh; overflow-y: auto; }
-      .sidebar.open { display: block; }
-      .sidebar-toggle { display: block; }
+
+      .navbar {
+        /* background:#e9f5ec; */
+        padding: 1.5rem 0;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+      }
+
+      .nav-menu.open {
+        display: block;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      /* body{
+        display: flex;
+        flex-direction: column;
+      } */
+      .layout{
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar {
+        display: none;
+        width: 100vw;
+        overflow-y: auto;
+        max-height: 50vh;
+     }
+     .sidebar-toggle{
+      display: block;
+     }
+      .sidebar.open {
+        
+        display: block;
+    }
+    .content{
+      width:90%;
+    }
     }
 
+    /* Dark mode styles */
+    body.dark .navbar {
+      background: #183c25;
+    }
+
+    body.dark .nav-link:hover,
+    body.dark .nav-link:focus {
+      background: #25603a;
+    }
     .footer {
       text-align: center;
       font-size: 0.9rem;
@@ -213,7 +267,7 @@
 </nav>
 
 <div class="layout">
-  <button class="sidebar-toggle" aria-label="تبديل الشريط الجانبي">
+  <button class="sidebar-toggle" aria-label="Toggle sidebar">
     <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="قائمة" width="30px">
   </button>
 
@@ -246,7 +300,34 @@
 
 <footer class="footer"></footer>
 
-<script>
+<script>// This is added to toggle the navbar hamburger menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const navToggleBtn = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      if (navToggleBtn && navMenu) {
+        navToggleBtn.addEventListener('click', () => {
+          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+          navToggleBtn.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('open');
+        });
+      }
+    });
+    // This is added to toggle the sidebar menu for small screens
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar');
+
+  if (sidebarToggleBtn && sidebar) {
+    sidebarToggleBtn.addEventListener('click', () => {
+      const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
+      sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
+      sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
+    });
+  }
+});
   let book = null;
   let currentPage = 0;
   let fontSize = 1.1;
