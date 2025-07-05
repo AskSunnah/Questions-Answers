@@ -146,7 +146,7 @@
         title: book.title,
         author: book.author || "Unknown",
         category: book.category?.toLowerCase() || "uncategorized",
-        link: `/library/library_eng/book.html?slug=${book.slug}`
+        link: `/library/library_eng/read.html?slug=${book.slug}`
       }));
 
       renderBooks(books);
