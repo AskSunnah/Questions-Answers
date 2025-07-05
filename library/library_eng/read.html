@@ -79,13 +79,13 @@
       color: var(--primary-color);
     }
     .content {
-      min-height: 60vh;
+      min-height: 50vh;
       width: 60vw;
       flex: 1;
       padding: 1em;
       line-height: 2;
       font-size: 1.1rem;
-      border: 1px double rgb(0, 95, 30);
+      border: 1px double rgba(0, 95, 30, 0.203);
       background-color: #fff9f1;
       border-radius: 2%;
     }
@@ -126,7 +126,7 @@
       list-style: none;
     }
     hr{
-      border: 1px solid #a8e0c075;
+      color: rgba(0, 95, 30, 0.203);
       width: 90%;
     }
     .navbar {
@@ -288,8 +288,7 @@
       <ul>
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/library/library_eng/library.html" class="nav-link">Library</a></li>
-        <!-- add the actual book link here using slug -->
-        <li><a href="/library/library_eng/book.html" class="nav-link">Back to Book</a></li>
+        <li><a href="#" id="backToBookLink" class="nav-link">Back to Book</a></li>
         <li class="nav-darkmode" style="margin-top: 10px;">
           <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
           aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
@@ -403,7 +402,6 @@
     container.appendChild(el);
   });
 
-  // ✅ Reference box based on page.references
   const refList = document.getElementById("referencesList");
   refList.innerHTML = "";
   if (page.references && page.references.length > 0) {
@@ -424,21 +422,16 @@
 
   let flatPages = [];
 
-  // Step 1: Flatten all pages first
   book.chapters.forEach((chapter, chapterIndex) => {
     chapter.pages.forEach((pg, pageIndex) => {
       flatPages.push({ ...pg, chapterIndex, pageIndex });
     });
   });
 
-  // Step 2: Set globally accessible flat list
   book.pages = flatPages;
-
-  // Step 3: Immediately show the first page
   currentPage = 0;
   renderPage();
 
-  // Step 4: Build sidebar with clickable chapter links
   book.chapters.forEach((chapter, chapterIndex) => {
     const chapterLink = document.createElement('a');
     chapterLink.href = "#";
@@ -457,12 +450,8 @@
     sidebar.appendChild(chapterLink);
   });
 
-  highlightSidebar(currentPage); // highlight the first chapter by default
+  highlightSidebar(currentPage); 
 }
-
-
-
-
   function highlightSidebar(activeIndex) {
     const links = document.querySelectorAll(".sidebar a");
     links.forEach((link, i) => {
@@ -490,7 +479,13 @@
     renderPage();
     highlightSidebar(currentPage);
   }
-
+ document.addEventListener("DOMContentLoaded", () => {
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    if (slug) {
+      const backLink = document.getElementById("backToBookLink");
+      backLink.href = `/library/library_eng/book.html?slug=${slug}`;
+    }
+  });
   window.onload = fetchBook;
 </script>
 

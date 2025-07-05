@@ -204,7 +204,7 @@
     <ul>
       <li><a href="/" class="nav-link">الرئيسية</a></li>
       <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
-      <li><a href="/library/library_ar/book.html" class="nav-link">العودة إلى الكتاب</a></li>
+      <li><a href="#" id="backToBookLink" class="nav-link">العودة إلى الكتاب</a></li>
       <li class="nav-darkmode">
         <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="الوضع الليلي" tabindex="0" style="cursor:pointer;font-size:1.3rem;"></i>
       </li>
@@ -387,7 +387,13 @@
     renderPage();
     highlightSidebar(currentPage);
   }
-
+document.addEventListener("DOMContentLoaded", () => {
+    const slug = new URLSearchParams(window.location.search).get("slug");
+    if (slug) {
+      const backLink = document.getElementById("backToBookLink");
+      backLink.href = `/library/library_ar/book.html?slug=${slug}`;
+    }
+  });
   document.addEventListener('DOMContentLoaded', fetchBook);
 </script>
 
