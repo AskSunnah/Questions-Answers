@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المكتبة</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <title>Library</title>
+
   <style>
     :root {
       --primary-color: #1f6f3e;
@@ -24,17 +25,16 @@
     }
 
     /* Header */
-    .header {
+    header {
       background-color: #166534;
-      /* dark green */
       color: white;
       padding: 2rem 1rem 1rem 1rem;
       text-align: center;
     }
 
-    .header h1 {
+    header h1 {
       margin: 0;
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
 
     .header p {
@@ -43,38 +43,38 @@
       font-weight: 300;
     }
 
-    /* Main Section */
-    .main {
-      background-color: white;
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    main {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/library-bg.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      text-align: center;
+      color: #fff;
+      font-family: var(--font-family);
+      border: 4px solid white;
     }
 
-    .link-item {
-      display: block;
-      background-color: #f1f5f9;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #0f172a;
-      font-weight: bold;
-      transition: background-color 0.3s;
+    main button {
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      background-color: #166534;
+      border: none;
+      border-radius: 6px;
+      height: 50px;
+      width: 160px;
+      cursor: pointer;
+      margin: 0.5rem;
     }
 
-    .link-item:hover {
+    main button:hover {
       background-color: #e2e8f0;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .main {
-        margin: 1rem;
-        padding: 1.5rem;
-      }
+      color: #166534;
     }
 
     .navbar {
@@ -82,7 +82,6 @@
       padding: 1rem 1.5rem;
       position: relative;
       z-index: 10;
-      margin-bottom: 20px;
     }
 
     .navbar ul {
@@ -102,7 +101,6 @@
       padding: 0.5rem 1rem;
       border-radius: 4px;
       transition: background 0.2s;
-      display: inline-block;
     }
 
     .nav-link:hover,
@@ -111,7 +109,6 @@
       color: #fff;
     }
 
-    /* Hamburger Button */
     .nav-toggle {
       display: none;
       font-size: 1.3rem;
@@ -121,15 +118,12 @@
       color: var(--primary-color);
       position: absolute;
       top: 0.6rem;
-      right: 1rem;
+      left: 1rem;
       z-index: 11;
     }
 
-    /* Small Screens */
     @media (max-width: 768px) {
-
       .navbar {
-        /* background:#e9f5ec; */
         padding: 1.5rem 0;
       }
 
@@ -153,7 +147,6 @@
       }
     }
 
-    /* Dark mode styles */
     body.dark .navbar {
       background: #183c25;
     }
@@ -162,54 +155,48 @@
     body.dark .nav-link:focus {
       background: #25603a;
     }
+
+    body.dark .nav-link {
+      color: white;
+    }
   </style>
 </head>
 
 <body>
+  <header>
+    <h1>المكتبة</h1>
+  </header>
 
-  <div class="header">
-    <h1>Library</h1>
-    <br><br>
-    <p>Welcome to the Library, Students of Knowledge!</p>
-
-  </div>
-
-  <!-- Navbar -->
-  <nav class="navbar" aria-label="Main Navigation">
-    <button class="nav-toggle" aria-label="Toggle Navigation" aria-expanded="false">
-      ☰
-    </button>
+  <nav class="navbar" aria-label="شريط التنقل">
+    <button class="nav-toggle" aria-label="تبديل القائمة" aria-expanded="false">☰</button>
     <div class="nav-menu">
       <ul>
-        <li><a href="/" class="nav-link">Home</a></li>
-        <li><a href="/library/Welcome_to_library/Welcome_to_library.html" class="nav-link">Library</a></li>
-        <li><a href="/about-us.html" class="nav-link">About Us</a></li>
-        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank" rel="noopener">Feedback</a>
-        </li>
-        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">Contribute</a></li>
-        <li class="nav-darkmode" style="margin-top: 10px;">
-          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="Toggle dark mode" tabindex="0"
-            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;display:inline-block;"></i>
+        <li><a href="/ar/index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
+        <li><a href="/ar/about-us_ar.html" class="nav-link">عن الموقع</a></li>
+        <li><a href="https://forms.gle/e5jGuDBJhZAyCP448" class="nav-link" target="_blank">شارك برأيك</a></li>
+        <li><a href="https://www.paypal.me/asksunnah" class="nav-link">تبرع</a></li>
+        <li><a href="/library/library_eng/library.html" class="nav-link">English</a></li>
+        <li class="nav-darkmode">
+          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="تفعيل الوضع الداكن" tabindex="0"
+            aria-label="Toggle dark mode" style="cursor:pointer;font-size:1.3rem;"></i>
         </li>
       </ul>
     </div>
   </nav>
 
-  <div class="main">
-    <a href="40_nawawi_hadiths.html" class="link-item">• 40 Nawawi Hadiths</a>
-
-    <a href="./Books_of_Aqeedah/Books_of_Aqeedah.html" class="link-item">• Books of Aqeedah</a>
-
-    <a href="Experiment1.html" class="link-item">• Beta (Experiment)</a>
-
-  </div>
-
+  <main>
+    <h1>مرحبًا بكم في المكتبة، يا طلاب العلم!</h1>
+    <div>
+      <button onclick="location.href='/library/library_ar/arabicBooks.html'">الكتب العربية</button>
+      <button onclick="location.href='/library/library_ar/englishBooks.html'">الكتب الإنجليزية</button>
+    </div>
+  </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const navToggleBtn = document.querySelector('.nav-toggle');
       const navMenu = document.querySelector('.nav-menu');
-
       if (navToggleBtn && navMenu) {
         navToggleBtn.addEventListener('click', () => {
           const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
@@ -218,10 +205,7 @@
         });
       }
     });
-
   </script>
-
-
 </body>
 
 </html>
