@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Book - Ask Sunnah Admin</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 2rem;
+            color: #1e293b;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #1f6f3e;
+        }
+
+        form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            width: 100%;
+        }
+
+        input,
+        textarea,
+        select,
+        button {
+            display: block;
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.6rem 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 1rem;
+            display: block;
+            color: #1f6f3e;
+        }
+
+        .page-block {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            background: #fefefe;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .block {
+            border: 1px dashed #999;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f9f9f9;
+            position: relative;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button.add-btn {
+            background: #287346;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: fit-content;
+            height: auto;
+            white-space: nowrap;
+        }
+
+        form button[type="submit"] {
+            background-color: #287346;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #1f5c38;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Add a New Book</h1>
+
+        <form id="book-form">
+            <label>Title:</label>
+            <input type="text" id="title" required>
+
+            <label>Author:</label>
+            <input type="text" id="author">
+
+            <label>Description (if any):</label>
+            <textarea id="description"></textarea>
+
+            <label>Category:</label>
+            <select id="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="Aqeedah">Aqeedah Books</option>
+                <option value="Fiqh">Fiqh</option>
+                <option value="Hadith">Hadith</option>
+            </select>
+
+            <label>Language:</label>
+            <select id="language" required>
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+            </select>
+
+            <div id="chapters-container"></div>
+            <button type="button" class="add-btn" onclick="addChapter()">+ Add Chapter</button>
+
+            <br><br>
+            <button type="submit">Submit Book</button>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" style="display:none; position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    background:#ffffff; color:#1e293b; border:1px solid #ccc; padding:1rem 2rem;
+    border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:9999; width:90%;
+    max-width: 600px; text-align:center; font-size:1rem;">
+
+        <strong id="modal-title" style="display:block; font-size:1.2rem; margin-bottom:0.5rem;"></strong>
+        <span id="modal-message"></span>
+
+        <br><br>
+        <button onclick="closeModal()" style="background:#287346; color:white; border:none; padding:0.5rem 1rem;
+      font-weight:bold; border-radius:6px; cursor:pointer;">Close</button>
+    </div>
+
+    <!-- Page Delete Modal -->
+    <div id="delete-page-modal" style="display:none; position:fixed; top:20px; left:50%; transform:translateX(-50%);
+background:#fff; color:#1e293b; border:1px solid #ccc; padding:1.5rem 2rem;
+border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:10000; width:90%;
+max-width: 400px; text-align:center; font-size:1rem;">
+        <strong id="delete-page-modal-title" style="display:block; font-size:1.1rem; margin-bottom:0.7rem;"></strong>
+        <span id="delete-page-modal-message"></span>
+        <br><br>
+        <button id="delete-page-yes"
+            style="background:#287346; color:white; border:none; padding:0.5rem 1.2rem; font-weight:bold; border-radius:6px; cursor:pointer; margin-right:1rem;">Yes</button>
+        <button id="delete-page-no"
+            style="background:#e53e3e; color:white; border:none; padding:0.5rem 1.2rem; font-weight:bold; border-radius:6px; cursor:pointer;">No</button>
+    </div>
+
+    <script>
+        let chapterCount = 0;
+
+
+        function deletePageHandler(deleteBtn) {
+            const pageDiv = deleteBtn.closest('.page-block');
+            const pagesContainer = pageDiv.parentElement;
+            const pageNumber = Array.from(pagesContainer.children).indexOf(pageDiv) + 1;
+
+            // Show custom modal
+            const modal = document.getElementById('delete-page-modal');
+            document.getElementById('delete-page-modal-title').innerText = `Delete Page #${pageNumber}`;
+            document.getElementById('delete-page-modal-message').innerText =
+                `Are you sure you want to delete Page #${pageNumber}?`;
+
+            modal.style.display = 'block';
+
+            // Remove previous listeners
+            const yesBtn = document.getElementById('delete-page-yes');
+            const noBtn = document.getElementById('delete-page-no');
+            yesBtn.onclick = null;
+            noBtn.onclick = null;
+
+            // Yes: remove and renumber
+            yesBtn.onclick = function () {
+                pageDiv.remove();
+                renumberPages(pagesContainer);
+                modal.style.display = 'none';
+            };
+
+            // No: just close modal
+            noBtn.onclick = function () {
+                modal.style.display = 'none';
+            };
+        }
+        function renumberPages(pagesContainer) {
+    Array.from(pagesContainer.children).forEach((pageDiv, idx) => {
+        const pageNum = idx + 1;
+        const h4 = pageDiv.querySelector('h4');
+        if (h4) h4.textContent = `Page ${pageNum}`;
+
+        // Update reference-list and blocks-container IDs
+        const refList = pageDiv.querySelector('.reference-list');
+        if (refList) refList.id = `ref-list-${pageDiv.parentElement.parentElement.dataset.chapter}-${pageNum}`;
+
+        const blocksContainer = pageDiv.querySelector('.blocks-container');
+        if (blocksContainer) blocksContainer.id = `blocks-${pageDiv.parentElement.parentElement.dataset.chapter}-${pageNum}`;
+
+        // Also update the add reference and add block button onclicks
+        const addRefBtn = pageDiv.querySelector('.add-btn[onclick^="addReference"]');
+        if (addRefBtn) addRefBtn.setAttribute('onclick', `addReference(${pageDiv.parentElement.parentElement.dataset.chapter}, ${pageNum})`);
+
+        const addBlockBtn = pageDiv.querySelector('.add-btn[onclick^="addBlock"]');
+        if (addBlockBtn) addBlockBtn.setAttribute('onclick', `addBlock(${pageDiv.parentElement.parentElement.dataset.chapter}, ${pageNum})`);
+    });
+}
+        function addChapter() {
+            chapterCount++;
+            const chapterDiv = document.createElement('div');
+            chapterDiv.className = 'page-block';
+            chapterDiv.dataset.chapter = chapterCount;
+            chapterDiv.innerHTML = `
+        <button type="button" class="remove-btn" onclick="this.closest('.page-block').remove()">Delete Chapter</button>
+        <h3>Chapter ${chapterCount}</h3>
+        <label>Chapter Title:</label>
+        <input type="text" class="chapter-title" required>
+
+        <div class="pages-container" id="pages-${chapterCount}"></div>
+        <button type="button" class="add-btn" onclick="addPage(${chapterCount})">+ Add Page</button>
+      `;
+            document.getElementById('chapters-container').appendChild(chapterDiv);
+        }
+
+        function addPage(chapterNum) {
+            const pagesContainer = document.getElementById(`pages-${chapterNum}`);
+            const pageCount = pagesContainer.children.length + 1;
+
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page-block';
+            pageDiv.innerHTML = `
+        <button type="button" class="remove-btn" onclick="deletePageHandler(this)">Delete Page</button>
+        <h4>Page ${pageCount}</h4>
+
+        <label>References:</label>
+            <div class="reference-list" id="ref-list-${chapterNum}-${pageCount}"></div>
+            <button type="button" class="add-btn" onclick="addReference(${chapterNum}, ${pageCount})">+ Add Reference</button>
+
+            <hr style="margin: 1.5rem 0; border-top: 1px solid #ccc;">
+
+            <label>Content:</label>
+            <div class="blocks-container" id="blocks-${chapterNum}-${pageCount}"></div>
+            <button type="button" class="add-btn" onclick="addBlock(${chapterNum}, ${pageCount})">+ Add Content on Page</button>
+
+        `;
+            pagesContainer.appendChild(pageDiv);
+        }
+
+        function addReference(chapterNum, pageNum) {
+            const refList = document.getElementById(`ref-list-${chapterNum}-${pageNum}`);
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.alignItems = 'center';
+            div.style.gap = '0.5rem';
+            div.style.marginBottom = '0.5rem';
+
+            div.innerHTML = `
+    <input type="text" class="page-ref-input" style="flex: 1;" />
+    <button type="button" class="remove-btn" style="position: static;" onclick="this.parentElement.remove()">Delete reference</button>
+  `;
+            refList.appendChild(div);
+        }
+
+
+        function setupOptionalFields(blockId, type) {
+            const optionalDiv = document.getElementById(`${blockId}-optional`);
+            optionalDiv.innerHTML = "";
+
+            // Helper to create a toggleable field
+            const makeField = (label, className, type = "text", isTextarea = false) => {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add(`${className}-wrapper`);
+                wrapper.style.display = "flex";
+                wrapper.style.alignItems = "center";
+                wrapper.style.marginBottom = "1rem";
+                wrapper.style.gap = "1rem";
+
+                // Label and input (left side)
+                const fieldGroup = document.createElement("div");
+                fieldGroup.style.flex = "1";
+
+                const fieldLabel = document.createElement("label");
+                fieldLabel.textContent = label;
+                fieldLabel.style.display = "block";
+                fieldLabel.style.marginBottom = "0.4rem";
+                fieldLabel.style.color = "#1f6f3e";
+                fieldLabel.style.fontWeight = "bold";
+
+                const input = isTextarea ? document.createElement("textarea") : document.createElement("input");
+                input.className = className;
+                input.type = type;
+                input.style.width = "100%";
+
+                fieldGroup.appendChild(fieldLabel);
+                fieldGroup.appendChild(input);
+
+                // Delete button (right side)
+                const deleteBtn = document.createElement("button");
+                deleteBtn.type = "button";
+                deleteBtn.textContent = "Delete";
+                deleteBtn.style.background = "#e53e3e";
+                deleteBtn.style.color = "white";
+                deleteBtn.style.border = "none";
+                deleteBtn.style.padding = "0.4rem 0.8rem";
+                deleteBtn.style.borderRadius = "6px";
+                deleteBtn.style.fontSize = "0.85rem";
+                deleteBtn.style.cursor = "pointer";
+                deleteBtn.style.marginTop = "1.2rem";
+                deleteBtn.style.whiteSpace = "nowrap";
+                deleteBtn.style.width = "auto"; // <-- Add this line
+                deleteBtn.style.flex = "none";  // <-- Add this line
+
+                deleteBtn.onclick = () => wrapper.remove();
+
+                wrapper.appendChild(fieldGroup);
+                wrapper.appendChild(deleteBtn);
+                optionalDiv.appendChild(wrapper);
+            };
+
+            if (type === "hadith") {
+                makeField("Reference", "block-ref");
+                makeField("Narrator", "block-narrator");
+                makeField("Commentary", "block-commentary", "text", true);
+            } else if (type === "ayah" || type === "quote") {
+                makeField("Reference", "block-ref");
+                makeField("Commentary", "block-commentary", "text", true);
+            }
+        }
+
+
+
+        function addBlock(chapterNum, pageNum) {
+            const blockContainer = document.getElementById(`blocks-${chapterNum}-${pageNum}`);
+            const blockDiv = document.createElement('div');
+            blockDiv.className = 'block';
+
+            const blockId = `block-${chapterNum}-${pageNum}-${Date.now()}`;
+
+            blockDiv.innerHTML = `
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">Delete Content</button>
+
+    <label>Type</label>
+    <select class="block-type" onchange="setupOptionalFields('${blockId}', this.value)">
+      <option value="heading">Heading</option>
+      <option value="paragraph">Paragraph</option>
+      <option value="hadith">Hadith</option>
+      <option value="ayah">Ayah</option>
+      <option value="quote">Quote</option>
+    </select>
+
+    <label>Text</label>
+    <textarea class="block-text" required></textarea>
+
+    <div class="optional-fields" id="${blockId}-optional">
+      <!-- Dynamic Optional Fields Appear Here -->
+    </div>
+  `;
+
+            blockContainer.appendChild(blockDiv);
+
+            // Trigger field setup based on default type
+            const select = blockDiv.querySelector('.block-type');
+            setupOptionalFields(blockId, select.value);
+        }
+
+
+        document.getElementById('book-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const category = document.getElementById('category').value;
+            const language = document.getElementById('language').value;
+
+            const chapters = [];
+
+            document.querySelectorAll('#chapters-container > .page-block').forEach((chapterEl, chapterIndex) => {
+                const title = chapterEl.querySelector('.chapter-title').value.trim();
+                const number = chapterIndex + 1;
+                const pages = [];
+
+                chapterEl.querySelectorAll('.pages-container > .page-block').forEach((pageEl, pageIndex) => {
+                    const pageNumber = pageIndex + 1;
+
+                    const references = Array.from(pageEl.querySelectorAll('.page-ref-input'))
+                        .map(input => input.value.trim())
+                        .filter(Boolean);
+
+                    const blocks = [];
+
+                    pageEl.querySelectorAll('.block').forEach(blockEl => {
+                        blocks.push({
+                            type: blockEl.querySelector('.block-type').value,
+                            text: blockEl.querySelector('.block-text').value.trim(),
+                            reference: blockEl.querySelector('.block-ref')?.value.trim() || "",
+                            narrator: blockEl.querySelector('.block-narrator')?.value.trim() || "",
+                            commentary: blockEl.querySelector('.block-commentary')?.value.trim() || ""
+                        });
+
+                    });
+
+                    pages.push({ number: pageNumber, references, blocks });
+                });
+
+                chapters.push({ title, number, pages });
+            });
+
+            const bookData = { title, author, description, category, language, chapters };
+
+            try {
+                const res = await fetch('http://localhost:5000/api/books', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookData)
+                });
+
+                const result = await res.json();
+                if (res.ok) {
+                    showModal('Success', 'Book added successfully!');
+                } else {
+                    showModal('Error', result.message || 'Error saving book.');
+                }
+            } catch (err) {
+                showModal('Error', 'Network error: ' + err.message);
+            }
+        });
+
+
+
+
+
+        function toggleOptionalFields(selectElement) {
+            const block = selectElement.closest('.block');
+            const refField = block.querySelector('.ref-field');
+            const narratorField = block.querySelector('.narrator-field');
+            const commentaryField = block.querySelector('.commentary-field');
+
+            const type = selectElement.value;
+            refField.style.display = (type === 'hadith' || type === 'ayah' || type === 'quote') ? 'block' : 'none';
+            narratorField.style.display = (type === 'hadith') ? 'block' : 'none';
+            commentaryField.style.display = (type === 'hadith' || type === 'ayah') ? 'block' : 'none';
+        }
+
+
+        function showModal(title, message) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal').style.display = 'block';
+
+            setTimeout(() => {
+                if (document.getElementById('modal').style.display === 'block') {
+                    closeModal();
+                }
+            }, 4000);
+        }
+
+
+        function closeModal() {
+            const title = document.getElementById('modal-title').innerText;
+            document.getElementById('modal').style.display = 'none';
+            if (title === 'Success') location.reload();
+        }
+    </script>
+</body>
+
+</html>
