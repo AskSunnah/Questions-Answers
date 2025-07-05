@@ -1,55 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Q&A Panel</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/styles.css">
 </head>
+
 <body>
-<div id="qa-box">
-    <h2>Add a New Q&A</h2>
-    <form id="qa-form">
-        <label for="qa-language">Submission Language:</label>
-<select id="qa-language" required>
-  <option value="en">English Question</option>
-  <option value="ar">Arabic Question</option>
-</select>
-        <label>Title:</label>
-        <input type="text" id="qa-title" required>
-
-        <label>Slug:</label>
-        <input type="text" id="qa-slug" required>
-
-        <label>Question:</label>
-        <textarea id="qa-question" required></textarea>
-
-        <label>Answer:</label>
-        <textarea id="qa-answer" required></textarea>
-
-        <hr style="margin:18px 0;">
-
-        <div id="dynamic-sections"></div>
-
-        <div id="add-section-bar">
-            <select id="section-type">
-                <option value="quran">From Quran</option>
-                <option value="sunnah">From Sunnah</option>
-                <option value="scholar">From Scholar</option>
-                <option value="salaf">From Salaf</option>
-                <option value="normal">Normal Text</option>
+    <div id="qa-box">
+        <h2>Add a New Q&A</h2>
+        <form id="qa-form">
+            <label for="qa-language">Submission Language:</label>
+            <select id="qa-language" required>
+                <option value="en">English Question</option>
+                <option value="ar">Arabic Question</option>
             </select>
-            <button type="button" id="add-section-btn">Add Section</button>
-        </div>
+            <label>Title:</label>
+            <input type="text" id="qa-title" required>
 
-        <label>Conclusion:</label>
-        <textarea id="qa-conclusion" required></textarea>
+            <label>Slug:</label>
+            <input type="text" id="qa-slug" required>
 
-        <br>
-        <button type="submit" id="save-btn">Save Q&A</button>
-    </form>
-    <div id="save-message"></div>
-</div>
-<script src="/admin/admin-qa.js"></script>
+            <label>Question:</label>
+            <textarea id="qa-question" required></textarea>
+
+            <label>Answer:</label>
+            <textarea id="qa-answer" required></textarea>
+
+            <hr style="margin:18px 0;">
+
+            <div id="dynamic-sections"></div>
+
+            <div id="add-section-bar">
+                <select id="section-type">
+                    <option value="quran">From Quran</option>
+                    <option value="sunnah">From Sunnah</option>
+                    <option value="scholar">From Scholar</option>
+                    <option value="salaf">From Salaf</option>
+                    <option value="normal">Normal Text</option>
+                </select>
+                <button type="button" id="add-section-btn">Add Section</button>
+            </div>
+
+            <label>Conclusion:</label>
+            <textarea id="qa-conclusion" required></textarea>
+
+            <br>
+            <button type="submit" id="save-btn">Save Q&A</button>
+        </form>
+        <div id="save-message"></div>
+    </div>
+    <script src="/admin/admin-qa.js"></script>
 </body>
+
 </html>
