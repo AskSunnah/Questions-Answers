@@ -78,12 +78,15 @@
     }
 
     .content {
+      min-height: 60vh;
+      width: 60vw;
+      overflow-y: scroll;
       flex: 1;
-      padding: 2rem;
       line-height: 2;
       font-size: 1.1rem;
-      background-color: #ffffff;
-      border: 2px solid #bad5c590;
+      background-color: #fff9f1;
+      border: 3px solid #bad5c590;
+      border-radius: 2%;
     }
 
     .controls {
@@ -267,54 +270,66 @@
   }
 
   function renderPage() {
-    if (!book || !book.pages || book.pages.length === 0) return;
-    const page = book.pages[currentPage];
-    if (!page) return;
+  if (!book || !book.pages || book.pages.length === 0) return;
 
-    const container = document.getElementById('pageContent');
-    container.innerHTML = "";
+  const page = book.pages[currentPage];
+  if (!page) return;
 
-    const references = [];
+  const container = document.getElementById('pageContent');
+  container.innerHTML = "";
 
-    page.blocks.forEach(block => {
-      const el = document.createElement("div");
-      if (["ayah", "hadith", "quote"].includes(block.type) && block.reference) {
-        references.push(block.reference);
-      }
+  page.blocks.forEach(block => {
+    const el = document.createElement("div");
 
-      switch (block.type) {
-        case "heading":
-          el.innerHTML = `<h3>${block.text}</h3>`; break;
-        case "paragraph":
-          el.innerHTML = `<p>${block.text}</p>`; break;
-        case "quote":
-          el.innerHTML = `<blockquote style="border-right: 3px solid var(--primary-color); padding-right: 1rem; color: #1f6f3e;">${block.text}</blockquote>`; break;
-        case "hadith":
-          el.innerHTML = `
-            <p><strong>${block.text}</strong></p>
-            ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+    switch (block.type) {
+      case "heading":
+        el.innerHTML = `<h3>${block.text}</h3>`;
+        break;
+      case "paragraph":
+        el.innerHTML = `<p>${block.text}</p>`;
+        break;
+      case "quote":
+        el.innerHTML = `
+          <blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">
+            ${block.text}
             ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-            ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}`; break;
-        case "ayah":
-          el.innerHTML = `
-            <p style="font-weight:bold; color:#25603a;">${block.text}</p>
-            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}`; break;
-        default:
-          el.innerHTML = `<p>${block.text}</p>`;
-      }
-      container.appendChild(el);
-    });
+          </blockquote>`;
+        break;
+      case "hadith":
+        el.innerHTML = `
+          <p><strong>${block.text}</strong></p>
+          ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+          ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
+        `;
+        break;
+      case "ayah":
+        el.innerHTML = `
+          <p style="font-weight:bold; color:#25603a;">${block.text}</p>
+          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+        `;
+        break;
+      default:
+        el.innerHTML = `<p>${block.text}</p>`;
+    }
 
-    const refList = document.getElementById("referencesList");
-    refList.innerHTML = "";
-    references.forEach((ref, idx) => {
+    container.appendChild(el);
+  });
+
+  const refList = document.getElementById("referencesList");
+  refList.innerHTML = "";
+  if (page.references && page.references.length > 0) {
+    page.references.forEach((ref, idx) => {
       const li = document.createElement("li");
       li.textContent = `${idx + 1}. ${ref}`;
       refList.appendChild(li);
     });
-
-    document.getElementById('pageInput').value = currentPage + 1;
   }
+
+  document.getElementById('pageInput').value = currentPage + 1;
+}
+
+
 
  function renderSidebar() {
   const sidebar = document.querySelector(".sidebar");

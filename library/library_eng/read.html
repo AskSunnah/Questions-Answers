@@ -47,6 +47,7 @@
       padding: 1rem;
       overflow-y: scroll;
       height: 70vh;
+      
     }
 
     .sidebar h2 {
@@ -78,11 +79,15 @@
       color: var(--primary-color);
     }
     .content {
+      min-height: 60vh;
+      width: 60vw;
       flex: 1;
+      padding: 1em;
       line-height: 2;
       font-size: 1.1rem;
-      background-color: #ffffff;
-      border: 2px solid #bad5c590;
+      border: 1px double rgb(0, 95, 30);
+      background-color: #fff9f1;
+      border-radius: 2%;
     }
 
     .controls {
@@ -116,6 +121,9 @@
       font-size: x-small;
       bottom: 0;
       padding: 1em;
+    }
+    .referencebox ul{
+      list-style: none;
     }
     hr{
       border: 1px solid #a8e0c075;
@@ -215,6 +223,9 @@
       .sidebar.open {
         
         display: block;
+    }
+    .content{
+      width:fit-content;
     }
     }
 
@@ -346,65 +357,66 @@
   }
 
   function renderPage() {
-    if (!book || !book.pages || book.pages.length === 0) return;
+  if (!book || !book.pages || book.pages.length === 0) return;
 
-    const page = book.pages[currentPage];
-    if (!page) return;
+  const page = book.pages[currentPage];
+  if (!page) return;
 
-    const container = document.getElementById('pageContent');
-    container.innerHTML = "";
+  const container = document.getElementById('pageContent');
+  container.innerHTML = "";
 
-    const references = [];
+  page.blocks.forEach(block => {
+    const el = document.createElement("div");
 
-    page.blocks.forEach(block => {
-      const el = document.createElement("div");
-
-      if (["ayah", "hadith", "quote"].includes(block.type) && block.reference) {
-        references.push(block.reference);
-      }
-
-      switch (block.type) {
-        case "heading":
-          el.innerHTML = `<h3>${block.text}</h3>`;
-          break;
-        case "paragraph":
-          el.innerHTML = `<p>${block.text}</p>`;
-          break;
-        case "quote":
-          el.innerHTML = `<blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">${block.text}</blockquote>`;
-          break;
-        case "hadith":
-          el.innerHTML = `
-            <p><strong>${block.text}</strong></p>
-            ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+    switch (block.type) {
+      case "heading":
+        el.innerHTML = `<h3>${block.text}</h3>`;
+        break;
+      case "paragraph":
+        el.innerHTML = `<p>${block.text}</p>`;
+        break;
+      case "quote":
+        el.innerHTML = `
+          <blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">
+            ${block.text}
             ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-            ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
-          `;
-          break;
-        case "ayah":
-          el.innerHTML = `
-            <p style="font-weight:bold; color:#25603a;">${block.text}</p>
-            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-          `;
-          break;
-        default:
-          el.innerHTML = `<p>${block.text}</p>`;
-      }
+          </blockquote>`;
+        break;
+      case "hadith":
+        el.innerHTML = `
+          <p><strong>${block.text}</strong></p>
+          ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
+          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+          ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
+        `;
+        break;
+      case "ayah":
+        el.innerHTML = `
+          <p style="font-weight:bold; color:#25603a;">${block.text}</p>
+          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+        `;
+        break;
+      default:
+        el.innerHTML = `<p>${block.text}</p>`;
+    }
 
-      container.appendChild(el);
-    });
+    container.appendChild(el);
+  });
 
-    // Render references at the bottom
-    const refList = document.getElementById("referencesList");
-    refList.innerHTML = "";
-    references.forEach((ref, idx) => {
+  // ✅ Reference box based on page.references
+  const refList = document.getElementById("referencesList");
+  refList.innerHTML = "";
+  if (page.references && page.references.length > 0) {
+    page.references.forEach((ref, idx) => {
       const li = document.createElement("li");
       li.textContent = `${idx + 1}. ${ref}`;
       refList.appendChild(li);
     });
-
-    document.getElementById('pageInput').value = currentPage + 1;
   }
+
+  document.getElementById('pageInput').value = currentPage + 1;
+}
+
 
   function renderSidebar() {
   const sidebar = document.querySelector(".sidebar");
