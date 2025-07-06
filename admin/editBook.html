@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Book - Ask Sunnah Admin</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; padding: 2rem; color: #1e293b; }
+    .form-row { margin-bottom: 1rem; }
+    input, textarea, select { width: 100%; margin-top: 0.3rem; padding: 0.4rem; border-radius: 4px; border: 1px solid #b8bbc6;}
+    .chapter-block, .page-block, .block-block { border: 1px solid #28734633; border-radius: 6px; background: #fff; margin-bottom: 1rem; padding: 1rem; }
+    .page-block, .block-block { margin-left: 1.5rem; }
+    .block-block { margin-left: 2.5rem; background: #f8fafc;}
+    button { padding: 0.4rem 1rem; border: none; border-radius: 4px; margin-top: 0.3rem; margin-right: 0.5rem; cursor: pointer;}
+    .btn-add { background: #287346; color: white;}
+    .btn-delete { background: #e53e3e; color: white;}
+    .btn-main { background: #1f6f3e; color: white;}
+    h2 { color: #287346; }
+    label { font-size: 0.95rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2 id="form-title">Book Editor</h2>
+  <form id="book-form">
+    <div class="form-row">
+      <label>Title <input id="book-title" required></label>
+    </div>
+    <div class="form-row">
+      <label>Slug <input id="book-slug" required></label>
+    </div>
+    <div class="form-row">
+      <label>Author <input id="book-author"></label>
+    </div>
+    <div class="form-row">
+      <label>Description <textarea id="book-description" rows="2"></textarea></label>
+    </div>
+    <div class="form-row">
+      <label>Category <input id="book-category" required></label>
+    </div>
+    <div class="form-row">
+      <label>Language
+        <select id="book-language">
+          <option value="en">English</option>
+          <option value="ar">Arabic</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="dynamic-chapters"></div>
+    <button type="button" class="btn-add" onclick="addChapter()">Add Chapter</button>
+    <br><br>
+    <button type="submit" class="btn-main">Save Book</button>
+    <span id="save-message" style="margin-left:1rem;color:#1f6f3e"></span>
+  </form>
+
+  <script>
+    const API = "https://asksunnah-backend-hno9.onrender.com";
+    let isEdit = false, editSlug = null, editLang = "en";
+    let book = {
+      title: "",
+      slug: "",
+      author: "",
+      description: "",
+      category: "",
+      language: "en",
+      chapters: []
+    };
+
+    // --- Helpers for dynamic UI ---
+    function renderChapters() {
+      const container = document.getElementById("dynamic-chapters");
+      container.innerHTML = "";
+      book.chapters.forEach((chapter, cIdx) => {
+        let ch = `<div class="chapter-block">
+            <label>Chapter Title <input data-cidx="${cIdx}" data-field="title" value="${chapter.title || ''}"></label>
+            <label>Chapter # <input type="number" data-cidx="${cIdx}" data-field="number" value="${chapter.number || cIdx+1}"></label>
+            <div>`;
+        chapter.pages.forEach((page, pIdx) => {
+          let pg = `<div class="page-block">
+            <label>Page # <input type="number" data-cidx="${cIdx}" data-pidx="${pIdx}" data-field="number" value="${page.number || pIdx+1}"></label>
+            <label>References <input data-cidx="${cIdx}" data-pidx="${pIdx}" data-field="references" value="${(page.references||[]).join(', ')}"></label>
+            <div>`;
+          page.blocks.forEach((block, bIdx) => {
+            pg += `<div class="block-block">
+                <label>Type
+                  <select data-cidx="${cIdx}" data-pidx="${pIdx}" data-bidx="${bIdx}" data-field="type">
+                    <option value="heading" ${block.type==='heading'?'selected':''}>Heading</option>
+                    <option value="paragraph" ${block.type==='paragraph'?'selected':''}>Paragraph</option>
+                    <option value="ayah" ${block.type==='ayah'?'selected':''}>Ayah</option>
+                    <option value="hadith" ${block.type==='hadith'?'selected':''}>Hadith</option>
+                    <option value="quote" ${block.type==='quote'?'selected':''}>Quote</option>
+                  </select>
+                </label>
+                <label>Text <textarea rows="2" data-cidx="${cIdx}" data-pidx="${pIdx}" data-bidx="${bIdx}" data-field="text">${block.text||''}</textarea></label>
+                <label>Reference <input data-cidx="${cIdx}" data-pidx="${pIdx}" data-bidx="${bIdx}" data-field="reference" value="${block.reference||''}"></label>
+                <label>Narrator <input data-cidx="${cIdx}" data-pidx="${pIdx}" data-bidx="${bIdx}" data-field="narrator" value="${block.narrator||''}"></label>
+                <label>Commentary <textarea rows="1" data-cidx="${cIdx}" data-pidx="${pIdx}" data-bidx="${bIdx}" data-field="commentary">${block.commentary||''}</textarea></label>
+                <button type="button" class="btn-delete" onclick="deleteBlock(${cIdx},${pIdx},${bIdx})">Remove Block</button>
+              </div>`;
+          });
+          pg += `<button type="button" class="btn-add" onclick="addBlock(${cIdx},${pIdx})">Add Block</button>
+            </div>
+            <button type="button" class="btn-delete" onclick="deletePage(${cIdx},${pIdx})">Remove Page</button>
+          </div>`;
+          ch += pg;
+        });
+        ch += `<button type="button" class="btn-add" onclick="addPage(${cIdx})">Add Page</button>
+            </div>
+            <button type="button" class="btn-delete" onclick="deleteChapter(${cIdx})">Delete Chapter</button>
+          </div>`;
+        container.innerHTML += ch;
+      });
+
+      // Inputs onChange handlers (for all nested fields)
+      document.querySelectorAll(".chapter-block input, .chapter-block textarea, .chapter-block select").forEach(input => {
+        input.oninput = function () {
+          const { cidx, pidx, bidx, field } = this.dataset;
+          if (bidx !== undefined) {
+            book.chapters[cidx].pages[pidx].blocks[bidx][field] = this.value;
+          } else if (pidx !== undefined) {
+            if (field === "references") {
+              book.chapters[cidx].pages[pidx][field] = this.value.split(',').map(r=>r.trim()).filter(r=>r);
+            } else {
+              book.chapters[cidx].pages[pidx][field] = this.value;
+            }
+          } else {
+            book.chapters[cidx][field] = this.value;
+          }
+        }
+      });
+    }
+
+    window.addChapter = function () {
+      book.chapters.push({ title: "", number: book.chapters.length + 1, pages: [] });
+      renderChapters();
+    };
+    window.deleteChapter = function (cIdx) {
+      book.chapters.splice(cIdx, 1);
+      renderChapters();
+    };
+    window.addPage = function (cIdx) {
+      book.chapters[cIdx].pages = book.chapters[cIdx].pages || [];
+      book.chapters[cIdx].pages.push({ number: (book.chapters[cIdx].pages.length + 1), blocks: [], references: [] });
+      renderChapters();
+    };
+    window.deletePage = function (cIdx, pIdx) {
+      book.chapters[cIdx].pages.splice(pIdx, 1);
+      renderChapters();
+    };
+    window.addBlock = function (cIdx, pIdx) {
+      book.chapters[cIdx].pages[pIdx].blocks = book.chapters[cIdx].pages[pIdx].blocks || [];
+      book.chapters[cIdx].pages[pIdx].blocks.push({ type: "paragraph", text: "", reference: "", narrator: "", commentary: "" });
+      renderChapters();
+    };
+    window.deleteBlock = function (cIdx, pIdx, bIdx) {
+      book.chapters[cIdx].pages[pIdx].blocks.splice(bIdx, 1);
+      renderChapters();
+    };
+
+    // --- Submission handler ---
+    document.getElementById("book-form").onsubmit = function (e) {
+      e.preventDefault();
+      // Update top-level fields
+      book.title = document.getElementById("book-title").value.trim();
+      book.slug = document.getElementById("book-slug").value.trim();
+      book.author = document.getElementById("book-author").value.trim();
+      book.description = document.getElementById("book-description").value.trim();
+      book.category = document.getElementById("book-category").value.trim();
+      book.language = document.getElementById("book-language").value;
+
+      // Simple validation
+      if (!book.title || !book.slug || !book.category || !book.language) {
+        document.getElementById("save-message").innerText = "Please fill all required fields.";
+        return;
+      }
+
+      const method = isEdit ? "PUT" : "POST";
+      const endpoint = isEdit
+        ? `/api/books/${editLang}/${editSlug}`
+        : `/api/books`;
+
+      fetch(API + endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(book)
+      })
+      .then(async res => {
+        const data = await res.json();
+        if (res.ok && (data.success || data.book)) {
+          document.getElementById("save-message").innerText = "Book saved successfully!";
+          if (!isEdit) { book = { title:"",slug:"",author:"",description:"",category:"",language:"en",chapters:[] }; }
+          renderChapters();
+        } else {
+          throw new Error(data.message || "Save failed");
+        }
+      })
+      .catch(err => {
+        document.getElementById("save-message").innerText = "Failed: " + err.message;
+      });
+    };
+
+    // --- Load existing book if editing ---
+    window.onload = function () {
+      // Example: parse URL for ?edit=1&slug=slugval&lang=en
+      const urlParams = new URLSearchParams(window.location.search);
+      isEdit = urlParams.get("edit") === "1";
+      editSlug = urlParams.get("slug");
+      editLang = urlParams.get("lang") || "en";
+      if (isEdit && editSlug && editLang) {
+        fetch(`${API}/api/books/${editLang}/${editSlug}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.book) {
+              book = data.book;
+              document.getElementById("form-title").innerText = "Edit Book";
+              // Populate top fields:
+              document.getElementById("book-title").value = book.title;
+              document.getElementById("book-slug").value = book.slug;
+              document.getElementById("book-author").value = book.author || "";
+              document.getElementById("book-description").value = book.description || "";
+              document.getElementById("book-category").value = book.category;
+              document.getElementById("book-language").value = book.language;
+              renderChapters();
+            } else {
+              document.getElementById("save-message").innerText = "Book not found.";
+            }
+          });
+      } else {
+        renderChapters();
+      }
+    };
+  </script>
+</body>
+</html>

@@ -182,7 +182,10 @@
                 li.innerHTML = `
           <span>${book.title}</span>
           <div class="actions">
-            <button class="edit-btn" onclick="editBook('${lang}', '${book.slug}')">Edit</button>
+            <button class="edit-btn" onclick="window.open(
+      '/admin/editBook.html?edit=1&slug=${encodeURIComponent(book.slug)}&lang=${book.language}',
+      '_blank'
+    )">Edit</button>
             <button class="delete-btn" onclick="deleteBook('${lang}', '${book.slug}', this)">Delete</button>
           </div>
         `;
@@ -216,10 +219,6 @@
                     btn.innerText = "Delete";
                 }
             });
-        }
-        function editBook(lang, slug) {
-            showModal("Edit Book", `Coming soon: Edit book with slug "${slug}"`);
-
         }
 
         function switchLanguage(lang) {
