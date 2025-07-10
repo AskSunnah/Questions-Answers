@@ -83,7 +83,7 @@ document.getElementById("qa-form").onsubmit = function (e) {
     question: document.getElementById('qa-question').value,
     answer: document.getElementById('qa-answer').value,
     conclusion: document.getElementById('qa-conclusion').value,
-    content: sections // <- send full interleaved array
+    content: sections 
   };
   console.log("Submitting this Q&A:", qa);
   
