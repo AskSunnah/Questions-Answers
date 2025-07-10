@@ -365,13 +365,13 @@
         el.innerHTML = `<h3>${block.text}</h3>`;
         break;
       case "paragraph":
-        el.innerHTML = `<p>${block.text}</p>`;
+        el.innerHTML = `<p style="white-space: pre-wrap;">${block.text}</p>`;
         break;
       case "quote":
         el.innerHTML = `
           <blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">
             ${block.text}
-            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+            ${block.reference ? `<p style="white-space: pre-wrap;"><small>${block.reference}</small></p>` : ""}
           </blockquote>`;
         break;
       case "hadith":
