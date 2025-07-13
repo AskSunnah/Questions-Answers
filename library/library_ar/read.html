@@ -1,482 +1,478 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>قراءة الكتاب</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-    :root {
-      --primary-color: #1f6f3e;
-      --secondary-color: #2e8b57;
-      --background: #f7f7f7;
-      --card-bg: #ffffff;
-      --accent-bg: #f0f4fa;
-      --text-color: #2c3e50;
-      --font-family: 'Segoe UI', sans-serif;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      color: #111827;
-      direction: ltr;
-      margin: 0;
-    }
-
-    header {
-      background-image:
-      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-       url('/static/library-bg.webp'); 
-      background-size: cover;
-      background-position: center;
-      color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-
-    .layout {
-      display: flex;
-      flex-direction: row;
-      padding: 1em;
-      
-    }
-
-    .sidebar {
-      width: 20%;
-      background-color: #fff;
-      border-right: 1px solid #e5e7eb;
-      padding: 1rem;
-      overflow-y: scroll;
-      height: 70vh;
-      
-    }
-
-    .sidebar h2 {
-      font-size: 1.2rem;
-      color: #1f2937;
-      margin-bottom: 1rem;
-    }
-
-    .sidebar a {
-      display: block;
-      text-decoration: none;
-      color: var(--primary-color);
-      padding: 0.4rem 0;
-      font-size: 0.95rem;
-      overflow: auto;
-    }
-
-    .sidebar a:hover {
-      color: #166534;
-    }
-    .sidebar-toggle {
-      display: none;
-      font-size: 1.3rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-align: right;
-      margin: 6px;
-      color: var(--primary-color);
-    }
-    .content {
-      min-height: 50vh;
-      width: 60vw;
-      flex: 1;
-      padding: 1em;
-      line-height: 2;
-      font-size: 1.1rem;
-      border: 1px double rgba(0, 95, 30, 0.203);
-      background-color: #fff9f1;
-      border-radius: 2%;
-    }
-
-    .controls {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-     .controls input {
-      margin: 0 0.3rem;
-      padding: 0.4rem 0.7rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: white;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .controls button{
-      margin: 0 0.3rem;
-      padding: 0.4rem 0.7rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      color: white;
-      background-color: var(--primary-color);
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .controls button:hover {
-      background-color: #e5e5e5;
-    }
-    .referencebox{
-      font-size: x-small;
-      bottom: 0;
-      padding: 1em;
-    }
-    .referencebox ul{
-      list-style: none;
-    }
-    hr{
-      color: rgba(0, 95, 30, 0.203);
-      width: 90%;
-    }
-    .navbar {
-      background-repeat: no-repeat;
-      background: #e9f5ec;
-      padding: 1rem 1.5rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .navbar ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-
-    .nav-link {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      transition: background 0.2s;
-      display: inline-block;
-    }
-
-    .nav-link:hover,
-    .nav-link:focus {
-      background: var(--secondary-color);
-      color: #fff;
-    }
-
-    /* Hamburger Button */
-    .nav-toggle {
-      display: none;
-      font-size: 1.3rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--primary-color);
-      position: absolute;
-      top: 0.6rem;
-      right: 1rem;
-      z-index: 11;
-    }
-
-    /* Small Screens */
-    @media (max-width: 768px) {
-
-      .navbar {
-        /* background:#e9f5ec; */
-        padding: 1.5rem 0;
+  <!DOCTYPE html>
+  <html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <title>قراءة الكتاب</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+      :root {
+        --primary-color: #1f6f3e;
+        --secondary-color: #2e8b57;
+        --background: #f7f7f7;
+        --card-bg: #ffffff;
+        --accent-bg: #f0f4fa;
+        --text-color: #2c3e50;
+        --font-family: 'Segoe UI', sans-serif;
+      }
+      body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        color: #111827;
+        margin: 0;
       }
 
-      .nav-toggle {
+      header {
+        background-image:
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+        url('/static/library-bg.webp'); 
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 1rem 2rem;
+        text-align: center;
+      }
+
+      .layout {
+        display: flex;
+        flex-direction: row;
+        padding: 1em;
+        
+      }
+
+      .sidebar {
+        width: 20%;
+        background-color: #fff;
+        border-right: 1px solid #e5e7eb;
+        padding: 1rem;
+        overflow-y: scroll;
+        height: 70vh;
+        
+      }
+
+      .sidebar h2 {
+        font-size: 1.2rem;
+        color: #1f2937;
+        margin-bottom: 1rem;
+      }
+
+      .sidebar a {
         display: block;
+        text-decoration: none;
+        color: var(--primary-color);
+        padding: 0.4rem 0;
+        font-size: 0.95rem;
+        overflow: auto;
       }
 
-      .nav-menu {
+      .sidebar a:hover {
+        color: #166534;
+      }
+      .sidebar-toggle {
         display: none;
-        width: 100%;
+        font-size: 1.3rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: right;
+        margin: 6px;
+        color: var(--primary-color);
+      }
+      .content {
+        min-height: 50vh;
+        width: 60vw;
+        flex: 1;
+        padding: 1em;
+        line-height: 2;
+        font-size: 1.1rem;
+        border: 1px double rgba(0, 95, 30, 0.203);
+        background-color: #fff9f1;
+        border-radius: 2%;
       }
 
-      .nav-menu.open {
-        display: block;
+      .controls {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .controls input {
+        margin: 0 0.3rem;
+        padding: 0.4rem 0.7rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .controls button{
+        margin: 0 0.3rem;
+        padding: 0.4rem 0.7rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: white;
+        background-color: var(--primary-color);
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .controls button:hover {
+        background-color: #e5e5e5;
+      }
+      .referencebox{
+        font-size: x-small;
+        bottom: 0;
+        padding: 1em;
+      }
+      .referencebox ul{
+        list-style: none;
+      }
+      hr{
+        color: rgba(0, 95, 30, 0.203);
+        width: 90%;
+      }
+      .navbar {
+        background-repeat: no-repeat;
+        background: #e9f5ec;
+        padding: 1rem 1.5rem;
+        position: relative;
+        z-index: 10;
       }
 
       .navbar ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-      /* body{
+        list-style: none;
+        margin: 0;
+        padding: 0;
         display: flex;
-        flex-direction: column;
-      } */
-      .layout{
-        display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
       }
-      .sidebar {
+
+      .nav-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background 0.2s;
+        display: inline-block;
+      }
+
+      .nav-link:hover,
+      .nav-link:focus {
+        background: var(--secondary-color);
+        color: #fff;
+      }
+
+      /* Hamburger Button */
+      .nav-toggle {
         display: none;
-        width: 100vw;
-        overflow-y: auto;
-        max-height: 50vh;
-     }
-     .sidebar-toggle{
-      display: block;
-     }
-      .sidebar.open {
-        
+        font-size: 1.3rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--primary-color);
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
+        z-index: 11;
+      }
+
+      /* Small Screens */
+      @media (max-width: 768px) {
+
+        .navbar {
+          /* background:#e9f5ec; */
+          padding: 1.5rem 0;
+        }
+
+        .nav-toggle {
+          display: block;
+        }
+
+        .nav-menu {
+          display: none;
+          width: 100%;
+        }
+
+        .nav-menu.open {
+          display: block;
+        }
+
+        .navbar ul {
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+        }
+        .layout{
+          display: flex;
+          flex-direction: column;
+        }
+        .sidebar {
+          display: none;
+          width: 100vw;
+          overflow-y: auto;
+          max-height: 50vh;
+      }
+      .sidebar-toggle{
         display: block;
-    }
-    .content{
-      width:90%;
-    }
-    }
+      }
+        .sidebar.open {
+          
+          display: block;
+      }
+      .content{
+        width:90%;
+      }
+      
+      }
 
-    /* Dark mode styles */
-    body.dark .navbar {
-      background: #183c25;
-    }
+      /* Dark mode styles */
+      body.dark .navbar {
+        background: #183c25;
+      }
 
-    body.dark .nav-link:hover,
-    body.dark .nav-link:focus {
-      background: #25603a;
-    }
-    .footer {
-      text-align: center;
-      font-size: 0.9rem;
-      padding: 1rem;
-      color: #6b7280;
-    }
-  </style>
-</head>
-<body>
+      body.dark .nav-link:hover,
+      body.dark .nav-link:focus {
+        background: #25603a;
+      }
+      .footer {
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 1rem;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
 
-<header>
-  <h1 id="bookTitle">جاري تحميل العنوان...</h1>
-</header>
+  <header>
+    <h1 id="bookTitle">جاري تحميل العنوان...</h1>
+  </header>
 
-<nav class="navbar" aria-label="Main Navigation">
-  <button class="nav-toggle" aria-label="تبديل التنقل" aria-expanded="false">☰</button>
-  <div class="nav-menu">
-    <ul>
-      <li><a href="/" class="nav-link">الرئيسية</a></li>
-      <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
-      <li><a href="#" id="backToBookLink" class="nav-link">العودة إلى الكتاب</a></li>
-      <li class="nav-darkmode">
-        <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="الوضع الليلي" tabindex="0" style="cursor:pointer;font-size:1.3rem;"></i>
-      </li>
-    </ul>
+  <nav class="navbar" aria-label="Main Navigation">
+    <button class="nav-toggle" aria-label="تبديل التنقل" aria-expanded="false">☰</button>
+    <div class="nav-menu">
+      <ul>
+        <li><a href="/" class="nav-link">الرئيسية</a></li>
+        <li><a href="/library/library_ar/library.html" class="nav-link">المكتبة</a></li>
+        <li><a href="#" id="backToBookLink" class="nav-link">العودة إلى الكتاب</a></li>
+        <li class="nav-darkmode">
+          <i id="toggleDarkMode" class="dark-toggle-icon fa-solid fa-moon" title="الوضع الليلي" tabindex="0" style="cursor:pointer;font-size:1.3rem;"></i>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="layout">
+    <button class="sidebar-toggle" aria-label="Toggle sidebar">
+      <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="قائمة" width="30px">
+    </button>
+    <aside class="sidebar">
+    </aside>
+    <main>
+      <div class="content">
+        <div id="pageContent"></div>
+      </div>
+      <hr>
+      <div class="referencebox">
+        <ul id="referencesList"></ul>
+      </div>
+
+      <hr>
+
+      <div class="controls">
+        <button onclick="changeFontSize(-1)">-</button>
+        <button onclick="changeFontSize(1)">+</button>
+        <button onclick="goToPage('prev')">‹</button>
+        <input type="number" id="pageInput" value="1" dir="ltr" style="width: 60px;">
+        <button onclick="goToPage('next')">›</button>
+      </div>
+    </main>
   </div>
-</nav>
 
-<div class="layout">
-  <button class="sidebar-toggle" aria-label="Toggle sidebar">
-    <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="قائمة" width="30px">
-  </button>
+  <footer class="footer"></footer>
 
-  <aside class="sidebar">
-    <!-- الفهرس سيتم تحميله تلقائيًا -->
-  </aside>
+  <script>// This is added to toggle the navbar hamburger menu for small screens
 
-  <main>
-    <div class="content">
-      <div id="pageContent"></div>
-    </div>
+      document.addEventListener('DOMContentLoaded', function () {
+        const navToggleBtn = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
 
-    <hr>
+        if (navToggleBtn && navMenu) {
+          navToggleBtn.addEventListener('click', () => {
+            const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
+            navToggleBtn.setAttribute('aria-expanded', !expanded);
+            navMenu.classList.toggle('open');
+          });
+        }
+      });
+      // This is added to toggle the sidebar menu for small screens
 
-    <div class="referencebox">
-      <ul id="referencesList"></ul>
-    </div>
+      document.addEventListener('DOMContentLoaded', function () {
+    const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
 
-    <hr>
-
-    <div class="controls">
-      <button onclick="changeFontSize(-1)">-</button>
-      <button onclick="changeFontSize(1)">+</button>
-      <button onclick="goToPage('prev')">‹</button>
-      <input type="number" id="pageInput" value="1" style="width: 60px;">
-      <button onclick="goToPage('next')">›</button>
-    </div>
-  </main>
-</div>
-
-<footer class="footer"></footer>
-
-<script>// This is added to toggle the navbar hamburger menu for small screens
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const navToggleBtn = document.querySelector('.nav-toggle');
-      const navMenu = document.querySelector('.nav-menu');
-
-      if (navToggleBtn && navMenu) {
-        navToggleBtn.addEventListener('click', () => {
-          const expanded = navToggleBtn.getAttribute('aria-expanded') === 'true';
-          navToggleBtn.setAttribute('aria-expanded', !expanded);
-          navMenu.classList.toggle('open');
-        });
-      }
-    });
-    // This is added to toggle the sidebar menu for small screens
-
-    document.addEventListener('DOMContentLoaded', function () {
-  const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
-  const sidebar = document.querySelector('.sidebar');
-
-  if (sidebarToggleBtn && sidebar) {
-    sidebarToggleBtn.addEventListener('click', () => {
-      const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
-      sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
-      sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
-    });
-  }
-});
-  let book = null;
-  let currentPage = 0;
-  let fontSize = 1.1;
-
-  async function fetchBook() {
-    const slug = new URLSearchParams(window.location.search).get("slug");
-    if (!slug) return alert("لم يتم تحديد الكتاب.");
-
-    try {
-      const res = await fetch(`https://asksunnah-backend-hno9.onrender.com/api/books/ar/${slug}`);
-      const data = await res.json();
-      book = data.book;
-      document.getElementById("bookTitle").textContent = book.title;
-      currentPage = 0;
-      renderPage();
-      renderSidebar();
-    } catch (err) {
-      console.error("حدث خطأ في تحميل الكتاب:", err);
-      document.getElementById('pageContent').innerHTML = "<p>فشل تحميل محتوى الكتاب.</p>";
+    if (sidebarToggleBtn && sidebar) {
+      sidebarToggleBtn.addEventListener('click', () => {
+        const expanded = sidebarToggleBtn.getAttribute('aria-expanded') === 'true';
+        sidebarToggleBtn.setAttribute('aria-expanded', !expanded);
+        sidebar.classList.toggle('open'); // This is what toggles the sidebar visibility
+      });
     }
-  }
+  });
+    let book = null;
+    let currentPage = 0;
+    let fontSize = 1.1;
 
-  function renderPage() {
-  if (!book || !book.pages || book.pages.length === 0) return;
+    async function fetchBook() {
+      const slug = new URLSearchParams(window.location.search).get("slug");
+      if (!slug) return alert("لم يتم تحديد الكتاب.");
 
-  const page = book.pages[currentPage];
-  if (!page) return;
+      try {
+        const res = await fetch(`https://asksunnah-backend-hno9.onrender.com/api/books/ar/${slug}`);
+        const data = await res.json();
+        book = data.book;
+        document.getElementById("bookTitle").textContent = book.title;
+        renderSidebar();
+      } catch (err) {
+        console.error("حدث خطأ في تحميل الكتاب:", err);
+        document.getElementById('pageContent').innerHTML = "<p>فشل تحميل محتوى الكتاب.</p>";
+      }
+    }
 
-  const container = document.getElementById('pageContent');
-  container.innerHTML = "";
+    function renderPage() {
+    if (!book || !book.pages || book.pages.length === 0) return;
 
-  page.blocks.forEach(block => {
-    const el = document.createElement("div");
+    const page = book.pages[currentPage];
+    if (!page) return;
 
-    switch (block.type) {
-      case "heading":
-        el.innerHTML = `<h3>${block.text}</h3>`;
-        break;
-      case "paragraph":
-        el.innerHTML = `<p>${block.text}</p>`;
-        break;
-      case "quote":
-        el.innerHTML = `
-          <blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">
-            ${block.text}
+    const container = document.getElementById('pageContent');
+    container.innerHTML = "";
+
+    page.blocks.forEach(block => {
+      const el = document.createElement("div");
+
+      switch (block.type) {
+        case "heading":
+          el.innerHTML = `<h3>${block.text}</h3>`;
+          break;
+        case "paragraph":
+          el.innerHTML = `<p style="white-space: pre-wrap;">${block.text}</p>`;
+          break;
+        case "quote":
+          el.innerHTML = `
+            <blockquote style="border-left: 3px solid var(--primary-color); padding-left: 1rem; color: #1f6f3e;">
+              ${block.text}
+              ${block.reference ? `<p style="white-space: pre-wrap;"><small>${block.reference}</small></p>` : ""}
+            </blockquote>`;
+          break;
+        case "hadith":
+          el.innerHTML = `
+            <p><strong>${block.text}</strong></p>
+            ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
             ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-          </blockquote>`;
-        break;
-      case "hadith":
-        el.innerHTML = `
-          <p><strong>${block.text}</strong></p>
-          ${block.narrator ? `<p><em>${block.narrator}</em></p>` : ""}
-          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-          ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
-        `;
-        break;
-      case "ayah":
-        el.innerHTML = `
-          <p style="font-weight:bold; color:#25603a;">${block.text}</p>
-          ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
-        `;
-        break;
-      default:
-        el.innerHTML = `<p>${block.text}</p>`;
-    }
-
-    container.appendChild(el);
-  });
-
-  const refList = document.getElementById("referencesList");
-  refList.innerHTML = "";
-  if (page.references && page.references.length > 0) {
-    page.references.forEach((ref, idx) => {
-      const li = document.createElement("li");
-      li.textContent = `${idx + 1}. ${ref}`;
-      refList.appendChild(li);
-    });
-  }
-
-  document.getElementById('pageInput').value = currentPage + 1;
-}
-
-
-
- function renderSidebar() {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.innerHTML = "<h2>فهرس المحتويات</h2>";
-
-  let flatPages = [];
-
-  // Step 1: Flatten all pages first
-  book.chapters.forEach((chapter, chapterIndex) => {
-    chapter.pages.forEach((pg, pageIndex) => {
-      flatPages.push({ ...pg, chapterIndex, pageIndex });
-    });
-  });
-
-  // Step 2: Set globally accessible flat list
-  book.pages = flatPages;
-
-  // Step 3: Immediately show the first page
-  currentPage = 0;
-  renderPage();
-
-  // Step 4: Build sidebar with clickable chapter links
-  book.chapters.forEach((chapter, chapterIndex) => {
-    const chapterLink = document.createElement('a');
-    chapterLink.href = "#";
-    chapterLink.textContent = chapter.title;
-
-    chapterLink.onclick = (e) => {
-      e.preventDefault();
-      const firstPageIndex = book.pages.findIndex(p => p.chapterIndex === chapterIndex);
-      if (firstPageIndex !== -1) {
-        currentPage = firstPageIndex;
-        renderPage();
-        highlightSidebar(currentPage);
+            ${block.commentary ? `<p style="color:#4b5563;"><em>${block.commentary}</em></p>` : ""}
+          `;
+          break;
+        case "ayah":
+          el.innerHTML = `
+            <p style="font-weight:bold; color:#25603a;">${block.text}</p>
+            ${block.reference ? `<p><small>${block.reference}</small></p>` : ""}
+          `;
+          break;
+        default:
+          el.innerHTML = `<p>${block.text}</p>`;
       }
-    };
 
-    sidebar.appendChild(chapterLink);
-  });
+      container.appendChild(el);
+    });
 
-  highlightSidebar(currentPage); // highlight the first chapter by default
-}
-
-  function changeFontSize(delta) {
-    fontSize += delta * 0.1;
-    document.getElementById('pageContent').style.fontSize = fontSize + 'rem';
-  }
-
-  function goToPage(action) {
-    const input = document.getElementById('pageInput');
-    let target = parseInt(input.value) - 1;
-    if (action === 'prev' && currentPage > 0) currentPage--;
-    else if (action === 'next' && currentPage < book.pages.length - 1) currentPage++;
-    else if (action === 'goto' && target >= 0 && target < book.pages.length) currentPage = target;
-    renderPage();
-    highlightSidebar(currentPage);
-  }
-document.addEventListener("DOMContentLoaded", () => {
-    const slug = new URLSearchParams(window.location.search).get("slug");
-    if (slug) {
-      const backLink = document.getElementById("backToBookLink");
-      backLink.href = `/library/library_ar/book.html?slug=${slug}`;
+    const refList = document.getElementById("referencesList");
+    refList.innerHTML = "";
+    if (page.references && page.references.length > 0) {
+      page.references.forEach((ref, idx) => {
+        const li = document.createElement("li");
+        li.textContent = `${idx + 1}. ${ref}`;
+        refList.appendChild(li);
+      });
     }
-  });
-  document.addEventListener('DOMContentLoaded', fetchBook);
-</script>
 
-</body>
-</html>
+    document.getElementById('pageInput').value = currentPage + 1;
+  }
+
+
+
+  function renderSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    sidebar.innerHTML = "<h2>فهرس المحتويات</h2>";
+
+    let flatPages = [];
+
+    // Step 1: Flatten all pages first
+    book.chapters.forEach((chapter, chapterIndex) => {
+      chapter.pages.forEach((pg, pageIndex) => {
+        flatPages.push({ ...pg, chapterIndex, pageIndex });
+      });
+    });
+
+    book.pages = flatPages;
+
+    currentPage = 0;
+    renderPage();
+
+    book.chapters.forEach((chapter, chapterIndex) => {
+      const chapterLink = document.createElement('a');
+      chapterLink.href = "#";
+      chapterLink.textContent = chapter.title;
+
+      chapterLink.onclick = (e) => {
+        e.preventDefault();
+        const firstPageIndex = book.pages.findIndex(p => p.chapterIndex === chapterIndex);
+        if (firstPageIndex !== -1) {
+          currentPage = firstPageIndex;
+          renderPage();
+          highlightSidebar(currentPage);
+        }
+      };
+
+      sidebar.appendChild(chapterLink);
+    });
+
+    highlightSidebar(currentPage); // highlight the first chapter by default
+  }
+  function highlightSidebar(activeIndex) {
+    const links = document.querySelectorAll(".sidebar a");
+    links.forEach((link, i) => {
+      if (i === activeIndex) {
+        link.style.fontWeight = "bold";
+        link.style.color = "#166534";
+      } else {
+        link.style.fontWeight = "normal";
+        link.style.color = "var(--primary-color)";
+      }
+    });
+  }
+    function changeFontSize(delta) {
+      fontSize += delta * 0.1;
+      document.getElementById('pageContent').style.fontSize = fontSize + 'rem';
+    }
+
+    function goToPage(action) {
+      const input = document.getElementById('pageInput');
+      let target = parseInt(input.value) - 1;
+      if (action === 'prev' && currentPage > 0) currentPage--;
+      else if (action === 'next' && currentPage < book.pages.length - 1) currentPage++;
+      else if (action === 'goto' && target >= 0 && target < book.pages.length) currentPage = target;
+      renderPage();
+      highlightSidebar(currentPage);
+    }
+  document.addEventListener("DOMContentLoaded", () => {
+      const slug = new URLSearchParams(window.location.search).get("slug");
+      if (slug) {
+        const backLink = document.getElementById("backToBookLink");
+        backLink.href = `/library/library_ar/book.html?slug=${slug}`;
+      }
+    });
+    document.addEventListener('DOMContentLoaded', fetchBook);
+  </script>
+
+  </body>
+  </html>
