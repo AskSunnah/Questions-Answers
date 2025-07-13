@@ -5,11 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-
     content="Ask Sunnah provides Islamic answers from Dr. Sheikh Falah Kurkully based on Qur’an and Sunnah — clear, concise, and authentic.">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  
+
   <title>Ask Sunnah - Get Answers from Dr. Sheikh Falah Kurkully</title>
 
   <style>
@@ -242,12 +241,15 @@
       background-color: #22c55e;
       color: #fff;
     }
-body.dark .question-item:hover {
-  color: #1e293b; 
-}
-body.dark #answerCount {
-  color: var(--text-color) 
-}
+
+    body.dark .question-item:hover {
+      color: #1e293b;
+    }
+
+    body.dark #answerCount {
+      color: var(--text-color)
+    }
+
     body.dark .question-item:hover {
       color: #1e293b;
     }
@@ -860,7 +862,7 @@ body.dark #answerCount {
 
     // Set icon based on saved mode
 
- 
+
     function setDarkIcon() {
       const isDark = body.classList.contains('dark');
       toggleBtn.className = isDark
